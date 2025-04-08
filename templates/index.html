@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white text-center py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to My Profile</h1>
+        <p class="lead">I'm a passionate developer creating awesome web applications, and other things as i document my journey too</p>
+        <a href="{{ url_for('projects') }}" class="btn btn-light btn-lg mt-3">View My Work</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="fw-bold">About Me</h2>
+                <p class="lead">Hi, I'm Okoth Arnold. I specialize in backend, devops, data engineering and web dev with Python.</p>
+                <p>With several years of experience in building web applications, I focus on creating clean, efficient, and user-friendly solutions. My expertise includes backend development, database design, and API integration.</p>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="fw-bold">My Skills</h3>
+                <div class="mb-3">
+                    <h5>Python</h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: 90%">90%</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h5>Flask</h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" style="width: 85%">85%</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h5>SQL</h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" style="width: 80%">80%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Featured Projects</h2>
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ project.image_url or 'https://via.placeholder.com/300x200' }}" 
+                         class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncate(100) }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ url_for('projects') }}#project-{{ project.id }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No projects yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('projects') }}" class="btn btn-outline-primary">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Blog Posts -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold">Latest Blog Posts</h2>
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text text-muted">
+                            <small>Posted on {{ post.date_posted.strftime('%B %d, %Y') }}</small>
+                        </p>
+                        <p class="card-text">{{ post.content|truncate(150) }}</p>
+                        <a href="{{ url_for('blog') }}#post-{{ post.id }}" class="btn btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No blog posts yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('blog') }}" class="btn btn-outline-primary">View All Posts</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

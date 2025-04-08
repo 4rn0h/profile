@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <h1 class="text-center mb-5 fw-bold">Contact Me</h1>
+                
+                <form method="POST" action="{{ url_for('contact') }}" class="needs-validation" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control", placeholder="Your Name") }}
+                        {% if form.name.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.name.errors[0] }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", placeholder="your@email.com") }}
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.email.errors[0] }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.message.label(class="form-label") }}
+                        {{ form.message(class="form-control", rows=5, placeholder="Your message here...") }}
+                        {% if form.message.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.message.errors[0] }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="text-center">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Other Ways to Connect</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <i class="bi bi-envelope fs-1 text-primary mb-3"></i>
+                    <h3>Email</h3>
+                    <p class="mb-0">contact@example.com</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <i class="bi bi-linkedin fs-1 text-primary mb-3"></i>
+                    <h3>LinkedIn</h3>
+                    <a href="#" class="text-decoration-none">linkedin.com/in/yourprofile</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="p-4">
+                    <i class="bi bi-github fs-1 text-primary mb-3"></i>
+                    <h3>GitHub</h3>
+                    <a href="#" class="text-decoration-none">github.com/yourusername</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
