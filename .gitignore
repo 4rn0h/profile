@@ -1,0 +1,66 @@
+# Flask
+*.py[cod]
+__pycache__/
+instance/
+.env
+.env.*
+*.pyc
+*.pyo
+
+# Flask cache
+*.log
+*.db
+*.sqlite
+*.sqlite3
+
+# PyCharm and VS Code
+.vscode/
+.idea/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Ignore Bootstrap compiled CSS and JS files
+bootstrap/dist/
+
+# Docker
+.dockerignore
+*.dockerfile
+*.Dockerfile
+*.docker
+*.docker-compose.yml
+*.docker-compose.override.yml
+# Docker build context
+.DockerContext/
+
+# Docker build cache
+.docker/build/
+.docker/cache/
+# Docker volumes
+.volumes/
+# Docker container IDs
+*.id
+# Docker container logs
+*.log
+# Docker swarm secrets
+.secrets/
+# Docker swarm certificates
+.certs/
+# Docker swarm tokens
+.tokens/
+# Docker swarm nodes
+.nodes/
+# Docker swarm services
+.services/
+# Docker swarm stacks
+.stacks/
+# Docker swarm tasks
+.tasks/
