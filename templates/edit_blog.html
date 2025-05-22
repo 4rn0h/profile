@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Blog Post{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Edit Blog: {{ slug }}</h2>
+    <form method="POST">
+        <textarea name="content" rows="20" class="form-control mb-3">{{ content }}</textarea>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{{ url_for('blog_post', slug=slug) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

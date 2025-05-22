@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-light">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h1 class="mb-4 text-center">About</h1>
+            <p>
+                I'm <strong>Okoth Arnold</strong>, a backend-heavy developer and creative technologist with over 6 years of experience in software engineering, cloud automation, and data systems. I’ve built backend APIs, deployed DevOps pipelines, and cleaned messy data – all while staying curious and driven.
+            </p>
+
+            <p>
+                My strength lies in bringing <strong>clean architecture</strong> and <strong>automated solutions</strong> to complex problems – whether that’s through designing REST APIs with Flask, provisioning infrastructure on AWS, or scripting data pipelines using Python and SQL.
+            </p>
+
+            <h3 class="mt-5">What I Do</h3>
+            <ul>
+                <li><strong>Backend Engineering</strong>: APIs, Flask, Django, PostgreSQL, Microservices</li>
+                <li><strong>DevOps Automation</strong>: Docker, Jenkins, Linux, GitHub Actions, AWS/GCP</li>
+                <li><strong>Data Engineering</strong>: Python, Pandas, Spark, BigQuery, SQL, ETL</li>
+            </ul>
+
+            <h3 class="mt-5">Career Highlights</h3>
+            <ul>
+                <li>Optimized data pipelines at Bayer East Africa, improving processing efficiency by 25%</li>
+                <li>Designed CI/CD workflows at Sybrin, reducing deployment time by 40%</li>
+                <li>Created scalable backend services for fintech and data-heavy applications</li>
+            </ul>
+
+            <h3 class="mt-5">Outside of Work</h3>
+            <p>I love blending logic with design, whether through color psychology in dashboards, writing tech blogs, or contributing to open-source tools. I also enjoy helping teams and clients automate, simplify, and scale their systems.</p>
+
+            <p class="mt-4 text-center">
+                <!--<a href="{{ url_for('projects') }}" class="btn btn-primary me-2">My Projects</a>-->
+                <a href="https://okotharnold.netlify.app" target="_blank" class="btn btn-outline-light">View Resume</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
