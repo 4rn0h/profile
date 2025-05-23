@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: flask-portfolio
+    env: python
+    region: frankfurt # or frankfurt/london if closer
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    plan: free
+
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false

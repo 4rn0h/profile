@@ -7,8 +7,9 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
 class Config:
-    # Secret key for session management and CSRF protection
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'your-secret-key-here'
+    SECRET_KEY = os.getenv('SECRET_KEY', '6f2a6739b597753cb33991d9438e87080af8f4a416d6934b042d16bd6c2e73cc')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Database configuration
     SQLALCHEMY_DATABASE_URI = 'sqlite:///portfolio.db'  # Creates in current directory

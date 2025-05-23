@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from flask import Flask, render_template, flash, redirect, url_for
 from config import Config
 from models import db, Project, BlogPost, Comment, ContactMessage
@@ -11,6 +12,8 @@ from services.content_loader import (
 import markdown
 from flask import abort
 from flask import request
+
+load_dotenv()
 
 
 def create_app():
