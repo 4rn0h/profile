@@ -65,3 +65,8 @@ body {
         font-size: 2.5rem;
     }
 }
+
+.navbar-custom-gray {
+    background-color: #6c757d; /* Bootstrap's secondary color */
+    /* or use any hex color you prefer */
+}
