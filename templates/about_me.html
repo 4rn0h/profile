@@ -3,40 +3,148 @@
 {% block title %}About Me{% endblock %}
 
 {% block content %}
-<div class="container py-5 text-light">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <h1 class="mb-4 text-center">About</h1>
-            <p>
-                I'm <strong>Okoth Arnold</strong>, a backend-heavy developer and creative technologist with over 6 years of experience in software engineering, cloud automation, and data systems. I’ve built backend APIs, deployed DevOps pipelines, and cleaned messy data – all while staying curious and driven.
-            </p>
+<div class="bg-dark text-white min-vh-100">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h1 class="mb-4 text-center fw-bold">About</h1>
+                <p>
+                    I'm <strong>Okoth Arnold</strong>, a backend-heavy developer and creative technologist with over 6 years of experience in software engineering, cloud automation, and data systems. I've built backend APIs, deployed DevOps pipelines, and cleaned messy data – all while staying curious and driven.
+                </p>
 
-            <p>
-                My strength lies in bringing <strong>clean architecture</strong> and <strong>automated solutions</strong> to complex problems – whether that’s through designing REST APIs with Flask, provisioning infrastructure on AWS, or scripting data pipelines using Python and SQL.
-            </p>
+                <p>
+                    My strength lies in bringing <strong>clean architecture</strong> and <strong>automated solutions</strong> to complex problems – whether that's through designing REST APIs with Flask, provisioning infrastructure on AWS, or scripting data pipelines using Python and SQL.
+                </p>
 
-            <h3 class="mt-5">What I Do</h3>
-            <ul>
-                <li><strong>Backend Engineering</strong>: APIs, Flask, Django, PostgreSQL, Microservices</li>
-                <li><strong>DevOps Automation</strong>: Docker, Jenkins, Linux, GitHub Actions, AWS/GCP</li>
-                <li><strong>Data Engineering</strong>: Python, Pandas, Spark, BigQuery, SQL, ETL</li>
-            </ul>
+                <h3 class="mt-5">What I Do</h3>
+                <ul>
+                    <li><strong>Backend Engineering</strong>: APIs, Flask, Django, PostgreSQL, Microservices</li>
+                    <li><strong>DevOps Automation</strong>: Docker, Jenkins, Linux, GitHub Actions, AWS/GCP</li>
+                    <li><strong>Data Engineering</strong>: Python, Pandas, Spark, BigQuery, SQL, ETL</li>
+                </ul>
 
-            <h3 class="mt-5">Career Highlights</h3>
-            <ul>
-                <li>Optimized data pipelines at Bayer East Africa, improving processing efficiency by 25%</li>
-                <li>Designed CI/CD workflows at Sybrin, reducing deployment time by 40%</li>
-                <li>Created scalable backend services for fintech and data-heavy applications</li>
-            </ul>
+                <h3 class="mt-5">Career Highlights</h3>
+                <ul>
+                    <li>Optimized data pipelines at Bayer East Africa, improving processing efficiency by 25%</li>
+                    <li>Designed CI/CD workflows at Sybrin, reducing deployment time by 40%</li>
+                    <li>Created scalable backend services for fintech and data-heavy applications</li>
+                </ul>
 
-            <h3 class="mt-5">Outside of Work</h3>
-            <p>I love blending logic with design, whether through color psychology in dashboards, writing tech blogs, or contributing to open-source tools. I also enjoy helping teams and clients automate, simplify, and scale their systems.</p>
+                <h3 class="mt-5">Outside of Work</h3>
+                <p>I love blending logic with design, whether through color psychology in dashboards, writing tech blogs, or contributing to open-source tools. I also enjoy helping teams and clients automate, simplify, and scale their systems.</p>
 
-            <p class="mt-4 text-center">
-                <!--<a href="{{ url_for('projects') }}" class="btn btn-primary me-2">My Projects</a>-->
-                <a href="https://okotharnold.netlify.app" target="_blank" class="btn btn-outline-light">View Resume</a>
-            </p>
+                <div class="mt-5 text-center">
+                    <!-- View CV Button with Modal Trigger -->
+                    <button type="button" class="btn btn-outline-light mb-3" data-bs-toggle="modal" data-bs-target="#cvModal">
+                        <i class="bi bi-download me-2"></i>Download My CV
+                    </button>
+                    
+                    <!-- Commented out View Resume button -->
+                    <!--
+                    <a href="https://okotharnold.netlify.app" target="_blank" class="btn btn-outline-light ms-3">
+                        <i class="bi bi-file-earmark-text me-2"></i>View Resume
+                    </a>
+                    -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- CV Download Modal -->
+<div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="cvModalLabel">Download CV</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="cvDownloadForm">
+                    <div class="mb-3">
+                        <label for="emailInput" class="form-label">Email address</label>
+                        <input type="email" class="form-control bg-secondary text-white" id="emailInput" required placeholder="your@email.com">
+                        <div class="form-text">I'll only use this to notify you about updates.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameInput" class="form-label">Your Name (Optional)</label>
+                        <input type="text" class="form-control bg-secondary text-white" id="nameInput" placeholder="Your Name">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmDownload">Download CV</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom styling for better readability */
+    strong {
+        color: #f8f9fa;
+    }
+    
+    ul {
+        padding-left: 1.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Button hover effects */
+    .btn-outline-light:hover {
+        background-color: rgba(255,255,255,0.1);
+        transform: translateY(-1px);
+    }
+    
+    /* Smooth transitions */
+    .btn-outline-light {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Modal styling */
+    .modal-content {
+        border: 1px solid #495057;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmDownload = document.getElementById('confirmDownload');
+    const cvDownloadForm = document.getElementById('cvDownloadForm');
+    const emailInput = document.getElementById('emailInput');
+    
+    confirmDownload.addEventListener('click', function() {
+        if (cvDownloadForm.checkValidity()) {
+            const email = emailInput.value;
+            const name = document.getElementById('nameInput').value || 'Anonymous';
+            
+            // Here you would typically send this data to your server
+            fetch('/log-cv-download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    downloaded_at: new Date().toISOString()
+                })
+            });
+            
+            // Trigger the download
+            window.location.href = "{{ url_for('static', filename='docs/Okoth_Arnold_CV.pdf') }}";
+            
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
+            modal.hide();
+        } else {
+            cvDownloadForm.reportValidity();
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, jsonify, request, abort
 from config import Config
-from models import db, Project, BlogPost, Comment, ContactMessage
+from models import db, Project, BlogPost, Comment, ContactMessage, CVDownload
 from forms import ContactForm, CommentForm
 from services.content_loader import (
     get_featured_projects,
@@ -10,16 +10,19 @@ from services.content_loader import (
     get_all_blog_posts
 )
 import markdown
-from flask import abort
-from flask import request
+from datetime import datetime
 
 load_dotenv()
-
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    
+    # Initialize db
     db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
 
     # Routes
     @app.route('/')
@@ -95,6 +98,27 @@ def create_app():
             return redirect(url_for('contact'))
         return render_template('contact.html', form=form)
 
+    # CV Download Tracking Endpoint
+    @app.route('/log-cv-download', methods=['POST'])
+    def log_cv_download():
+        try:
+            data = request.get_json()
+            
+            download = CVDownload(
+                email=data['email'],
+                name=data.get('name', 'Anonymous'),
+                ip_address=request.remote_addr,
+                user_agent=request.headers.get('User-Agent')
+            )
+            
+            db.session.add(download)
+            db.session.commit()
+            
+            return jsonify({'status': 'success'}), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+
     # Error Handlers
     @app.errorhandler(404)
     def page_not_found(e):
@@ -113,4 +137,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 app = create_app()
-

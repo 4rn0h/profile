@@ -8,11 +8,12 @@ load_dotenv(dotenv_path)
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', '6f2a6739b597753cb33991d9438e87080af8f4a416d6934b042d16bd6c2e73cc')
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
+    #SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///app.db')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///portfolio.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Database configuration
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///portfolio.db'  # Creates in current directory
+    #SQLALCHEMY_DATABASE_URI = 'sqlite:///portfolio.db'  # Creates in current directory
     
     # Contact form settings
     MAIL_SERVER = os.environ.get('MAIL_SERVER')

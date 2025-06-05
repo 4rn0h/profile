@@ -25,10 +25,7 @@ class Comment(db.Model):
     author = db.Column(db.String(100), nullable=False)
     body = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-
     post = db.relationship('BlogPost', backref=db.backref('comments', lazy=True))
-
-
 
 class ContactMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,3 +33,14 @@ class ContactMessage(db.Model):
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.Text, nullable=False)
     date_sent = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class CVDownload(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(80))
+    downloaded_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    ip_address = db.Column(db.String(45))
+    user_agent = db.Column(db.Text)
+    
+    def __repr__(self):
+        return f'<CVDownload {self.email}>'
