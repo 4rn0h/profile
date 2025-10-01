@@ -1,111 +1,506 @@
 {% extends "base.html" %}
 
-{% block title %}Okoth Arnold | Backend · DevOps · Data Engineer{% endblock %}
+{% block title %}Okoth Arnold | Senior Backend · DevOps · Data Engineer{% endblock %}
 
 {% block content %}
-<div class="bg-dark text-white min-vh-100 d-flex flex-column justify-content-between">
-    <!-- Hero Section -->
-    <section class="py-5 text-center">
-        <div class="container">
-            <img src="{{ url_for('static', filename='img/profile.png') }}" alt="Okoth Arnold" class="rounded-circle img-fluid mb-4 shadow" style="max-width: 140px;">
+<!-- Enhanced Hero Section -->
+<section class="hero-section bg-dark text-white min-vh-100 d-flex align-items-center position-relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="hero-bg-animation">
+        <div class="bg-particle-1"></div>
+        <div class="bg-particle-2"></div>
+        <div class="bg-particle-3"></div>
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
+    </div>
 
-            
-            <p class="lead">Backend Developer · DevOps Engineer · Data Engineer</p>
-            <!-- Social Links -->
-            <div class="d-flex justify-content-center gap-3 mb-3">
-            <a href="https://github.com/4rn0h" class="text-light" title="GitHub"><i class="fab fa-github social-icon"></i></a>
-            <a href="https://linkedin.com/in/okoth-a-a403878b" class="text-light" title="LinkedIn"><i class="fab fa-linkedin social-icon"></i></a>
-            <a href="https://bitbucket.org/okothouko" class="text-light" title="Bitbucket"><i class="fab fa-bitbucket social-icon"></i></a>
-            <a href="https://www.upwork.com/freelancers/~YOUR_UPWORK_ID" class="text-light" title="Upwork"><i class="fab fa-upwork social-icon"></i></a>
-            <a href="https://dev.to/4rn0h_5" class="text-light" title="dev.to"><i class="fab fa-dev social-icon"></i></a>
-            <a href="https://t.me/okothouko" class="text-light" title="Telegram"><i class="fab fa-telegram social-icon"></i></a>
+    <div class="container position-relative text-center" style="z-index: 2;">
+        <!-- Profile Image - 200px with Badge -->
+        <div class="profile-section mb-4 animate-fade-in">
+            <div class="profile-image-container">
+                <img src="{{ url_for('static', filename='img/profile.png') }}" 
+                     alt="Okoth Arnold - Senior Developer" 
+                     class="profile-image rounded-circle img-fluid shadow-lg">
             </div>
-            <p class="mb-4">
-                I build scalable backends, automate cloud infrastructure, and design efficient data pipelines.<br>
-                Combining 6+ years of hands-on experience with creative problem solving and clean, elegant code.
+            <!-- Available for Hire Badge -->
+            <div class="availability-badge mt-3">
+                <span class="badge-available">
+                    <i class="fas fa-circle me-2"></i>
+                    Available for Hire
+                </span>
+            </div>
+        </div>
+
+        <!-- Typing Animation - Reduced gap -->
+        <div class="typing-section mb-3 animate-fade-in">
+            <div class="typing-container">
+                <h1 class="hero-title display-4 fw-bold mb-2 text-gradient-primary">
+                    <span id="typed"></span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Social Icons - Reduced gap -->
+        <div class="social-section mb-4 animate-fade-in">
+            <div class="social-icons-clean">
+                <a href="https://github.com/4rn0h" class="social-icon-clean" title="GitHub" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/okoth-a-a403878b" class="social-icon-clean" title="LinkedIn" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://bitbucket.org/okothouko" class="social-icon-clean" title="Bitbucket" target="_blank">
+                    <i class="fab fa-bitbucket"></i>
+                </a>
+                <!--<a href="https://www.upwork.com/freelancers/~YOUR_UPWORK_ID" class="social-icon-clean" title="Upwork" target="_blank">
+                    <i class="fab fa-upwork"></i>-->
+                </a>
+                <a href="https://dev.to/4rn0h_5" class="social-icon-clean" title="Dev.to" target="_blank">
+                    <i class="fab fa-dev"></i>
+                </a>
+                <a href="https://t.me/okothouko" class="social-icon-clean" title="Telegram" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Description - Reduced gap -->
+        <div class="description-section animate-fade-in">
+            <p class="hero-description lead text-gray-300 mb-3 mx-auto" style="max-width: 600px;">
+                I architect and build <strong class="text-white">scalable backend systems</strong>, 
+                automate <strong class="text-white">cloud infrastructure</strong>, and design 
+                <strong class="text-white">efficient data pipelines</strong>. Passionate about 
+                solving complex problems with clean, maintainable code and cutting-edge technologies.
             </p>
 
             <!-- CTA Buttons -->
-            <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
-                <a href="{{ url_for('projects') }}" class="btn btn-outline-light">Projects</a>
-                <a href="{{ url_for('blog') }}" class="btn btn-outline-light">Blog</a>
+            <div class="hero-cta d-flex justify-content-center flex-wrap gap-3">
+                <a href="{{ url_for('projects') }}" class="btn btn-primary btn-lg px-4 py-3">
+                    <i class="fas fa-rocket me-2"></i>
+                    View Projects
+                </a>
+                <!--<a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                    <i class="fas fa-paper-plane me-2"></i>
+                    Get In Touch
+                </a>-->
             </div>
-
-            
         </div>
-    </section>
+    </div>
+</section>
 
-
-<!-- Styles -->
+<!-- Enhanced Styles -->
 <style>
-    .dev-icon {
-        font-weight: bold;
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        position: relative;
+        padding-top: 2rem;
+    }
+
+    /* Animated Background */
+    .hero-bg-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .bg-particle-1, .bg-particle-2, .bg-particle-3 {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        opacity: 0.1;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .bg-particle-1 {
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        right: 10%;
+        animation-delay: 0s;
+    }
+
+    .bg-particle-2 {
+        width: 200px;
+        height: 200px;
+        bottom: 20%;
+        left: 5%;
+        animation-delay: 2s;
+    }
+
+    .bg-particle-3 {
+        width: 150px;
+        height: 150px;
+        top: 50%;
+        right: 20%;
+        animation-delay: 4s;
+    }
+
+    .bg-gradient-1, .bg-gradient-2 {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.05;
+    }
+
+    .bg-gradient-1 {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        top: -100px;
+        right: -100px;
+    }
+
+    .bg-gradient-2 {
+        background: linear-gradient(135deg, #06b6d4, #0d9488);
+        bottom: -100px;
+        left: -100px;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-20px) scale(1.05); }
+    }
+
+    /* Text Gradients */
+    .text-gradient-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Typing Animation */
+    .typing-container {
+        min-height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .typed-cursor {
+        color: #3b82f6;
+        font-weight: 300;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    /* Profile Image - Increased to 200px */
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-image {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border: 4px solid rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .profile-image:hover {
+        border-color: #3b82f6;
+        transform: scale(1.05);
+    }
+
+    /* Available for Hire Badge */
+    .availability-badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .badge-available {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
         font-size: 0.85rem;
-        border: 1px solid #fff;
-        padding: 2px 6px;
-        border-radius: 4px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        animation: pulse-badge 2s infinite;
     }
-    
-    /* Unified icon styling */
-    .social-icon {
-        font-size: 1.4rem;
-        vertical-align: middle;
-        line-height: 1;
-    }
-    
-    /* Specific adjustments if needed */
-    .bi.social-icon {
-        /* Bootstrap Icons might need slight adjustment */
-        position: relative;
-        top: -0.05em;
-    }
-    
-    .fab.social-icon {
-        /* Font Awesome might need slight adjustment */
-        position: relative;
-        top: 0.05em;
-    }
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
-</style>
 
-<!-- CSS Fixes -->
-<style>
-    .social-icon {
-        font-size: 1.4rem;
-        width: 1.4rem;
-        height: 1.4rem;
+    .badge-available i {
+        font-size: 0.5rem;
+        animation: blink-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    @keyframes blink-badge {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    /* Clean Social Icons */
+    .social-icons-clean {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .social-icon-clean {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        vertical-align: middle;
+        width: 50px;
+        height: 50px;
+        color: #e2e8f0;
+        font-size: 1.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
     }
-    
-    /* Specific fix for Upwork icon */
-    .fa-upwork {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400;
+
+    .social-icon-clean:hover {
+        color: #3b82f6;
+        transform: translateY(-2px);
     }
-    
-    /* If Upwork still doesn't show, use this SVG fallback */
-    .fa-upwork.fallback svg {
-        width: 1.4rem;
-        height: 1.4rem;
-        fill: currentColor;
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+
+    .btn-outline-light {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-light:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Animations */
+    .animate-fade-in {
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .social-icons-clean {
+            gap: 1.5rem;
+        }
+        
+        .social-icon-clean {
+            width: 45px;
+            height: 45px;
+            font-size: 1.4rem;
+        }
+        
+        .profile-image {
+            width: 180px;
+            height: 180px;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            padding: 0 1rem;
+        }
+        
+        .badge-available {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .social-icons-clean {
+            gap: 1rem;
+        }
+        
+        .social-icon-clean {
+            width: 40px;
+            height: 40px;
+            font-size: 1.3rem;
+        }
+        
+        .profile-image {
+            width: 160px;
+            height: 160px;
+        }
+        
+        .hero-description {
+            font-size: 1rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .hero-cta {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hero-cta .btn {
+            width: 200px;
+        }
+        
+        .badge-available {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.7rem;
+        }
+    }
+
+    /* Mobile Landscape */
+    @media (max-height: 600px) and (orientation: landscape) {
+        .hero-section {
+            min-height: 100vh;
+            padding: 1rem 0;
+        }
+        
+        .profile-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .typing-section {
+            margin-bottom: 1rem;
+        }
+        
+        .social-section {
+            margin-bottom: 1rem;
+        }
+        
+        .social-icons-clean {
+            gap: 1rem;
+        }
+        
+        .badge-available {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+        }
+    }
+
+    /* Extra Small Devices */
+    @media (max-width: 400px) {
+        .social-icons-clean {
+            gap: 0.75rem;
+        }
+        
+        .social-icon-clean {
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+        }
+        
+        .hero-title {
+            font-size: 1.75rem;
+        }
+        
+        .profile-image {
+            width: 140px;
+            height: 140px;
+        }
+        
+        .badge-available {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+        }
     }
 </style>
 
-<!-- Fallback for Upwork if needed -->
+<!-- JavaScript for Typing Animation -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const upworkIcon = document.querySelector('.fa-upwork');
-    if (window.getComputedStyle(upworkIcon, ':before').content === 'none') {
-        upworkIcon.classList.add('fallback');
-        upworkIcon.innerHTML = `
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.406-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/>
-            </svg>`;
-    }
-});
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Typing Animation
+        const typedTextSpan = document.getElementById('typed');
+        const textArray = [
+            'Backend Developer',
+            'Python Specialist',
+            'Data Engineer',
+            'Linux SysAdmin',
+            'DevOps Engineer'
+        ];
+        const typingDelay = 100;
+        const erasingDelay = 50;
+        const newTextDelay = 2000;
+        let textArrayIndex = 0;
+        let charIndex = 0;
 
+        function type() {
+            if (charIndex < textArray[textArrayIndex].length) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingDelay);
+            } else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingDelay);
+            } else {
+                textArrayIndex++;
+                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                setTimeout(type, typingDelay + 1100);
+            }
+        }
+
+        // Start typing animation
+        setTimeout(type, newTextDelay + 250);
+
+        // Add cursor element
+        const cursor = document.createElement('span');
+        cursor.className = 'typed-cursor';
+        cursor.textContent = '|';
+        typedTextSpan.parentNode.appendChild(cursor);
+    });
+</script>
 {% endblock %}

@@ -1,28 +1,273 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom-gray fixed-top" role="navigation">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" role="navigation">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">Okoth Arnold</a>
+        <!-- Enhanced Brand with Logo/Symbol -->
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('index') }}">
+            <span class="brand-symbol me-2">⚡</span>
+            <span class="brand-text">Okoth Arnold</span>
+            <!--<span class="badge bg-blue ms-2 d-none d-md-inline">Senior Developer</span>-->
+        </a>
+
+        <!-- Mobile Toggle with Animation -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-text">Menu</span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link nav-link-custom {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">
+                        <i class="fas fa-home me-1 d-none d-sm-inline"></i>
+                        Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_for('about_me') %}active{% endif %}" href="{{ url_for('about_me') }}">About</a>
+                    <a class="nav-link nav-link-custom {% if request.path == url_for('about_me') %}active{% endif %}" href="{{ url_for('about_me') }}">
+                        <i class="fas fa-user me-1 d-none d-sm-inline"></i>
+                        About
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_for('projects') %}active{% endif %}" href="{{ url_for('projects') }}">Projects</a>
+                    <a class="nav-link nav-link-custom {% if request.path == url_for('projects') %}active{% endif %}" href="{{ url_for('projects') }}">
+                        <i class="fas fa-code me-1 d-none d-sm-inline"></i>
+                        Projects
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_for('blog') %}active{% endif %}" href="{{ url_for('blog') }}">Blog</a>
+                    <a class="nav-link nav-link-custom {% if request.path == url_for('blog') %}active{% endif %}" href="{{ url_for('blog') }}">
+                        <i class="fas fa-blog me-1 d-none d-sm-inline"></i>
+                        Blog
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.path == url_for('contact') %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
+                    <a class="nav-link nav-link-custom {% if request.path == url_for('contact') %}active{% endif %}" href="{{ url_for('contact') }}">
+                        <i class="fas fa-envelope me-1 d-none d-sm-inline"></i>
+                        Contact
+                    </a>
+                </li>
+                
+                <!-- Call to Action Button -->
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <!--<a class="btn btn-primary btn-sm nav-cta" href="{{ url_for('contact') }}">
+                        <i class="fas fa-paper-plane me-1"></i>
+                        Hire Me
+                    </a>-->
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<style>
+    /* Enhanced Navbar Background */
+    .navbar {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        padding: 0.75rem 0;
+        transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+        background: rgba(15, 23, 42, 0.98);
+        padding: 0.5rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Enhanced Brand Styling */
+    .navbar-brand {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+        transform: translateY(-1px);
+    }
+
+    .brand-symbol {
+        font-size: 1.25rem;
+        animation: pulse 2s infinite;
+    }
+
+    .badge.bg-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    /* Enhanced Nav Links */
+    .nav-link-custom {
+        color: #e2e8f0 !important;
+        font-weight: 500;
+        padding: 0.5rem 1rem !important;
+        margin: 0 0.25rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .nav-link-custom:hover {
+        color: #3b82f6 !important;
+        background: rgba(59, 130, 246, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .nav-link-custom.active {
+        color: #3b82f6 !important;
+        background: rgba(59, 130, 246, 0.15);
+        font-weight: 600;
+    }
+
+    .nav-link-custom.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background: #3b82f6;
+        border-radius: 50%;
+    }
+
+    /* Enhanced Toggle Button */
+    .navbar-toggler {
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        padding: 0.5rem 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-toggler:hover {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    .navbar-toggler-text {
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        color: #e2e8f0;
+    }
+
+    /* Call to Action Button */
+    .nav-cta {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1.25rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .nav-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+
+    /* Mobile Menu Enhancements */
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link-custom {
+            margin: 0.25rem 0;
+            text-align: center;
+        }
+
+        .nav-cta {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+    }
+
+    /* Animations */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    /* Smooth transitions for navbar items */
+    .navbar-nav .nav-item {
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-nav .nav-item:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Enhanced Icons */
+    .nav-link-custom i {
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link-custom:hover i {
+        color: #3b82f6;
+        transform: scale(1.1);
+    }
+</style>
+
+<script>
+    // Enhanced navbar scroll behavior
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('.navbar');
+        
+        // Scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('.nav-link-custom').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link-custom').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            });
+        });
+
+        // Add loading animation to brand
+        const brandSymbol = document.querySelector('.brand-symbol');
+        setInterval(() => {
+            brandSymbol.style.animation = 'none';
+            setTimeout(() => {
+                brandSymbol.style.animation = 'pulse 2s infinite';
+            }, 10);
+        }, 4000);
+    });
+</script>

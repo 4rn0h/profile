@@ -1,55 +1,136 @@
 {% extends "base.html" %}
 
-{% block title %}About Me{% endblock %}
+{% block title %}About Me - Senior Backend · DevOps · Data Engineer{% endblock %}
 
 {% block content %}
-<div class="bg-dark text-white min-vh-100">
-    <div class="container py-5">
+<!-- Enhanced About Section -->
+<section class="about-section bg-dark text-white min-vh-100 position-relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="about-bg-animation">
+        <div class="bg-particle-1"></div>
+        <div class="bg-particle-2"></div>
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
+    </div>
+
+    <div class="container position-relative py-5" style="z-index: 2;">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h1 class="mb-4 text-center fw-bold">About</h1>
-                <p>
-                    I'm <strong>Okoth Arnold</strong>, a backend-heavy developer and creative technologist with over 6 years of experience in software engineering, cloud automation, and data systems. I've built backend APIs, deployed DevOps pipelines, and cleaned messy data – all while staying curious and driven.
-                </p>
+            <div class="col-lg-10 col-md-12">
+                <!-- Header Section -->
+                <div class="text-center mb-5 animate-fade-in">
+                    <h1 class="display-4 fw-bold mb-3 text-gradient-primary">About Me</h1>
+                    <p class="lead text-gray-300">Senior Developer specializing in scalable systems, cloud infrastructure, and data engineering</p>
+                </div>
 
-                <p>
-                    My strength lies in bringing <strong>clean architecture</strong> and <strong>automated solutions</strong> to complex problems – whether that's through designing REST APIs with Flask, provisioning infrastructure on AWS, or scripting data pipelines using Python and SQL.
-                </p>
+                <!-- Main Content -->
+                <div class="about-content animate-fade-in">
+                    <div class="content-section mb-5">
+                        <p class="text-gray-300 mb-4">
+                            I'm a backend-heavy developer and creative technologist with over 6 years of experience in software engineering, cloud automation, and data systems. I've built backend APIs, deployed DevOps pipelines, and cleaned messy data – all while staying curious and driven.
+                        </p>
 
-                <h3 class="mt-5">What I Do</h3>
-                <ul>
-                    <li><strong>Backend Engineering</strong>: APIs, Flask, Django, PostgreSQL, Microservices</li>
-                    <li><strong>DevOps Automation</strong>: Docker, Jenkins, Linux, GitHub Actions, AWS/GCP</li>
-                    <li><strong>Data Engineering</strong>: Python, Pandas, Spark, BigQuery, SQL, ETL</li>
-                </ul>
+                        <p class="text-gray-300">
+                            My strength lies in bringing <strong class="text-white">clean architecture</strong> and <strong class="text-white">automated solutions</strong> to complex problems – whether that's through designing REST APIs with Flask, provisioning infrastructure on AWS, or scripting data pipelines using Python and SQL.
+                        </p>
+                    </div>
 
-                <h3 class="mt-5">Career Highlights</h3>
-                <ul>
-                    <li>Optimized data pipelines at Bayer East Africa, improving processing efficiency by 25%</li>
-                    <li>Designed CI/CD workflows at Sybrin, reducing deployment time by 40%</li>
-                    <li>Created scalable backend services for fintech and data-heavy applications</li>
-                </ul>
+                    <!-- What I Do Section -->
+                    <div class="content-section mb-5">
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">What I Do</h3>
+                        <div class="row align-items-stretch">
+                            <!-- Left Column -->
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <div class="skill-item h-100">
+                                    <div class="skill-header">
+                                        <i class="fas fa-code text-primary me-2"></i>
+                                        <strong class="text-white">Backend Engineering</strong>
+                                    </div>
+                                    <div class="skill-details text-gray-300">
+                                        APIs, Flask, Django, PostgreSQL, Microservices
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column -->
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <div class="skill-item h-100">
+                                    <div class="skill-header">
+                                        <i class="fas fa-cloud text-primary me-2"></i>
+                                        <strong class="text-white">DevOps Automation</strong>
+                                    </div>
+                                    <div class="skill-details text-gray-300">
+                                        Docker, Jenkins, GitHub Actions, AWS/GCP, CI/CD
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Left Column - Second Row -->
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <div class="skill-item h-100">
+                                    <div class="skill-header">
+                                        <i class="fas fa-server text-primary me-2"></i>
+                                        <strong class="text-white">Linux SysAdmin</strong>
+                                    </div>
+                                    <div class="skill-details text-gray-300">
+                                        System Administration, Bash Scripting, Server Management, Security
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column - Second Row -->
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <div class="skill-item h-100">
+                                    <div class="skill-header">
+                                        <i class="fas fa-database text-primary me-2"></i>
+                                        <strong class="text-white">Data Engineering</strong>
+                                    </div>
+                                    <div class="skill-details text-gray-300">
+                                        Python, Pandas, Spark, BigQuery, SQL, ETL
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <h3 class="mt-5">Outside of Work</h3>
-                <p>I love blending logic with design, whether through color psychology in dashboards, writing tech blogs, or contributing to open-source tools. I also enjoy helping teams and clients automate, simplify, and scale their systems.</p>
+                    {# Career Highlights Section - Disabled 
+                    <div class="content-section mb-5">
+                        <h3 class="h2 fw-bold text-white mb-4">Career Highlights</h3>
+                        <div class="achievements-list">
+                            <div class="achievement-item">
+                                <i class="fas fa-check-circle text-success me-3"></i>
+                                <span class="text-gray-300">Optimized data pipelines at Bayer East Africa, improving processing efficiency by 25%</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-check-circle text-success me-3"></i>
+                                <span class="text-gray-300">Designed CI/CD workflows at Sybrin, reducing deployment time by 40%</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-check-circle text-success me-3"></i>
+                                <span class="text-gray-300">Created scalable backend services for fintech and data-heavy applications</span>
+                            </div>
+                        </div>
+                    </div>
+                    #}
 
-                <div class="mt-5 text-center">
-                    <!-- View CV Button with Modal Trigger -->
-                    <button type="button" class="btn btn-outline-light mb-3" data-bs-toggle="modal" data-bs-target="#cvModal">
-                        <i class="bi bi-download me-2"></i>Download My CV
+                    <!-- Outside of Work - Centered -->
+                    <div class="content-section text-center">
+                        <h3 class="h2 fw-bold text-white mb-4">Beyond Code</h3>
+                        <p class="text-gray-300 mx-auto" style="max-width: 600px;">
+                            I love blending logic with design, whether through color psychology in dashboards, writing tech blogs, or contributing to open-source tools. I also enjoy helping teams and clients automate, simplify, and scale their systems.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="text-center mt-5 animate-fade-in">
+                    <button type="button" class="btn btn-primary btn-lg px-4 py-3" data-bs-toggle="modal" data-bs-target="#cvModal">
+                        <i class="fas fa-download me-2"></i>Download My CV
                     </button>
-                    
-                    <!-- Commented out View Resume button -->
-                    <!--
-                    <a href="https://okotharnold.netlify.app" target="_blank" class="btn btn-outline-light ms-3">
-                        <i class="bi bi-file-earmark-text me-2"></i>View Resume
-                    </a>
-                    -->
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- CV Download Modal -->
 <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
@@ -63,12 +144,12 @@
                 <form id="cvDownloadForm">
                     <div class="mb-3">
                         <label for="emailInput" class="form-label">Email address</label>
-                        <input type="email" class="form-control bg-secondary text-white" id="emailInput" required placeholder="your@email.com">
-                        <div class="form-text">I'll only use this to notify you about updates.</div>
+                        <input type="email" class="form-control bg-gray-800 text-white border-gray-700" id="emailInput" required placeholder="your@email.com">
+                        <div class="form-text text-gray-400">I'll only use this to notify you about updates.</div>
                     </div>
                     <div class="mb-3">
                         <label for="nameInput" class="form-label">Your Name (Optional)</label>
-                        <input type="text" class="form-control bg-secondary text-white" id="nameInput" placeholder="Your Name">
+                        <input type="text" class="form-control bg-gray-800 text-white border-gray-700" id="nameInput" placeholder="Your Name">
                     </div>
                 </form>
             </div>
@@ -80,34 +161,275 @@
     </div>
 </div>
 
+<!-- Enhanced Styles -->
 <style>
-    /* Custom styling for better readability */
-    strong {
-        color: #f8f9fa;
+    /* About Section */
+    .about-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        position: relative;
     }
-    
-    ul {
-        padding-left: 1.5rem;
+
+    /* Animated Background */
+    .about-bg-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
-    
-    li {
-        margin-bottom: 0.5rem;
+
+    .about-bg-animation .bg-particle-1,
+    .about-bg-animation .bg-particle-2 {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        opacity: 0.05;
+        animation: float 8s ease-in-out infinite;
     }
-    
-    /* Button hover effects */
-    .btn-outline-light:hover {
-        background-color: rgba(255,255,255,0.1);
-        transform: translateY(-1px);
+
+    .about-bg-animation .bg-particle-1 {
+        width: 200px;
+        height: 200px;
+        top: 20%;
+        right: 10%;
+        animation-delay: 0s;
     }
-    
-    /* Smooth transitions */
+
+    .about-bg-animation .bg-particle-2 {
+        width: 150px;
+        height: 150px;
+        bottom: 30%;
+        left: 5%;
+        animation-delay: 4s;
+    }
+
+    .about-bg-animation .bg-gradient-1,
+    .about-bg-animation .bg-gradient-2 {
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.03;
+    }
+
+    .about-bg-animation .bg-gradient-1 {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        top: -50px;
+        right: -50px;
+    }
+
+    .about-bg-animation .bg-gradient-2 {
+        background: linear-gradient(135deg, #06b6d4, #0d9488);
+        bottom: -50px;
+        left: -50px;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-15px) scale(1.03); }
+    }
+
+    /* Text Gradients */
+    .text-gradient-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Content Sections */
+    .content-section {
+        margin-bottom: 3rem;
+    }
+
+    /* Skill Items - Fixed Alignment */
+    .skill-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .skill-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .skill-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .skill-details {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Grid Layout Fixes */
+    .row.align-items-stretch {
+        margin: 0 -0.75rem;
+    }
+
+    .row.align-items-stretch > [class*="col-"] {
+        padding: 0 0.75rem;
+    }
+
+    /* Achievements List */
+    .achievements-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .achievement-item {
+        display: flex;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .achievement-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+        transform: translateX(5px);
+    }
+
+    .achievement-item i {
+        margin-top: 0.2rem;
+        flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+
     .btn-outline-light {
-        transition: all 0.2s ease-in-out;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
     }
-    
-    /* Modal styling */
-    .modal-content {
-        border: 1px solid #495057;
+
+    .btn-outline-light:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Animations */
+    .animate-fade-in {
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+
+    /* Utility Classes */
+    .text-gray-300 {
+        color: #d1d5db !important;
+    }
+
+    .bg-gray-800 {
+        background-color: #1f2937 !important;
+    }
+
+    .border-gray-700 {
+        border-color: #374151 !important;
+    }
+
+    /* Text Colors */
+    .text-primary {
+        color: #3b82f6 !important;
+    }
+
+    .text-success {
+        color: #10b981 !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .display-4 {
+            font-size: 2.5rem;
+        }
+        
+        .achievement-item {
+            padding: 1rem;
+        }
+        
+        .skill-item {
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .row.align-items-stretch {
+            margin: 0 -0.5rem;
+        }
+        
+        .row.align-items-stretch > [class*="col-"] {
+            padding: 0 0.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .display-4 {
+            font-size: 2rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .content-section {
+            margin-bottom: 2rem;
+        }
+        
+        .skill-item {
+            padding: 1rem;
+        }
+        
+        .skill-header {
+            font-size: 1rem;
+        }
+        
+        .skill-details {
+            font-size: 0.9rem;
+        }
     }
 </style>
 
