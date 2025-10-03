@@ -15,15 +15,15 @@
     </div>
 
     <div class="container position-relative text-center" style="z-index: 2;">
-        <!-- Profile Image - 200px with Badge -->
-        <div class="profile-section mb-4 animate-fade-in">
+        <!-- Profile Image - Moved Lower -->
+        <div class="profile-section mb-3 animate-fade-in">
             <div class="profile-image-container">
                 <img src="{{ url_for('static', filename='img/profile.png') }}" 
                      alt="Okoth Arnold - Senior Developer" 
                      class="profile-image rounded-circle img-fluid shadow-lg">
             </div>
             <!-- Available for Hire Badge -->
-            <div class="availability-badge mt-3">
+            <div class="availability-badge mt-2">
                 <span class="badge-available">
                     <i class="fas fa-circle me-2"></i>
                     Available for Hire
@@ -31,17 +31,17 @@
             </div>
         </div>
 
-        <!-- Typing Animation - Reduced gap -->
-        <div class="typing-section mb-3 animate-fade-in">
+        <!-- Typing Animation - Further reduced gap -->
+        <div class="typing-section mb-2 animate-fade-in">
             <div class="typing-container">
-                <h1 class="hero-title display-4 fw-bold mb-2 text-gradient-primary">
+                <h1 class="hero-title display-4 fw-bold mb-1 text-gradient-primary">
                     <span id="typed"></span>
                 </h1>
             </div>
         </div>
 
-        <!-- Social Icons - Reduced gap -->
-        <div class="social-section mb-4 animate-fade-in">
+        <!-- Social Icons - Further reduced gap -->
+        <div class="social-section mb-3 animate-fade-in">
             <div class="social-icons-clean">
                 <a href="https://github.com/4rn0h" class="social-icon-clean" title="GitHub" target="_blank">
                     <i class="fab fa-github"></i>
@@ -52,9 +52,6 @@
                 <a href="https://bitbucket.org/okothouko" class="social-icon-clean" title="Bitbucket" target="_blank">
                     <i class="fab fa-bitbucket"></i>
                 </a>
-                <!--<a href="https://www.upwork.com/freelancers/~YOUR_UPWORK_ID" class="social-icon-clean" title="Upwork" target="_blank">
-                    <i class="fab fa-upwork"></i>-->
-                </a>
                 <a href="https://dev.to/4rn0h_5" class="social-icon-clean" title="Dev.to" target="_blank">
                     <i class="fab fa-dev"></i>
                 </a>
@@ -64,25 +61,23 @@
             </div>
         </div>
 
-        <!-- Description - Reduced gap -->
+        <!-- Description - Further reduced gap 
+     <div class="description-section animate-fade-in">
+          <p class="hero-description lead text-gray-300 mb-2 mx-auto" style="max-width: 600px;">
+            I deploy to <strong>prod</strong> on Fridays. Why? <strong>CI/CD pipelines</strong> are battle-tested, <strong>APIs</strong> are idempotent, <strong>infrastructure</strong> is immutable, and <strong>monitoring</strong> actually works. <strong>Linux admin</strong> by day, <strong>infrastructure-as-code</strong> poet by night.
+          </p>
+        </div>-->
         <div class="description-section animate-fade-in">
-            <p class="hero-description lead text-gray-300 mb-3 mx-auto" style="max-width: 600px;">
-                I architect and build <strong class="text-white">scalable backend systems</strong>, 
-                automate <strong class="text-white">cloud infrastructure</strong>, and design 
-                <strong class="text-white">efficient data pipelines</strong>. Passionate about 
-                solving complex problems with clean, maintainable code and cutting-edge technologies.
-            </p>
-
+  <p class="hero-description lead text-gray-300 mb-2 mx-auto" style="max-width: 600px;">
+    I <strong>tame distributed systems</strong>, <strong>automate infrastructure with code</strong>, and <strong>build RESTful APIs</strong> that serve production traffic reliably. <strong>Linux</strong> is home, <strong>container orchestration</strong> is second nature, and <strong>'works on my machine'</strong> isn't in my vocabulary.
+  </p>
+</div>
             <!-- CTA Buttons -->
-            <div class="hero-cta d-flex justify-content-center flex-wrap gap-3">
-                <a href="{{ url_for('projects') }}" class="btn btn-primary btn-lg px-4 py-3">
+            <div class="hero-cta d-flex justify-content-center flex-wrap gap-2">
+                <a href="{{ url_for('projects') }}" class="btn btn-primary btn-lg px-4 py-2">
                     <i class="fas fa-rocket me-2"></i>
                     View Projects
                 </a>
-                <!--<a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg px-4 py-3">
-                    <i class="fas fa-paper-plane me-2"></i>
-                    Get In Touch
-                </a>-->
             </div>
         </div>
     </div>
@@ -94,7 +89,7 @@
     .hero-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
-        padding-top: 2rem;
+        padding-top: 3rem; /* Increased top padding to move content lower */
     }
 
     /* Animated Background */
@@ -175,7 +170,7 @@
 
     /* Typing Animation */
     .typing-container {
-        min-height: 3.5rem;
+        min-height: 3rem; /* Reduced height */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -192,7 +187,7 @@
         50% { opacity: 0; }
     }
 
-    /* Profile Image - Increased to 200px */
+    /* Profile Image */
     .profile-image-container {
         position: relative;
         display: inline-block;
@@ -251,7 +246,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
+        gap: 1.5rem; /* Reduced gap */
         flex-wrap: wrap;
     }
 
@@ -259,10 +254,10 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
+        width: 45px; /* Slightly smaller */
+        height: 45px; /* Slightly smaller */
         color: #e2e8f0;
-        font-size: 1.5rem;
+        font-size: 1.4rem; /* Slightly smaller */
         text-decoration: none;
         transition: all 0.2s ease;
     }
@@ -288,17 +283,6 @@
         background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
     }
 
-    .btn-outline-light {
-        border-radius: 0.75rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline-light:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
-    }
-
     /* Animations */
     .animate-fade-in {
         animation: fadeInUp 1s ease-out;
@@ -322,13 +306,13 @@
         }
         
         .social-icons-clean {
-            gap: 1.5rem;
+            gap: 1.25rem; /* Further reduced on mobile */
         }
         
         .social-icon-clean {
-            width: 45px;
-            height: 45px;
-            font-size: 1.4rem;
+            width: 42px;
+            height: 42px;
+            font-size: 1.3rem;
         }
         
         .profile-image {
@@ -345,6 +329,10 @@
             font-size: 0.8rem;
             padding: 0.4rem 0.8rem;
         }
+        
+        .hero-section {
+            padding-top: 2rem; /* Adjusted for mobile */
+        }
     }
 
     @media (max-width: 576px) {
@@ -353,13 +341,13 @@
         }
         
         .social-icons-clean {
-            gap: 1rem;
+            gap: 1rem; /* Further reduced on small mobile */
         }
         
         .social-icon-clean {
-            width: 40px;
-            height: 40px;
-            font-size: 1.3rem;
+            width: 38px;
+            height: 38px;
+            font-size: 1.2rem;
         }
         
         .profile-image {
@@ -389,6 +377,10 @@
             font-size: 0.75rem;
             padding: 0.35rem 0.7rem;
         }
+        
+        .hero-section {
+            padding-top: 1.5rem; /* Further adjusted for small mobile */
+        }
     }
 
     /* Mobile Landscape */
@@ -399,7 +391,7 @@
         }
         
         .profile-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .profile-image {
@@ -408,15 +400,15 @@
         }
         
         .typing-section {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         
         .social-section {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         
         .social-icons-clean {
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .badge-available {
@@ -434,7 +426,7 @@
         .social-icon-clean {
             width: 35px;
             height: 35px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         
         .hero-title {
@@ -460,10 +452,9 @@
         const typedTextSpan = document.getElementById('typed');
         const textArray = [
             'Backend Developer',
-            'Python Specialist',
+            //'Python Specialist', 
             'Data Engineer',
-            'Linux SysAdmin',
-            'DevOps Engineer'
+            'Linux SysAdmin'
         ];
         const typingDelay = 100;
         const erasingDelay = 50;

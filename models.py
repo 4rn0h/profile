@@ -11,13 +11,27 @@ class Project(db.Model):
     project_url = db.Column(db.String(200))
     github_url = db.Column(db.String(200))
 
+# models.py
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    slug = db.Column(db.String(100), unique=True, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    slug = db.Column(db.String(200), unique=True, nullable=False)  # Add this field
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    tags = db.Column(db.String(200))  # comma-separated tags
+    category = db.Column(db.String(100))
+    tags = db.Column(db.String(300))
+
+    @property
+    def read_time(self):
+        """
+        Estimate read time based on word count (200 wpm).
+        """
+        words = len(self.content.split())
+        minutes = max(1, math.ceil(words / 200))
+        return f"{minutes} min read"
+    
+    def __repr__(self):
+        return f"BlogPost('{self.title}', '{self.date_posted}')" 
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)

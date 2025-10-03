@@ -64,3 +64,5 @@ bootstrap/dist/
 .stacks/
 # Docker swarm tasks
 .tasks/
+
+.marscode

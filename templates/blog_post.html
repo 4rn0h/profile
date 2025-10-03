@@ -1,44 +1,439 @@
 {% extends "base.html" %}
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} - Blog{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1>{{ post.title }}</h1>
-    <p class="text-muted small">Posted on {{ post.date_posted.strftime('%b %d, %Y') }}</p>
-
-    <hr>
-    <div class="mb-5">{{ post.content | safe }}</div>
-
-    <h4>Leave a Comment</h4>
-    <form method="POST" class="mb-4">
-        {{ form.hidden_tag() }}
-        <div class="mb-3">
-            {{ form.author.label(class="form-label") }}
-            {{ form.author(class="form-control") }}
-        </div>
-        <div class="mb-3">
-            {{ form.body.label(class="form-label") }}
-            {{ form.body(class="form-control", rows=4) }}
-        </div>
-        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
-    </form>
-
-    <h4 class="mt-5">Comments</h4>
-    {% if post.comments %}
-        {% for comment in post.comments %}
-            <div class="mb-3 border-bottom pb-2">
-                <strong>{{ comment.author }}</strong> <br>
-                <small class="text-muted">{{ comment.date_posted.strftime('%b %d, %Y') }}</small>
-                <p class="mt-2">{{ comment.body }}</p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p class="text-muted">No comments yet. Be the first!</p>
-    {% endif %}
-
-    <div class="mt-5 text-center">
-        <a href="{{ url_for('blog') }}" class="btn btn-outline-secondary">← Back to Blog</a>
+<!-- Enhanced Blog Post Section -->
+<section class="blog-post-section bg-dark text-white min-vh-100 position-relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="blog-bg-animation">
+        <div class="bg-particle-1"></div>
+        <div class="bg-particle-2"></div>
+        <div class="bg-gradient-1"></div>
+        <div class="bg-gradient-2"></div>
     </div>
-</div>
-{% endblock %}
 
+    <div class="container position-relative py-5" style="z-index: 2;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- Blog Post Header -->
+                <div class="blog-post-header text-center mb-5 animate-fade-in">
+                    <h1 class="display-4 fw-bold mb-3 text-gradient-primary">{{ post.title }}</h1>
+                    <div class="post-meta d-flex justify-content-center align-items-center flex-wrap gap-3 text-gray-300">
+                        <span class="post-date">
+                            <i class="fas fa-calendar me-2"></i>
+                            Posted on {{ post.date_posted.strftime('%B %d, %Y') }}
+                        </span>
+                        {% if post.read_time %}
+                        <span class="post-read-time">
+                            <i class="fas fa-clock me-2"></i>
+                            {{ post.read_time }}
+                        </span>
+                        {% endif %}
+                        {% if post.category %}
+                        <span class="post-category">
+                            <i class="fas fa-tag me-2"></i>
+                            {{ post.category }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Blog Post Content -->
+                <article class="blog-post-content theme-card p-4 p-md-5 mb-5 animate-fade-in">
+                    <div class="content-wrapper">
+                        {{ post.content | safe }}
+                    </div>
+                </article>
+
+                <!-- Comments Section -->
+                <div class="comments-section animate-fade-in">
+                    <h3 class="h2 fw-bold text-white mb-4">Comments</h3>
+                    
+                    {% if post.comments %}
+                        {% for comment in post.comments %}
+                        <div class="comment-item theme-card p-4 mb-3">
+                            <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-white">{{ comment.author }}</strong>
+                                <small class="text-gray-300">{{ comment.date_posted.strftime('%b %d, %Y at %H:%M') }}</small>
+                            </div>
+                            <p class="text-gray-300 mb-0">{{ comment.body }}</p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="theme-card p-4 text-center">
+                            <p class="text-gray-300 mb-0">No comments yet. Be the first to share your thoughts!</p>
+                        </div>
+                    {% endif %}
+
+                    <!-- Comment Form -->
+                    <div class="comment-form theme-card p-4 p-md-5 mt-4">
+                        <h4 class="text-white mb-4">Leave a Comment</h4>
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.author.label(class="form-label text-gray-300") }}
+                                    {{ form.author(class="form-control theme-form-control", placeholder="Your Name") }}
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                {{ form.body.label(class="form-label text-gray-300") }}
+                                {{ form.body(class="form-control theme-form-control", rows=5, placeholder="Share your thoughts...") }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                {{ form.submit.label.text }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Back to Blog -->
+                <div class="text-center mt-5 animate-fade-in">
+                    <a href="{{ url_for('blog') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Back to Blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Styles -->
+<style>
+    /* Blog Post Section */
+    .blog-post-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        position: relative;
+    }
+
+    /* Animated Background */
+    .blog-bg-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .blog-bg-animation .bg-particle-1,
+    .blog-bg-animation .bg-particle-2 {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        opacity: 0.05;
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .blog-bg-animation .bg-particle-1 {
+        width: 180px;
+        height: 180px;
+        top: 15%;
+        right: 8%;
+        animation-delay: 0s;
+    }
+
+    .blog-bg-animation .bg-particle-2 {
+        width: 120px;
+        height: 120px;
+        bottom: 20%;
+        left: 8%;
+        animation-delay: 4s;
+    }
+
+    .blog-bg-animation .bg-gradient-1,
+    .blog-bg-animation .bg-gradient-2 {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0.03;
+    }
+
+    .blog-bg-animation .bg-gradient-1 {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        top: -30px;
+        right: -30px;
+    }
+
+    .blog-bg-animation .bg-gradient-2 {
+        background: linear-gradient(135deg, #06b6d4, #0d9488);
+        bottom: -30px;
+        left: -30px;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-12px) scale(1.02); }
+    }
+
+    /* Text Gradients */
+    .text-gradient-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Blog Post Content */
+    .blog-post-content {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+    }
+
+    .content-wrapper {
+        color: #d1d5db;
+        line-height: 1.7;
+        font-size: 1.1rem;
+    }
+
+    .content-wrapper h1,
+    .content-wrapper h2,
+    .content-wrapper h3,
+    .content-wrapper h4,
+    .content-wrapper h5,
+    .content-wrapper h6 {
+        color: white;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .content-wrapper h2 {
+        font-size: 1.75rem;
+        border-bottom: 2px solid #3b82f6;
+        padding-bottom: 0.5rem;
+    }
+
+    .content-wrapper h3 {
+        font-size: 1.5rem;
+    }
+
+    .content-wrapper p {
+        margin-bottom: 1.5rem;
+    }
+
+    .content-wrapper code {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-size: 0.9em;
+    }
+
+    .content-wrapper pre {
+        background: #1f2937;
+        border: 1px solid #374151;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 2rem 0;
+    }
+
+    .content-wrapper pre code {
+        background: none;
+        color: #e5e7eb;
+        padding: 0;
+    }
+
+    .content-wrapper blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        color: #9ca3af;
+        font-style: italic;
+        background: rgba(59, 130, 246, 0.05);
+        padding: 1rem 1.5rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .content-wrapper ul,
+    .content-wrapper ol {
+        margin: 1.5rem 0;
+        padding-left: 2rem;
+    }
+
+    .content-wrapper li {
+        margin-bottom: 0.5rem;
+    }
+
+    .content-wrapper img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        margin: 1.5rem 0;
+    }
+
+    /* Comments Section */
+    .comment-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .comment-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .comment-form {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+    }
+
+    /* Post Meta */
+    .post-meta {
+        font-size: 0.95rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+
+    .btn-outline-light {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-outline-light:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Form Controls */
+    .theme-form-control {
+        background: #1f2937 !important;
+        border: 1px solid #374151 !important;
+        color: white !important;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .theme-form-control:focus {
+        background: #1f2937 !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+        color: white !important;
+    }
+
+    .theme-form-control::placeholder {
+        color: #9ca3af !important;
+    }
+
+    /* Cards */
+    .theme-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .theme-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    /* Animations */
+    .animate-fade-in {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+
+    /* Utility Classes */
+    .text-gray-300 {
+        color: #d1d5db !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .display-4 {
+            font-size: 2.5rem;
+        }
+        
+        .blog-post-content {
+            padding: 1.5rem !important;
+        }
+        
+        .comment-form {
+            padding: 1.5rem !important;
+        }
+        
+        .content-wrapper {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .display-4 {
+            font-size: 2rem;
+        }
+        
+        .blog-post-content {
+            padding: 1.25rem !important;
+        }
+        
+        .comment-form {
+            padding: 1.25rem !important;
+        }
+        
+        .post-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<script>
+    // Add syntax highlighting if needed
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any interactive functionality here
+        const commentForm = document.querySelector('form');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function() {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Posting Comment...';
+                    submitBtn.disabled = true;
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

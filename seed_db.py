@@ -1,3 +1,4 @@
+# seed_db.py
 from app import create_app
 from models import db, Project, BlogPost
 from datetime import datetime
@@ -6,11 +7,11 @@ def seed_database():
     app = create_app()
     
     with app.app_context():
-        # Clear existing data (optional)
-        db.drop_all()
-        db.create_all()
+        # Optional reset (for dev only  comment out in production)
+        # db.drop_all()
+        # db.create_all()
 
-        # Create sample projects
+        # Sample projects
         projects = [
             Project(
                 title="Flask REST API",
@@ -35,13 +36,14 @@ def seed_database():
             )
         ]
 
-        # Create sample blog posts
+        # Sample blog posts
         blog_posts = [
             BlogPost(
                 title="Building Secure APIs with Flask",
                 slug="building-secure-apis-with-flask",
                 content="In this post, I walk through Flask-JWT, route protection, and best practices.",
                 date_posted=datetime(2025, 5, 10),
+                category="Backend Development",   # works only if you added column
                 tags="flask,security,api"
             ),
             BlogPost(
@@ -49,11 +51,23 @@ def seed_database():
                 slug="automating-ci-cd-with-jenkins-docker",
                 content="CI/CD pipeline for Python microservices: Jenkins + GitHub + Docker.",
                 date_posted=datetime(2025, 4, 18),
+                category="DevOps",
                 tags="devops,jenkins,docker"
             )
         ]
 
-        db.session.add_all(projects + blog_posts)
+        # Insert projects if not already there
+        for project in projects:
+            existing = Project.query.filter_by(title=project.title).first()
+            if not existing:
+                db.session.add(project)
+
+        # Insert blog posts if not already there
+        for post in blog_posts:
+            existing = BlogPost.query.filter_by(slug=post.slug).first()
+            if not existing:
+                db.session.add(post)
+        
         db.session.commit()
         
         print("Database seeded successfully!")

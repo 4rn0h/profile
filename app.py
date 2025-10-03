@@ -21,8 +21,13 @@ def create_app():
     # Initialize db
     db.init_app(app)
 
+    # Create tables within app context
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            print("Database tables created successfully")
+        except Exception as e:
+            print(f"Error creating tables: {e}")
 
     # Routes
     @app.route('/')
@@ -41,12 +46,40 @@ def create_app():
 
     @app.route('/blog')
     def blog():
-        return render_template('blog.html', posts=get_all_blog_posts())
+        try:
+            posts = BlogPost.query.order_by(BlogPost.date_posted.desc()).all()
+            
+            # Ensure each post has the required attributes with fallbacks
+            for post in posts:
+                if not hasattr(post, 'read_time') or post.read_time is None:
+                    post.read_time = '5 min read'
+                if not hasattr(post, 'slug') or post.slug is None:
+                    # Generate a simple slug from ID as fallback
+                    post.slug = f"post-{post.id}"
+                if not hasattr(post, 'category'):
+                    post.category = None
+                if not hasattr(post, 'tags'):
+                    post.tags = None
+                    
+            return render_template('blog.html', posts=posts)
+            
+        except Exception as e:
+            print(f"Error loading blog posts: {e}")
+            # Return empty posts list if there's an error
+            return render_template('blog.html', posts=[])
 
     @app.route('/blog/<slug>', methods=['GET', 'POST'])
     def blog_post(slug):
         try:
-            post = BlogPost.query.filter_by(slug=slug).first_or_404()
+            # Try to find post by slug first, then by ID as fallback
+            if slug.startswith('post-'):
+                try:
+                    post_id = int(slug.split('-')[1])
+                    post = BlogPost.query.get_or_404(post_id)
+                except (ValueError, IndexError):
+                    abort(404)
+            else:
+                post = BlogPost.query.filter_by(slug=slug).first_or_404()
 
             form = CommentForm()
             if form.validate_on_submit():
@@ -62,7 +95,18 @@ def create_app():
 
             return render_template('blog_post.html', post=post, form=form)
         except Exception as e:
+            print(f"Error loading blog post: {e}")
             abort(500)
+
+    # Alternative route using post ID for backward compatibility
+    @app.route('/blog/post/<int:post_id>', methods=['GET', 'POST'])
+    def blog_post_by_id(post_id):
+        try:
+            post = BlogPost.query.get_or_404(post_id)
+            return redirect(url_for('blog_post', slug=post.slug if post.slug else f"post-{post.id}"))
+        except Exception as e:
+            print(f"Error loading blog post by ID: {e}")
+            abort(404)
 
     @app.route('/blog/<slug>/edit', methods=['GET', 'POST'])
     def edit_blog(slug):
@@ -119,6 +163,37 @@ def create_app():
             db.session.rollback()
             return jsonify({'status': 'error', 'message': str(e)}), 500
 
+    # Database migration endpoint for adding missing columns
+    @app.route('/migrate-db')
+    def migrate_db():
+        try:
+            with app.app_context():
+                # This is a simple migration approach
+                # In production, use proper migrations like Flask-Migrate
+                
+                # Get existing table info
+                result = db.engine.execute("PRAGMA table_info(blog_post)")
+                existing_columns = [row[1] for row in result]
+                
+                columns_to_add = {
+                    'read_time': 'VARCHAR(50)',
+                    'slug': 'VARCHAR(200)',
+                    'category': 'VARCHAR(100)',
+                    'tags': 'VARCHAR(300)'
+                }
+                
+                for column, data_type in columns_to_add.items():
+                    if column not in existing_columns:
+                        db.engine.execute(f'ALTER TABLE blog_post ADD COLUMN {column} {data_type}')
+                        print(f"Added column: {column}")
+                
+                flash('Database migration completed successfully!', 'success')
+                return redirect(url_for('blog'))
+                
+        except Exception as e:
+            flash(f'Migration error: {str(e)}', 'error')
+            return redirect(url_for('blog'))
+
     # Error Handlers
     @app.errorhandler(404)
     def page_not_found(e):
@@ -132,8 +207,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
-
-app = create_app()
