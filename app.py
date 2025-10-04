@@ -11,6 +11,7 @@ from services.content_loader import (
 )
 import markdown
 from datetime import datetime
+import os
 
 load_dotenv()
 
@@ -21,7 +22,7 @@ def create_app():
     # Initialize db
     db.init_app(app)
 
-    # Create tables within app context
+    # Create tables within app context (only for dev/testing, not production best practice)
     with app.app_context():
         try:
             db.create_all()
@@ -29,12 +30,17 @@ def create_app():
         except Exception as e:
             print(f"Error creating tables: {e}")
 
+    # ----------------------
     # Routes
+    # ----------------------
+
     @app.route('/')
     def index():
-        return render_template('index.html',
-                               projects=get_featured_projects(),
-                               posts=get_recent_blog_posts())
+        return render_template(
+            'index.html',
+            projects=get_featured_projects(),
+            posts=get_recent_blog_posts()
+        )
 
     @app.route('/about_me')
     def about_me():
@@ -49,12 +55,10 @@ def create_app():
         try:
             posts = BlogPost.query.order_by(BlogPost.date_posted.desc()).all()
             
-            # Ensure each post has the required attributes with fallbacks
             for post in posts:
-                if not hasattr(post, 'read_time') or post.read_time is None:
+                if not getattr(post, 'read_time', None):
                     post.read_time = '5 min read'
-                if not hasattr(post, 'slug') or post.slug is None:
-                    # Generate a simple slug from ID as fallback
+                if not getattr(post, 'slug', None):
                     post.slug = f"post-{post.id}"
                 if not hasattr(post, 'category'):
                     post.category = None
@@ -62,16 +66,13 @@ def create_app():
                     post.tags = None
                     
             return render_template('blog.html', posts=posts)
-            
         except Exception as e:
             print(f"Error loading blog posts: {e}")
-            # Return empty posts list if there's an error
             return render_template('blog.html', posts=[])
 
     @app.route('/blog/<slug>', methods=['GET', 'POST'])
     def blog_post(slug):
         try:
-            # Try to find post by slug first, then by ID as fallback
             if slug.startswith('post-'):
                 try:
                     post_id = int(slug.split('-')[1])
@@ -98,7 +99,6 @@ def create_app():
             print(f"Error loading blog post: {e}")
             abort(500)
 
-    # Alternative route using post ID for backward compatibility
     @app.route('/blog/post/<int:post_id>', methods=['GET', 'POST'])
     def blog_post_by_id(post_id):
         try:
@@ -142,59 +142,50 @@ def create_app():
             return redirect(url_for('contact'))
         return render_template('contact.html', form=form)
 
-    # CV Download Tracking Endpoint
     @app.route('/log-cv-download', methods=['POST'])
     def log_cv_download():
         try:
             data = request.get_json()
-            
             download = CVDownload(
                 email=data['email'],
                 name=data.get('name', 'Anonymous'),
                 ip_address=request.remote_addr,
                 user_agent=request.headers.get('User-Agent')
             )
-            
             db.session.add(download)
             db.session.commit()
-            
             return jsonify({'status': 'success'}), 200
         except Exception as e:
             db.session.rollback()
             return jsonify({'status': 'error', 'message': str(e)}), 500
 
-    # Database migration endpoint for adding missing columns
     @app.route('/migrate-db')
     def migrate_db():
         try:
-            with app.app_context():
-                # This is a simple migration approach
-                # In production, use proper migrations like Flask-Migrate
-                
-                # Get existing table info
-                result = db.engine.execute("PRAGMA table_info(blog_post)")
-                existing_columns = [row[1] for row in result]
-                
-                columns_to_add = {
-                    'read_time': 'VARCHAR(50)',
-                    'slug': 'VARCHAR(200)',
-                    'category': 'VARCHAR(100)',
-                    'tags': 'VARCHAR(300)'
-                }
-                
-                for column, data_type in columns_to_add.items():
-                    if column not in existing_columns:
-                        db.engine.execute(f'ALTER TABLE blog_post ADD COLUMN {column} {data_type}')
-                        print(f"Added column: {column}")
-                
-                flash('Database migration completed successfully!', 'success')
-                return redirect(url_for('blog'))
-                
+            # ⚠️ This works only with SQLite. Replace for Postgres if needed.
+            result = db.session.execute("PRAGMA table_info(blog_post)").fetchall()
+            existing_columns = [row[1] for row in result]
+            
+            columns_to_add = {
+                'read_time': 'VARCHAR(50)',
+                'slug': 'VARCHAR(200)',
+                'category': 'VARCHAR(100)',
+                'tags': 'VARCHAR(300)'
+            }
+            
+            for column, data_type in columns_to_add.items():
+                if column not in existing_columns:
+                    db.session.execute(f'ALTER TABLE blog_post ADD COLUMN {column} {data_type}')
+                    print(f"Added column: {column}")
+            
+            db.session.commit()
+            flash('Database migration completed successfully!', 'success')
+            return redirect(url_for('blog'))
         except Exception as e:
+            db.session.rollback()
             flash(f'Migration error: {str(e)}', 'error')
             return redirect(url_for('blog'))
 
-    # Error Handlers
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
@@ -205,6 +196,10 @@ def create_app():
 
     return app
 
+
+# Expose globally for Gunicorn
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
