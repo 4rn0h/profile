@@ -18,21 +18,21 @@ def seed_database():
                 description="RESTful inventory API with Flask & JWT.",
                 image_url="/static/img/flask_api.png",
                 project_url="https://inventory.example.com",
-                github_url="https://github.com/okothouko/flask-inventory-api"
+                github_url="https://github.com/4rn0h/flask-inventory-api"
             ),
             Project(
                 title="CI/CD Pipeline with Jenkins",
                 description="Automated Docker-based CI/CD pipeline using Jenkins.",
                 image_url="/static/img/devops_project.png",
                 project_url="https://cicd.example.com",
-                github_url="https://github.com/okothouko/jenkins-pipeline"
+                github_url="https://github.com/4rn0h/jenkins-pipeline"
             ),
             Project(
                 title="ETL Pipeline with BigQuery",
                 description="Python-based ETL pipeline for sales data analytics with GCP BigQuery.",
                 image_url="/static/img/data_etl.png",
                 project_url="https://etl.example.com",
-                github_url="https://github.com/okothouko/etl-bigquery"
+                github_url="https://github.com/4rn0h/etl-bigquery"
             )
         ]
 
