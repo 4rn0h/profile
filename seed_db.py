@@ -2,6 +2,17 @@
 from app import create_app
 from models import db, Project, BlogPost
 from datetime import datetime
+import os
+
+# helper to load markdown files from static/blog
+BASE_DIR = os.path.dirname(__file__)
+def load_md(filename):
+    path = os.path.join(BASE_DIR, 'static', 'blog', filename)
+    try:
+        with open(path, 'r') as f:
+            return f.read()
+    except Exception:
+        return ''
 
 def seed_database():
     app = create_app()
@@ -53,6 +64,15 @@ def seed_database():
                 date_posted=datetime(2025, 4, 18),
                 category="DevOps",
                 tags="devops,jenkins,docker"
+            )
+            ,
+            BlogPost(
+                title="ETL Pipeline with BigQuery",
+                slug="etl-pipeline-with-bigquery",
+                content=load_md('etl-pipeline.md'),
+                date_posted=datetime(2025, 3, 1),
+                category="Data Engineering",
+                tags="etl,bigquery,gcp"
             )
         ]
 
