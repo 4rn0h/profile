@@ -51,7 +51,11 @@
                     <!-- Post Content -->
                     <div class="post-content mb-4">
                         <div class="content-wrapper">
+                            {% if post.excerpt %}
+                            {{ post.excerpt|safe }}
+                            {% else %}
                             {{ post.content|safe }}
+                            {% endif %}
                         </div>
                     </div>
 

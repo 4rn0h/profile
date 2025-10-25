@@ -7,7 +7,9 @@ from services.content_loader import (
     get_featured_projects,
     get_all_projects,
     get_recent_blog_posts,
-    get_all_blog_posts
+    get_all_blog_posts,
+    get_blog_markdown_html,
+    html_to_excerpt,
 )
 import markdown
 from datetime import datetime
@@ -54,17 +56,39 @@ def create_app():
     def blog():
         try:
             posts = BlogPost.query.order_by(BlogPost.date_posted.desc()).all()
-            
+            # For each post, prefer content from markdown file if available.
             for post in posts:
+                # ensure model attributes exist / provide defaults
                 if not getattr(post, 'read_time', None):
-                    post.read_time = '5 min read'
+                    try:
+                        _ = post.read_time
+                    except Exception:
+                        post.read_time = '5 min read'
                 if not getattr(post, 'slug', None):
                     post.slug = f"post-{post.id}"
                 if not hasattr(post, 'category'):
                     post.category = None
                 if not hasattr(post, 'tags'):
                     post.tags = None
-                    
+
+                # load markdown file content if present and convert to HTML
+                md_html = get_blog_markdown_html(post.slug)
+                if md_html:
+                    # Use the HTML from the markdown file for preview/content
+                    post.content_html = md_html
+                    # generate a short excerpt for index view (30 words)
+                    post.excerpt = html_to_excerpt(md_html, words=30)
+                else:
+                    # fallback: make excerpt from DB content
+                    try:
+                        post.excerpt = html_to_excerpt(post.content, words=30)
+                    except Exception:
+                        post.excerpt = None
+
+                # ensure post.content remains the DB content for safety; individual view will replace it
+                # but keep content_html available if needed
+                if not hasattr(post, 'content_html'):
+                    post.content_html = None
             return render_template('blog.html', posts=posts)
         except Exception as e:
             print(f"Error loading blog posts: {e}")
@@ -81,6 +105,14 @@ def create_app():
                     abort(404)
             else:
                 post = BlogPost.query.filter_by(slug=slug).first_or_404()
+
+            # If markdown file exists for this slug, prefer file content (rendered HTML)
+            md_html = get_blog_markdown_html(post.slug if post.slug else (f"post-{post.id}"))
+            if md_html:
+                post.content = md_html
+            elif getattr(post, 'content_html', None):
+                # if we previously stored content_html on the object, use it
+                post.content = post.content_html
 
             form = CommentForm()
             if form.validate_on_submit():
