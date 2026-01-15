@@ -1,0 +1,133 @@
+<!-- templates/admin/messages.html -->
+{% extends "admin/base.html" %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Contact Messages</h1>
+            <p class="text-muted mb-0">Manage messages from contact form</p>
+        </div>
+        <div class="btn-group">
+            <a href="{{ url_for('admin.messages', status='unread') }}" 
+               class="btn btn-outline-danger {% if status == 'unread' %}active{% endif %}">
+                Unread ({{ stats.pending_messages if stats else 0 }})
+            </a>
+            <a href="{{ url_for('admin.messages', status='all') }}" 
+               class="btn btn-outline-primary {% if status == 'all' %}active{% endif %}">
+                All Messages
+            </a>
+        </div>
+    </div>
+    
+    <!-- Messages List -->
+    <div class="card">
+        <div class="card-body">
+            {% if messages.items %}
+            <div class="list-group">
+                {% for message in messages.items %}
+                <div class="list-group-item list-group-item-action border-0 bg-transparent {% if not message.is_read %}bg-opacity-10{% endif %}">
+                    <div class="d-flex w-100 justify-content-between align-items-start">
+                        <div class="flex-grow-1 me-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <h6 class="mb-0 me-3">{{ message.name }}</h6>
+                                <a href="mailto:{{ message.email }}" class="text-primary small">
+                                    <i class="fas fa-envelope me-1"></i>{{ message.email }}
+                                </a>
+                                {% if not message.is_read %}
+                                <span class="badge bg-danger ms-2">New</span>
+                                {% endif %}
+                            </div>
+                            <p class="mb-2">{{ message.message|truncate(200) }}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                {{ message.date_sent.strftime('%Y-%m-%d %H:%M') }}
+                            </small>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-success mark-read-btn {% if message.is_read %}disabled{% endif %}"
+                                    data-message-id="{{ message.id }}"
+                                    {% if message.is_read %}disabled{% endif %}>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-outline-danger delete-message-btn"
+                                    data-message-id="{{ message.id }}"
+                                    data-message-name="{{ message.name }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% if not loop.last %}
+                <hr class="my-2 opacity-25">
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if messages.pages > 1 %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if messages.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.messages', page=messages.prev_num, status=status) }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for page_num in messages.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                        {% if page_num %}
+                            {% if page_num == messages.page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page_num }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('admin.messages', page=page_num, status=status) }}">
+                                    {{ page_num }}
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if messages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('admin.messages', page=messages.next_num, status=status) }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                <h4 class="text-white mb-3">No Messages</h4>
+                <p class="text-muted">
+                    {% if status == 'unread' %}
+                    You don't have any unread messages.
+                    {% else %}
+                    No one has contacted you yet.
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add JavaScript for message marking and deletion
+</script>
+{% endblock %}

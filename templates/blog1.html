@@ -20,9 +20,9 @@
             <p class="lead text-gray-300">Sharing insights on backend development, cloud infrastructure, and data engineering</p>
         </div>
 
-        <!-- Blog Posts - CENTERED with proper width -->
+        <!-- Blog Posts - Single Column -->
         <div class="row justify-content-center">
-            <div class="col-lg-8"> <!-- Changed from col-lg-10 col-xl-8 to col-lg-8 -->
+            <div class="col-lg-10 col-xl-8">
                 {% for post in posts %}
                 <article class="blog-post mb-5 animate-fade-in" id="post-{{ post.id }}">
                     <!-- Post Header -->
@@ -48,10 +48,14 @@
                         </div>
                     </div>
 
-                    <!-- Post Content - EXCERPT ONLY -->
+                    <!-- Post Content -->
                     <div class="post-content mb-4">
                         <div class="content-wrapper">
-                            {{ post.content|striptags|truncate(300) }}
+                            {% if post.excerpt %}
+                            {{ post.excerpt|safe }}
+                            {% else %}
+                            {{ post.content|safe }}
+                            {% endif %}
                         </div>
                     </div>
 
@@ -181,16 +185,13 @@
         background-clip: text;
     }
 
-    /* Blog Post - Better centering */
+    /* Blog Post */
     .blog-post {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2rem; /* Reduced padding */
+        padding: 2.5rem;
         transition: all 0.3s ease;
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .blog-post:hover {
@@ -202,8 +203,8 @@
 
     /* Post Header */
     .post-title {
-        font-size: 1.5rem; /* Slightly smaller */
-        line-height: 1.4;
+        font-size: 1.75rem;
+        line-height: 1.3;
     }
 
     .post-title a {
@@ -215,14 +216,14 @@
     }
 
     .post-meta {
-        font-size: 0.85rem; /* Smaller meta text */
+        font-size: 0.9rem;
     }
 
     /* Post Content */
     .content-wrapper {
         color: #d1d5db;
         line-height: 1.7;
-        font-size: 1rem; /* Standard font size */
+        font-size: 1.05rem;
     }
 
     .content-wrapper h1,
@@ -232,20 +233,20 @@
     .content-wrapper h5,
     .content-wrapper h6 {
         color: white;
-        margin-top: 1.5rem;
+        margin-top: 2rem;
         margin-bottom: 1rem;
     }
 
     .content-wrapper h2 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
 
     .content-wrapper h3 {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .content-wrapper p {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
     }
 
     .content-wrapper code {
@@ -254,6 +255,42 @@
         padding: 0.2rem 0.4rem;
         border-radius: 0.25rem;
         font-size: 0.9em;
+    }
+
+    .content-wrapper pre {
+        background: #1f2937;
+        border: 1px solid #374151;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 2rem 0;
+    }
+
+    .content-wrapper pre code {
+        background: none;
+        color: #e5e7eb;
+        padding: 0;
+    }
+
+    .content-wrapper blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        color: #9ca3af;
+        font-style: italic;
+        background: rgba(59, 130, 246, 0.05);
+        padding: 1rem 1.5rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .content-wrapper ul,
+    .content-wrapper ol {
+        margin: 1.5rem 0;
+        padding-left: 2rem;
+    }
+
+    .content-wrapper li {
+        margin-bottom: 0.5rem;
     }
 
     /* Post Tags */
@@ -266,9 +303,9 @@
     .post-tag {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        padding: 0.25rem 0.6rem;
+        padding: 0.3rem 0.7rem;
         border-radius: 1rem;
-        font-size: 0.75rem; /* Smaller tags */
+        font-size: 0.8rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
@@ -285,8 +322,6 @@
         font-weight: 500;
         transition: all 0.3s ease;
         border-color: rgba(255, 255, 255, 0.3);
-        padding: 0.375rem 1rem;
-        font-size: 0.875rem;
     }
 
     .btn-outline-light:hover {
@@ -307,25 +342,23 @@
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2rem;
-        max-width: 600px;
-        margin: 0 auto;
+        padding: 3rem 2rem;
     }
 
     .topics-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
         margin-top: 1rem;
     }
 
     .topic-tag {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        padding: 0.4rem 0.8rem;
+        padding: 0.5rem 1rem;
         border-radius: 1rem;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
@@ -364,19 +397,19 @@
     /* Responsive Design */
     @media (max-width: 768px) {
         .blog-post {
-            padding: 1.5rem;
+            padding: 2rem;
         }
         
         .post-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
         }
         
         .display-4 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
         }
         
         .content-wrapper {
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
         
         .post-footer {
@@ -389,24 +422,19 @@
             width: 100%;
             justify-content: center;
         }
-        
-        .col-lg-8 {
-            padding-left: 15px;
-            padding-right: 15px;
-        }
     }
 
     @media (max-width: 576px) {
         .display-4 {
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
         
         .blog-post {
-            padding: 1.25rem;
+            padding: 1.5rem;
         }
         
         .post-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
         
         .post-meta {
@@ -416,11 +444,11 @@
         }
         
         .empty-state {
-            padding: 1.5rem 1rem;
+            padding: 2rem 1rem;
         }
         
-        .post-content .content-wrapper {
-            font-size: 0.9rem;
+        .content-wrapper pre {
+            padding: 1rem;
         }
     }
 </style>

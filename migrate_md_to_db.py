@@ -5,19 +5,16 @@ import os
 from datetime import datetime
 import markdown
 
-def estimate_read_time(content):
-    """Estimate read time based on word count"""
-    words_per_minute = 200
-    word_count = len(content.split())
-    read_time = max(1, round(word_count / words_per_minute))
-    return f"{read_time} min read"
-
 def get_category_from_filename(filename):
     """Extract category from filename"""
     category_map = {
         'etl-pipeline': 'Data Engineering',
         'flask-api': 'Backend Development', 
-        'jenkins-devops': 'DevOps'
+        'jenkins-devops': 'DevOps',
+        'jenkins_docker_cicd': 'DevOps',
+        'flask_jwt_blog': 'Backend Development',
+        'django_payment_api': 'Backend Development',
+        'aws_ecs_fargate': 'Cloud & DevOps'
     }
     
     base_name = filename.replace('.md', '')
@@ -28,7 +25,11 @@ def get_tags_from_filename(filename):
     tags_map = {
         'etl-pipeline': 'Python, ETL, Data Pipelines, Apache Airflow',
         'flask-api': 'Python, Flask, REST API, Backend',
-        'jenkins-devops': 'Jenkins, CI/CD, DevOps, Automation'
+        'jenkins-devops': 'Jenkins, CI/CD, DevOps, Automation',
+        'jenkins_docker_cicd': 'Jenkins, Docker, CI/CD, DevOps, Containerization',
+        'flask_jwt_blog': 'Python, Flask, JWT, Authentication, Security, Backend',
+        'django_payment_api': 'Python, Django, Payment Processing, API, Stripe, Backend',
+        'aws_ecs_fargate': 'AWS, ECS, Fargate, Containerization, Cloud, DevOps'
     }
     
     base_name = filename.replace('.md', '')
@@ -75,7 +76,6 @@ with app.app_context():
                         slug=slug, 
                         content=html_content, 
                         date_posted=datetime.utcnow(),
-                        read_time=estimate_read_time(content),
                         category=get_category_from_filename(filename),
                         tags=get_tags_from_filename(filename)
                     )

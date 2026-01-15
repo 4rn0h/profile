@@ -1,17 +1,15 @@
+# services/content_loader.py - FIXED VERSION
 import os
 import markdown
-from models import Project, BlogPost
-
-# Base directory for the application
-BASE_DIR = os.path.dirname(os.path.dirname(__file__)) if os.path.dirname(__file__) else os.getcwd()
+# REMOVE: from app import create_app - This is causing the circular import
 
 def get_blog_markdown_html(slug):
     """Load a markdown file from static/blog/<slug>.md and return HTML, or None if not found."""
-    md_path = os.path.join(BASE_DIR, 'static', 'blog', f"{slug}.md")
+    md_path = os.path.join('static', 'blog', f"{slug}.md")
     if not os.path.exists(md_path):
         # Try to find the best matching markdown file by token overlap
         try:
-            files = [f for f in os.listdir(os.path.join(BASE_DIR, 'static', 'blog')) if f.endswith('.md')]
+            files = [f for f in os.listdir(os.path.join('static', 'blog')) if f.endswith('.md')]
         except Exception:
             return None
 
@@ -31,7 +29,7 @@ def get_blog_markdown_html(slug):
                 best_file = f
 
         if best_score > 0 and best_file:
-            md_path = os.path.join(BASE_DIR, 'static', 'blog', best_file)
+            md_path = os.path.join('static', 'blog', best_file)
         else:
             return None
     try:
@@ -68,14 +66,5 @@ def html_to_excerpt(html_text, words=30):
     # wrap in paragraph for safe rendering in templates
     return f"<p>{excerpt_text}</p>"
 
-def get_featured_projects():
-    return Project.query.order_by(Project.id.desc()).limit(3).all()
-
-def get_all_projects():
-    return Project.query.order_by(Project.id.desc()).all()
-
-def get_recent_blog_posts():
-    return BlogPost.query.order_by(BlogPost.date_posted.desc()).limit(3).all()
-
-def get_all_blog_posts():
-    return BlogPost.query.order_by(BlogPost.date_posted.desc()).all()
+# REMOVE get_featured_projects, get_all_projects, get_recent_blog_posts, get_all_blog_posts
+# These functions will be defined in app.py instead

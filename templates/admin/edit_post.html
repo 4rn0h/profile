@@ -1,0 +1,379 @@
+<!-- templates/admin/edit_post.html -->
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Edit' if action == 'edit' else 'New' }} Post{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<style>
+    .editor-container {
+        min-height: 400px;
+    }
+    
+    .EasyMDEContainer {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .EasyMDEContainer .CodeMirror {
+        background: #2a2a2a;
+        color: #f8f9fa;
+        border: 1px solid #444;
+    }
+    
+    .editor-toolbar {
+        background: #1e1e1e;
+        border: 1px solid #444;
+        border-bottom: none;
+    }
+    
+    .editor-toolbar button {
+        color: #aaa;
+    }
+    
+    .editor-toolbar button:hover {
+        background: #333;
+        color: #fff;
+    }
+    
+    .editor-preview {
+        background: #1e1e1e;
+    }
+    
+    .form-section {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">{{ 'Edit' if action == 'edit' else 'New' }} Blog Post</h1>
+            <p class="text-muted mb-0">
+                {% if action == 'edit' %}
+                Editing: {{ post.title }}
+                {% else %}
+                Create a new blog post
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('admin.posts') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Posts
+            </a>
+        </div>
+    </div>
+    
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        
+        <div class="row">
+            <!-- Main Content Column -->
+            <div class="col-lg-8">
+                <!-- Title & Slug -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Basic Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control", placeholder="Enter post title") }}
+                            {% if form.title.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.title.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.slug.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.slug(class="form-control", placeholder="auto-generated-from-title") }}
+                                <button type="button" class="btn btn-outline-secondary" id="generateSlugBtn">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">URL-friendly version of the title</small>
+                            {% if form.slug.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.slug.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Editor -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Content</h5>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="markdownHelpBtn">
+                                <i class="fas fa-question-circle me-1"></i>Markdown Help
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control", rows="20", placeholder="Write your content here...") }}
+                        {% if form.content.errors %}
+                        <div class="text-danger small">
+                            {% for error in form.content.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Excerpt -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Excerpt</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form.excerpt.label(class="form-label") }}
+                            {{ form.excerpt(class="form-control", rows="4", placeholder="Brief summary of the post (optional)") }}
+                            <small class="text-muted">If empty, first 150 characters of content will be used</small>
+                            {% if form.excerpt.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.excerpt.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar Column -->
+            <div class="col-lg-4">
+                <!-- Publish Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Publish Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                {{ form.is_published(class="form-check-input") }}
+                                {{ form.is_published.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                {{ form.is_featured(class="form-check-input") }}
+                                {{ form.is_featured.label(class="form-check-label") }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary") }}
+                            {% if action == 'edit' %}
+                            <a href="{{ url_for('admin.preview_post', post_id=post.id) }}" 
+                               class="btn btn-outline-success" 
+                               target="_blank">
+                                <i class="fas fa-eye me-2"></i>Preview
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Categories & Tags -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Categories & Tags</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form.category.label(class="form-label") }}
+                            {{ form.category(class="form-control", placeholder="e.g., Backend Development") }}
+                            <small class="text-muted">Single category for this post</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.tags.label(class="form-label") }}
+                            {{ form.tags(class="form-control", placeholder="e.g., Python, Flask, API") }}
+                            <small class="text-muted">Comma-separated tags</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cover Image -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Cover Image</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {% if action == 'edit' and post.cover_image %}
+                            <div class="mb-3">
+                                <img src="{{ url_for('static', filename='uploads/' + post.cover_image) }}" 
+                                     alt="Current cover" 
+                                     class="img-fluid rounded mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remove_cover_image" id="removeCoverImage">
+                                    <label class="form-check-label" for="removeCoverImage">
+                                        Remove current image
+                                    </label>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {{ form.cover_image.label(class="form-label") }}
+                            {{ form.cover_image(class="form-control") }}
+                            <small class="text-muted">Recommended size: 1200×630px</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEO Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">SEO Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            {{ form.meta_description.label(class="form-label") }}
+                            {{ form.meta_description(class="form-control", rows="3", placeholder="Description for search engines") }}
+                            <small class="text-muted">Keep it under 160 characters</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Markdown Help Modal -->
+<div class="modal fade" id="markdownHelpModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Markdown Cheat Sheet</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Text Formatting</h6>
+                        <table class="table table-sm">
+                            <tr><td>**bold**</td><td><strong>bold</strong></td></tr>
+                            <tr><td>*italic*</td><td><em>italic</em></td></tr>
+                            <tr><td>~~strikethrough~~</td><td><s>strikethrough</s></td></tr>
+                            <tr><td>`code`</td><td><code>code</code></td></tr>
+                        </table>
+                        
+                        <h6>Lists</h6>
+                        <pre class="bg-dark p-2 rounded">
+- Item 1
+- Item 2
+  - Subitem
+  - Subitem</pre>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Headers</h6>
+                        <pre class="bg-dark p-2 rounded">
+# Header 1
+## Header 2
+### Header 3</pre>
+                        
+                        <h6>Links & Images</h6>
+                        <pre class="bg-dark p-2 rounded">
+[Link text](https://example.com)
+![Alt text](image.jpg)</pre>
+                        
+                        <h6>Code Blocks</h6>
+                        <pre class="bg-dark p-2 rounded">
+```python
+def hello():
+    print("Hello!")
+```</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Markdown Editor
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('content'),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: 'blog-post-{{ post.id if action == "edit" else "new" }}',
+                delay: 1000,
+            },
+            toolbar: [
+                'bold', 'italic', 'heading', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', 'image', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                'guide'
+            ],
+            placeholder: 'Write your content here...',
+            status: ['autosave', 'lines', 'words', 'cursor'],
+        });
+        
+        // Generate slug from title
+        document.getElementById('generateSlugBtn').addEventListener('click', function() {
+            const title = document.getElementById('title').value;
+            if (title) {
+                // Simple slug generation (you might want to improve this)
+                let slug = title.toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/--+/g, '-')
+                    .trim();
+                document.getElementById('slug').value = slug;
+            }
+        });
+        
+        // Auto-generate slug when title changes (with delay)
+        let slugTimeout;
+        document.getElementById('title').addEventListener('input', function() {
+            const slugField = document.getElementById('slug');
+            if (!slugField.value) {
+                clearTimeout(slugTimeout);
+                slugTimeout = setTimeout(() => {
+                    document.getElementById('generateSlugBtn').click();
+                }, 500);
+            }
+        });
+        
+        // Markdown help modal
+        document.getElementById('markdownHelpBtn').addEventListener('click', function() {
+            const modal = new bootstrap.Modal(document.getElementById('markdownHelpModal'));
+            modal.show();
+        });
+        
+        // Image upload for editor
+        easyMDE.codemirror.on('change', function() {
+            // This would be where you handle image uploads
+            // You might want to integrate with the upload-image endpoint
+        });
+    });
+</script>
+{% endblock %}
