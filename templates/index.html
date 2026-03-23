@@ -15,15 +15,15 @@
     </div>
 
     <div class="container position-relative text-center" style="z-index: 2;">
-        <!-- Profile Image - Moved Lower -->
+        <!-- Profile Image -->
         <div class="profile-section mb-3 animate-fade-in">
-            <div class="profile-image-container">
+            <div class="profile-image-container d-flex justify-content-center">
                 <img src="{{ url_for('static', filename='img/profile.png') }}" 
                      alt="Okoth Arnold - Senior Developer" 
                      class="profile-image rounded-circle img-fluid shadow-lg">
             </div>
             <!-- Available for Hire Badge -->
-            <div class="availability-badge mt-2">
+            <div class="availability-badge mt-2 d-flex justify-content-center">
                 <span class="badge-available">
                     <i class="fas fa-circle me-2"></i>
                     Available for Hire
@@ -31,18 +31,18 @@
             </div>
         </div>
 
-        <!-- Typing Animation - Further reduced gap -->
+        <!-- Typing Animation -->
         <div class="typing-section mb-2 animate-fade-in">
-            <div class="typing-container">
+            <div class="typing-container d-flex justify-content-center">
                 <h1 class="hero-title display-4 fw-bold mb-1 text-gradient-primary">
                     <span id="typed"></span>
                 </h1>
             </div>
         </div>
 
-        <!-- Social Icons - Further reduced gap -->
+        <!-- Social Icons -->
         <div class="social-section mb-3 animate-fade-in">
-            <div class="social-icons-clean">
+            <div class="social-icons-clean d-flex justify-content-center">
                 <a href="https://github.com/4rn0h" class="social-icon-clean" title="GitHub" target="_blank">
                     <i class="fab fa-github"></i>
                 </a>
@@ -63,17 +63,17 @@
 
         <!-- Description -->
         <div class="description-section animate-fade-in">
-  <p class="hero-description lead text-gray-300 mb-2 mx-auto" style="max-width: 750px; font-size: 1rem;">
-    I <strong>tame distributed systems</strong>, <strong>automate infrastructure with code</strong>, and <strong>build RESTful APIs</strong> that serve production traffic reliably. <strong>Linux</strong> is home, <strong>container orchestration</strong> is second nature, and <strong>'works on my machine'</strong> isn't in my vocabulary.
-  </p>
-</div>
-            <!-- CTA Buttons -->
-            <div class="hero-cta d-flex justify-content-center flex-wrap gap-2">
-                <a href="{{ url_for('projects') }}" class="btn btn-primary btn-lg px-4 py-2">
-                    <i class="fas fa-rocket me-2"></i>
-                    View Projects
-                </a>
-            </div>
+            <p class="hero-description lead text-gray-300 mx-auto" style="max-width: 750px; font-size: 1rem;">
+                I <strong>tame distributed systems</strong>, <strong>automate infrastructure with code</strong>, and <strong>build RESTful APIs</strong> that serve production traffic reliably. <strong>Linux</strong> is home, <strong>container orchestration</strong> is second nature, and <strong>'works on my machine'</strong> isn't in my vocabulary.
+            </p>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="hero-cta d-flex justify-content-center flex-wrap gap-2">
+            <a href="{{ url_for('projects') }}" class="btn btn-primary btn-lg px-4 py-2">
+                <i class="fas fa-rocket me-2"></i>
+                View Projects
+            </a>
         </div>
     </div>
 </section>
@@ -84,7 +84,7 @@
     .hero-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
-        padding-top: 3rem; /* Increased top padding to move content lower */
+        padding: 0;
     }
 
     /* Animated Background */
@@ -165,7 +165,7 @@
 
     /* Typing Animation */
     .typing-container {
-        min-height: 3rem; /* Reduced height */
+        min-height: 3rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -241,7 +241,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1.5rem; /* Reduced gap */
+        gap: 1.5rem;
         flex-wrap: wrap;
     }
 
@@ -249,10 +249,10 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 45px; /* Slightly smaller */
-        height: 45px; /* Slightly smaller */
+        width: 45px;
+        height: 45px;
         color: #e2e8f0;
-        font-size: 1.4rem; /* Slightly smaller */
+        font-size: 1.4rem;
         text-decoration: none;
         transition: all 0.2s ease;
     }
@@ -301,7 +301,7 @@
         }
         
         .social-icons-clean {
-            gap: 1.25rem; /* Further reduced on mobile */
+            gap: 1.25rem;
         }
         
         .social-icon-clean {
@@ -324,10 +324,6 @@
             font-size: 0.8rem;
             padding: 0.4rem 0.8rem;
         }
-        
-        .hero-section {
-            padding-top: 2rem; /* Adjusted for mobile */
-        }
     }
 
     @media (max-width: 576px) {
@@ -336,7 +332,7 @@
         }
         
         .social-icons-clean {
-            gap: 1rem; /* Further reduced on small mobile */
+            gap: 1rem;
         }
         
         .social-icon-clean {
@@ -371,10 +367,6 @@
         .badge-available {
             font-size: 0.75rem;
             padding: 0.35rem 0.7rem;
-        }
-        
-        .hero-section {
-            padding-top: 1.5rem; /* Further adjusted for small mobile */
         }
     }
 
@@ -446,8 +438,7 @@
         // Typing Animation
         const typedTextSpan = document.getElementById('typed');
         const textArray = [
-            'Backend Developer',
-            //'Python Specialist', 
+            'Backend Developer', 
             'Data Engineer',
             'Linux SysAdmin'
         ];

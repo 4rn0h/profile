@@ -14,8 +14,37 @@
 
     <div class="container position-relative py-5" style="z-index: 2;">
         <div class="row justify-content-center">
-            <!-- MAIN CONTENT - Narrower for better readability -->
-            <div class="col-lg-8 col-xl-7">
+            <!-- SIDEBAR - Left side on larger screens -->
+            <div class="col-lg-3 col-xl-3 d-none d-lg-block">
+                <div class="sticky-top" style="top: 20px;">
+                    <!-- Table of Contents -->
+                    <div class="sidebar-widget mb-4 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                        <h5 class="text-white mb-3">
+                            <i class="fas fa-list me-2"></i>Table of Contents
+                        </h5>
+                        <div id="toc" class="toc-content text-gray-300">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Posts -->
+                    <div class="sidebar-widget p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                        <h5 class="text-white mb-3">
+                            <i class="fas fa-history me-2"></i>Recent Posts
+                        </h5>
+                        <div class="recent-posts">
+                            <!-- Will be populated by JavaScript or server-side -->
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin text-gray-300"></i>
+                                <p class="text-gray-300 small mt-2">Loading recent posts...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MAIN CONTENT - Center column -->
+            <div class="col-lg-7 col-xl-7">
                 <!-- Blog Post Header -->
                 <div class="blog-post-header mb-5 animate-fade-in">
                     <!-- Breadcrumb -->
@@ -139,33 +168,9 @@
                 </div>
             </div>
             
-            <!-- SIDEBAR - Only on larger screens -->
-            <div class="col-lg-4 col-xl-3 d-none d-lg-block">
-                <div class="sticky-top" style="top: 20px;">
-                    <!-- Table of Contents -->
-                    <div class="sidebar-widget mb-4 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                        <h5 class="text-white mb-3">
-                            <i class="fas fa-list me-2"></i>Table of Contents
-                        </h5>
-                        <div id="toc" class="toc-content text-gray-300">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Posts -->
-                    <div class="sidebar-widget p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                        <h5 class="text-white mb-3">
-                            <i class="fas fa-history me-2"></i>Recent Posts
-                        </h5>
-                        <div class="recent-posts">
-                            <!-- Will be populated by JavaScript or server-side -->
-                            <div class="text-center">
-                                <i class="fas fa-spinner fa-spin text-gray-300"></i>
-                                <p class="text-gray-300 small mt-2">Loading recent posts...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Right side spacer for balance (optional) -->
+            <div class="col-lg-2 col-xl-2 d-none d-lg-block">
+                <!-- Empty spacer for visual balance -->
             </div>
         </div>
     </div>
@@ -214,6 +219,11 @@
         animation-delay: 4s;
     }
 
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-12px) scale(1.02); }
+    }
+
     /* Text Gradients */
     .text-gradient-primary {
         background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
@@ -243,6 +253,7 @@
         margin-top: 2rem;
         margin-bottom: 1rem;
         color: #d1d5db;
+        scroll-margin-top: 80px;
     }
 
     .blog-post-content .content-wrapper h3 {
@@ -250,6 +261,13 @@
         margin-top: 1.5rem;
         margin-bottom: 0.75rem;
         color: #d1d5db;
+        scroll-margin-top: 80px;
+    }
+
+    .blog-post-content .content-wrapper h4, 
+    .blog-post-content .content-wrapper h5, 
+    .blog-post-content .content-wrapper h6 {
+        scroll-margin-top: 80px;
     }
 
     .blog-post-content .content-wrapper p {
@@ -376,11 +394,14 @@
     /* Table of Contents */
     .toc-content {
         font-size: 0.9rem;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
     }
 
     .toc-content ul {
         padding-left: 1rem;
         margin: 0;
+        list-style: none;
     }
 
     .toc-content li {
@@ -394,10 +415,41 @@
         transition: color 0.2s ease;
         display: block;
         padding: 0.25rem 0;
+        font-size: 0.85rem;
     }
 
     .toc-content a:hover {
         color: #3b82f6;
+        padding-left: 4px;
+    }
+
+    .toc-content a.active {
+        color: #3b82f6;
+        font-weight: 500;
+        border-left: 2px solid #3b82f6;
+        padding-left: 8px;
+    }
+
+    /* Sidebar Widget */
+    .sidebar-widget {
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-widget:hover {
+        border-color: rgba(59, 130, 246, 0.3) !important;
+    }
+
+    /* Recent Posts */
+    .recent-post-item a {
+        transition: all 0.2s ease;
+        font-size: 0.85rem;
+    }
+
+    .recent-post-item a:hover {
+        background: rgba(59, 130, 246, 0.1);
+        padding-left: 12px;
+        color: #3b82f6 !important;
     }
 
     /* Buttons */
@@ -464,6 +516,13 @@
         }
     }
 
+    /* Sticky Sidebar */
+    .sticky-top {
+        position: sticky;
+        top: 20px;
+        z-index: 10;
+    }
+
     /* Utility Classes */
     .text-gray-300 {
         color: #d1d5db !important;
@@ -478,13 +537,31 @@
     }
 
     /* Responsive Design */
+    @media (max-width: 992px) {
+        .blog-post-content .content-wrapper {
+            font-size: 1rem;
+        }
+        
+        .blog-post-content .content-wrapper h1 {
+            font-size: 1.75rem;
+        }
+        
+        .blog-post-content .content-wrapper h2 {
+            font-size: 1.4rem;
+        }
+        
+        .blog-post-content .content-wrapper h3 {
+            font-size: 1.2rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .display-5 {
             font-size: 1.75rem;
         }
         
         .blog-post-content .content-wrapper {
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         
         .blog-post-content .content-wrapper h1 {
@@ -535,11 +612,26 @@
             width: 100%;
             justify-content: center;
         }
+        
+        .sidebar-widget {
+            margin-bottom: 1rem;
+        }
+    }
+
+    /* Mobile Landscape */
+    @media (max-height: 600px) and (orientation: landscape) {
+        .sticky-top {
+            position: static;
+        }
+        
+        .sidebar-widget {
+            margin-bottom: 1rem;
+        }
     }
 </style>
 
 <script>
-    // Table of Contents Generator
+    // Table of Contents Generator with Active Section Highlighting
     document.addEventListener('DOMContentLoaded', function() {
         // Generate Table of Contents
         const contentWrapper = document.querySelector('.content-wrapper');
@@ -548,7 +640,7 @@
         if (contentWrapper && tocContainer) {
             const headings = contentWrapper.querySelectorAll('h1, h2, h3');
             if (headings.length > 0) {
-                let tocHTML = '<ul>';
+                let tocHTML = '<ul class="toc-list">';
                 
                 headings.forEach((heading, index) => {
                     // Add ID to heading if it doesn't have one
@@ -556,13 +648,13 @@
                         heading.id = 'section-' + index;
                     }
                     
-                    const level = heading.tagName.charAt(1);
-                    const indent = (level - 1) * 10;
+                    const level = parseInt(heading.tagName.charAt(1));
+                    const indent = (level - 1) * 12;
                     const text = heading.textContent;
                     
                     tocHTML += `
-                        <li style="margin-left: ${indent}px">
-                            <a href="#${heading.id}" onclick="scrollToSection(event, '${heading.id}')">
+                        <li style="margin-left: ${indent}px" data-section-id="${heading.id}">
+                            <a href="#${heading.id}" class="toc-link" onclick="scrollToSection(event, '${heading.id}')">
                                 ${text}
                             </a>
                         </li>
@@ -571,23 +663,55 @@
                 
                 tocHTML += '</ul>';
                 tocContainer.innerHTML = tocHTML;
+                
+                // Add scroll spy to highlight active section
+                const tocLinks = document.querySelectorAll('.toc-link');
+                const sections = Array.from(headings);
+                
+                function updateActiveSection() {
+                    let currentSection = '';
+                    const scrollPosition = window.scrollY + 100;
+                    
+                    for (let i = 0; i < sections.length; i++) {
+                        const section = sections[i];
+                        const sectionTop = section.offsetTop;
+                        const sectionBottom = sectionTop + section.offsetHeight;
+                        
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                            currentSection = section.id;
+                            break;
+                        }
+                    }
+                    
+                    // Update active class
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        const href = link.getAttribute('href').substring(1);
+                        if (href === currentSection) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+                
+                window.addEventListener('scroll', updateActiveSection);
+                updateActiveSection();
             } else {
                 tocContainer.innerHTML = '<p class="text-gray-300 small">No headings found in this post.</p>';
             }
         }
 
-        // Load recent posts via AJAX (optional)
+        // Load recent posts via AJAX
         const recentPostsContainer = document.querySelector('.recent-posts');
         if (recentPostsContainer) {
             fetch('/api/recent-posts?exclude={{ post.id }}&limit=5')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.length > 0) {
+                    if (data && data.length > 0) {
                         let postsHTML = '';
                         data.forEach(post => {
                             postsHTML += `
                                 <div class="recent-post-item mb-2">
-                                    <a href="/blog/${post.slug}" class="text-gray-300 d-block py-2 px-2 rounded text-decoration-none">
+                                    <a href="/blog/${post.slug}" class="text-gray-300 d-block py-2 px-2 rounded text-decoration-none transition">
                                         <i class="fas fa-angle-right me-2 text-primary"></i>
                                         ${post.title}
                                     </a>
@@ -596,11 +720,12 @@
                         });
                         recentPostsContainer.innerHTML = postsHTML;
                     } else {
-                        recentPostsContainer.innerHTML = '<p class="text-gray-300 small">No other posts yet.</p>';
+                        recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">No other posts yet.</p>';
                     }
                 })
                 .catch(error => {
-                    recentPostsContainer.innerHTML = '<p class="text-gray-300 small">Could not load recent posts.</p>';
+                    console.error('Error loading recent posts:', error);
+                    recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">Could not load recent posts.</p>';
                 });
         }
     });
@@ -610,7 +735,14 @@
         event.preventDefault();
         const section = document.getElementById(sectionId);
         if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
+            const offset = 80;
+            const elementPosition = section.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
         }
     }
 
@@ -618,12 +750,12 @@
     function shareOnTwitter() {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent("Check out this blog post: " + document.title);
-        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
     }
 
     function shareOnLinkedIn() {
         const url = encodeURIComponent(window.location.href);
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
     }
 
     // Form submission feedback

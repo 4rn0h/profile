@@ -14,23 +14,23 @@
     </div>
 
     <div class="container position-relative py-5" style="z-index: 2;">
-        <!-- Header Section -->
+        <!-- Header Section - CENTERED -->
         <div class="text-center mb-5 animate-fade-in">
             <h1 class="display-4 fw-bold mb-3 text-gradient-primary">My Blog</h1>
-            <p class="lead text-gray-300">Sharing insights on backend development, cloud infrastructure, and data engineering</p>
+            <p class="lead text-gray-300 mx-auto" style="max-width: 700px;">Sharing insights on backend development, cloud infrastructure, and data engineering</p>
         </div>
 
-        <!-- Blog Posts - CENTERED with proper width -->
+        <!-- Blog Posts - CENTERED -->
         <div class="row justify-content-center">
-            <div class="col-lg-8"> <!-- Changed from col-lg-10 col-xl-8 to col-lg-8 -->
+            <div class="col-lg-8 col-xl-7">
                 {% for post in posts %}
                 <article class="blog-post mb-5 animate-fade-in" id="post-{{ post.id }}">
                     <!-- Post Header -->
-                    <div class="post-header mb-4">
+                    <div class="post-header mb-4 text-center">
                         <h2 class="post-title fw-bold mb-3">
                             <a href="{{ url_for('blog_post', slug=post.slug) }}" class="text-white text-decoration-none">{{ post.title }}</a>
                         </h2>
-                        <div class="post-meta d-flex align-items-center flex-wrap gap-3 text-gray-300">
+                        <div class="post-meta d-flex align-items-center justify-content-center flex-wrap gap-3 text-gray-300">
                             <span class="post-date">
                                 <i class="fas fa-calendar me-2"></i>
                                 {{ post.date_posted.strftime('%B %d, %Y') }}
@@ -48,18 +48,22 @@
                         </div>
                     </div>
 
-                    <!-- Post Content - EXCERPT ONLY -->
+                    <!-- Post Content -->
                     <div class="post-content mb-4">
-                        <div class="content-wrapper">
-                            {{ post.content|striptags|truncate(300) }}
+                        <div class="content-wrapper text-center">
+                            {% if post.excerpt %}
+                                {{ post.excerpt | safe }}
+                            {% else %}
+                                {{ post.content|striptags|truncate(300) }}
+                            {% endif %}
                         </div>
                     </div>
 
                     <!-- Post Footer -->
-                    <div class="post-footer d-flex justify-content-between align-items-center">
+                    <div class="post-footer d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div class="post-tags">
                             {% if post.tags %}
-                            <div class="tags-container">
+                            <div class="tags-container justify-content-center justify-content-md-start">
                                 {% for tag in post.tags.split(',') %}
                                 <span class="post-tag">{{ tag.strip() }}</span>
                                 {% endfor %}
@@ -75,7 +79,7 @@
                     <hr class="post-separator mt-4">
                 </article>
                 {% else %}
-                <!-- Empty State -->
+                <!-- Empty State - CENTERED -->
                 <div class="empty-state text-center animate-fade-in">
                     <div class="empty-icon mb-4">
                         <i class="fas fa-blog fa-4x text-gray-500"></i>
@@ -181,16 +185,14 @@
         background-clip: text;
     }
 
-    /* Blog Post - Better centering */
+    /* Blog Post */
     .blog-post {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2rem; /* Reduced padding */
+        padding: 2rem;
         transition: all 0.3s ease;
         max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .blog-post:hover {
@@ -202,7 +204,7 @@
 
     /* Post Header */
     .post-title {
-        font-size: 1.5rem; /* Slightly smaller */
+        font-size: 1.5rem;
         line-height: 1.4;
     }
 
@@ -215,14 +217,22 @@
     }
 
     .post-meta {
-        font-size: 0.85rem; /* Smaller meta text */
+        font-size: 0.85rem;
     }
 
     /* Post Content */
     .content-wrapper {
         color: #d1d5db;
         line-height: 1.7;
-        font-size: 1rem; /* Standard font size */
+        font-size: 1rem;
+    }
+
+    .content-wrapper p {
+        margin-bottom: 1.2rem;
+    }
+
+    .content-wrapper p:last-child {
+        margin-bottom: 0;
     }
 
     .content-wrapper h1,
@@ -234,6 +244,7 @@
         color: white;
         margin-top: 1.5rem;
         margin-bottom: 1rem;
+        text-align: center;
     }
 
     .content-wrapper h2 {
@@ -242,10 +253,6 @@
 
     .content-wrapper h3 {
         font-size: 1.2rem;
-    }
-
-    .content-wrapper p {
-        margin-bottom: 1.2rem;
     }
 
     .content-wrapper code {
@@ -268,10 +275,11 @@
         color: #3b82f6;
         padding: 0.25rem 0.6rem;
         border-radius: 1rem;
-        font-size: 0.75rem; /* Smaller tags */
+        font-size: 0.75rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
     .post-tag:hover {
@@ -307,25 +315,23 @@
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2rem;
-        max-width: 600px;
-        margin: 0 auto;
+        padding: 3rem 2rem;
     }
 
     .topics-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
         margin-top: 1rem;
     }
 
     .topic-tag {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        padding: 0.4rem 0.8rem;
+        padding: 0.5rem 1rem;
         border-radius: 1rem;
-        font-size: 0.8rem;
+        font-size: 0.875rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
@@ -362,6 +368,16 @@
     }
 
     /* Responsive Design */
+    @media (max-width: 992px) {
+        .blog-post {
+            padding: 1.75rem;
+        }
+        
+        .post-title {
+            font-size: 1.4rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .blog-post {
             padding: 1.5rem;
@@ -381,7 +397,8 @@
         
         .post-footer {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center !important;
+            text-align: center;
             gap: 1rem;
         }
         
@@ -390,9 +407,17 @@
             justify-content: center;
         }
         
+        .tags-container {
+            justify-content: center;
+        }
+        
         .col-lg-8 {
             padding-left: 15px;
             padding-right: 15px;
+        }
+        
+        .empty-state {
+            padding: 2rem 1.5rem;
         }
     }
 
@@ -411,7 +436,7 @@
         
         .post-meta {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             gap: 0.5rem;
         }
         
@@ -419,8 +444,17 @@
             padding: 1.5rem 1rem;
         }
         
-        .post-content .content-wrapper {
+        .content-wrapper {
             font-size: 0.9rem;
+        }
+        
+        .topic-tag {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .topics-grid {
+            gap: 0.5rem;
         }
     }
 </style>

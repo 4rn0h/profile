@@ -4,6 +4,7 @@ __pycache__/
 instance/
 .env
 .env.*
+venv
 *.pyc
 *.pyo
 
@@ -67,3 +68,16 @@ bootstrap/dist/
 
 .marscode
 .cursor
+
+# Extras
+appO.py
+blog1.html
+blog_post1.html
+add_missing_columns.py
+check_admin.py
+create_admin.py
+debug_admin.py
+test_admin.py
+test_blog.py
+migrate_admin.py
+migrate_md_to_db.py

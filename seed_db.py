@@ -18,9 +18,16 @@ def seed_database():
     app = create_app()
     
     with app.app_context():
-        # Optional reset (for dev only  comment out in production)
-        # db.drop_all()
-        # db.create_all()
+        # Clear existing data to avoid duplicates and ensure clean state
+        print("Clearing existing data...")
+        try:
+            db.session.query(BlogPost).delete()
+            db.session.query(Project).delete()
+            db.session.commit()
+            print("Database cleared.")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error clearing database: {e}")
 
         # Sample projects
         projects = [
@@ -47,77 +54,80 @@ def seed_database():
             )
         ]
 
-        # Sample blog posts - now includes all 7 blog posts
+        # Consolidated blog posts - match slugs with filenames
         blog_posts = [
             BlogPost(
                 title="Building Secure APIs with Flask",
-                slug="building-secure-apis-with-flask",
-                content=load_md('flask_jwt_blog.md') or "In this post, I walk through Flask-JWT, route protection, and best practices.",
+                slug="flask_jwt_blog",
+                content=load_md('flask_jwt_blog.md'),
                 date_posted=datetime(2025, 5, 10),
                 category="Backend Development",
-                tags="Flask, JWT, Authentication, Security, Python, Backend"
+                tags="Flask, JWT, Authentication, Security, Python, Backend",
+                is_published=True
             ),
             BlogPost(
                 title="Automating CI/CD with Jenkins & Docker",
-                slug="automating-ci-cd-with-jenkins-docker",
-                content=load_md('jenkins_docker_cicd.md') or "CI/CD pipeline for Python microservices: Jenkins + GitHub + Docker.",
+                slug="jenkins_docker_cicd",
+                content=load_md('jenkins_docker_cicd.md'),
                 date_posted=datetime(2025, 4, 18),
                 category="DevOps",
-                tags="Jenkins, Docker, CI/CD, DevOps, Containerization"
+                tags="Jenkins, Docker, CI/CD, DevOps, Containerization",
+                is_published=True
             ),
             BlogPost(
                 title="ETL Pipeline with BigQuery",
-                slug="etl-pipeline-with-bigquery",
+                slug="etl-pipeline",
                 content=load_md('etl-pipeline.md'),
                 date_posted=datetime(2025, 3, 1),
                 category="Data Engineering",
-                tags="ETL, BigQuery, GCP, Python, Data Pipelines, Apache Airflow"
+                tags="ETL, BigQuery, GCP, Python, Data Pipelines",
+                is_published=True
             ),
             BlogPost(
                 title="Building RESTful APIs with Flask",
-                slug="building-restful-apis-with-flask",
-                content=load_md('flask-api.md') or "Comprehensive guide to building REST APIs with Flask framework.",
+                slug="flask-api",
+                content=load_md('flask-api.md'),
                 date_posted=datetime(2025, 2, 15),
                 category="Backend Development",
-                tags="Python, Flask, REST API, Backend"
+                tags="Python, Flask, REST API, Backend",
+                is_published=True
             ),
             BlogPost(
                 title="CI/CD Automation with Jenkins",
-                slug="ci-cd-automation-with-jenkins",
-                content=load_md('jenkins-devops.md') or "Setting up Jenkins for continuous integration and deployment.",
+                slug="jenkins-devops",
+                content=load_md('jenkins-devops.md'),
                 date_posted=datetime(2025, 1, 20),
                 category="DevOps",
-                tags="Jenkins, CI/CD, DevOps, Automation"
+                tags="Jenkins, CI/CD, DevOps, Automation",
+                is_published=True
             ),
             BlogPost(
                 title="Payment API Integration with Django",
-                slug="payment-api-integration-with-django",
-                content=load_md('django_payment_api.md') or "Implementing payment processing with Django and Stripe API.",
+                slug="django_payment_api",
+                content=load_md('django_payment_api.md'),
                 date_posted=datetime(2025, 6, 5),
                 category="Backend Development",
-                tags="Python, Django, Payment Processing, API, Stripe, Backend"
+                tags="Python, Django, Payment Processing, API, Stripe, Backend",
+                is_published=True
             ),
             BlogPost(
                 title="Container Orchestration with AWS ECS Fargate",
-                slug="container-orchestration-with-aws-ecs-fargate",
-                content=load_md('aws_ecs_fargate.md') or "Deploying and managing containers using AWS ECS Fargate.",
+                slug="aws_ecs_fargate",
+                content=load_md('aws_ecs_fargate.md'),
                 date_posted=datetime(2025, 7, 12),
                 category="Cloud & DevOps",
-                tags="AWS, ECS, Fargate, Containerization, Cloud, DevOps"
+                tags="AWS, ECS, Fargate, Containerization, Cloud, DevOps",
+                is_published=True
             )
         ]
 
-        # Insert projects if not already there
+        # Insert projects
         for project in projects:
-            existing = Project.query.filter_by(title=project.title).first()
-            if not existing:
-                db.session.add(project)
+            db.session.add(project)
 
-        # Insert blog posts if not already there
+        # Insert blog posts
         for post in blog_posts:
-            existing = BlogPost.query.filter_by(slug=post.slug).first()
-            if not existing:
-                db.session.add(post)
+            db.session.add(post)
         
         db.session.commit()
         
