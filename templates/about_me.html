@@ -164,46 +164,10 @@
                         </p>
                     </div>
                 </div>
-
-                <!-- CTA Section -->
-                <div class="text-center mt-5 animate-fade-in">
-                    <button type="button" class="btn btn-primary btn-lg px-4 py-3" data-bs-toggle="modal" data-bs-target="#cvModal">
-                        <i class="fas fa-download me-2"></i>Download My CV
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- CV Download Modal -->
-<div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title" id="cvModalLabel">Download CV</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="cvDownloadForm">
-                    <div class="mb-3">
-                        <label for="emailInput" class="form-label">Email address</label>
-                        <input type="email" class="form-control bg-gray-800 text-white border-gray-700" id="emailInput" required placeholder="your@email.com">
-                        <div class="form-text text-gray-400">I'll only use this to notify you about updates.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nameInput" class="form-label">Your Name (Optional)</label>
-                        <input type="text" class="form-control bg-gray-800 text-white border-gray-700" id="nameInput" placeholder="Your Name">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmDownload">Download CV</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <style>
     /* About Section */
@@ -547,40 +511,4 @@
     }
 </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const confirmDownload = document.getElementById('confirmDownload');
-    const cvDownloadForm = document.getElementById('cvDownloadForm');
-    const emailInput = document.getElementById('emailInput');
-    
-    confirmDownload.addEventListener('click', function() {
-        if (cvDownloadForm.checkValidity()) {
-            const email = emailInput.value;
-            const name = document.getElementById('nameInput').value || 'Anonymous';
-            
-            // Here you would typically send this data to your server
-            fetch('/log-cv-download', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    name: name,
-                    downloaded_at: new Date().toISOString()
-                })
-            });
-            
-            // Trigger the download
-            window.location.href = "{{ url_for('static', filename='docs/Okoth Arnold Cv.pdf') }}";
-            
-            // Close the modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('cvModal'));
-            modal.hide();
-        } else {
-            cvDownloadForm.reportValidity();
-        }
-    });
-});
-</script>
 {% endblock %}

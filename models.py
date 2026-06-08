@@ -181,17 +181,6 @@ class ContactMessage(db.Model):
     def __repr__(self):
         return f'<ContactMessage from {self.name}>'
 
-class CVDownload(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), nullable=False)
-    name = db.Column(db.String(80))
-    downloaded_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    ip_address = db.Column(db.String(45))
-    user_agent = db.Column(db.Text)
-    
-    def __repr__(self):
-        return f'<CVDownload {self.email}>'
-
 # NEW: Activity log for admin dashboard
 class ActivityLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)

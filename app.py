@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, flash, redirect, url_for, jsonify, request, abort
 from flask_login import LoginManager, login_required, current_user
 from config import Config
-from models import db, Project, BlogPost, Comment, ContactMessage, CVDownload, User, ActivityLog
+from models import db, Project, BlogPost, Comment, ContactMessage, User, ActivityLog
 from forms import ContactForm, CommentForm, LoginForm, BlogPostForm, SettingsForm
 import markdown
 from datetime import datetime
@@ -371,23 +371,6 @@ def create_app():
             flash('Your message has been sent!', 'success')
             return redirect(url_for('contact'))
         return render_template('contact.html', form=form)
-
-    @app.route('/log-cv-download', methods=['POST'])
-    def log_cv_download():
-        try:
-            data = request.get_json()
-            download = CVDownload(
-                email=data['email'],
-                name=data.get('name', 'Anonymous'),
-                ip_address=request.remote_addr,
-                user_agent=request.headers.get('User-Agent')
-            )
-            db.session.add(download)
-            db.session.commit()
-            return jsonify({'status': 'success'}), 200
-        except Exception as e:
-            db.session.rollback()
-            return jsonify({'status': 'error', 'message': str(e)}), 500
 
     @app.route('/migrate-db')
     @login_required
