@@ -20,13 +20,14 @@
             <div class="profile-image-container d-flex justify-content-center">
                 <img src="{{ url_for('static', filename='img/profile.png') }}" 
                      alt="Okoth Arnold - Senior Developer" 
-                     class="profile-image rounded-circle img-fluid shadow-lg">
+                     class="profile-image rounded-circle img-fluid shadow-lg"
+                     loading="lazy">
             </div>
             <!-- Available for Hire Badge -->
             <div class="availability-badge mt-2 d-flex justify-content-center">
                 <span class="badge-available">
-                    <i class="fas fa-circle me-2"></i>
-                    Available for Hire
+                    <i class="fas fa-calendar-check me-2"></i>
+                    Open for New Projects
                 </span>
             </div>
         </div>
@@ -34,7 +35,7 @@
         <!-- Typing Animation -->
         <div class="typing-section mb-2 animate-fade-in">
             <div class="typing-container d-flex justify-content-center">
-                <h1 class="hero-title display-4 fw-bold mb-1 text-gradient-primary">
+                <h1 class="hero-title display-5 fw-bold mb-1 text-gradient-primary">
                     <span id="typed"></span>
                 </h1>
             </div>
@@ -43,19 +44,19 @@
         <!-- Social Icons -->
         <div class="social-section mb-3 animate-fade-in">
             <div class="social-icons-clean d-flex justify-content-center">
-                <a href="https://github.com/4rn0h" class="social-icon-clean" title="GitHub" target="_blank">
+                <a href="https://github.com/4rn0h" class="social-icon-clean" title="GitHub" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="https://linkedin.com/in/okoth-a-a403878b" class="social-icon-clean" title="LinkedIn" target="_blank">
+                <a href="https://linkedin.com/in/okoth-a-a403878b" class="social-icon-clean" title="LinkedIn" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://bitbucket.org/okothouko" class="social-icon-clean" title="Bitbucket" target="_blank">
+                <a href="https://bitbucket.org/okothouko" class="social-icon-clean" title="Bitbucket" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-bitbucket"></i>
                 </a>
-                <a href="https://dev.to/4rn0h_5" class="social-icon-clean" title="Dev.to" target="_blank">
+                <a href="https://dev.to/4rn0h_5" class="social-icon-clean" title="Dev.to" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-dev"></i>
                 </a>
-                <a href="https://t.me/okothouko" class="social-icon-clean" title="Telegram" target="_blank">
+                <a href="https://t.me/okothouko" class="social-icon-clean" title="Telegram" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-telegram"></i>
                 </a>
             </div>
@@ -74,6 +75,70 @@
                 <i class="fas fa-rocket me-2"></i>
                 View Projects
             </a>
+            <a href="{{ url_for('blog') }}" class="btn btn-outline-light btn-lg px-4 py-2">
+                <i class="fas fa-blog me-2"></i>
+                Read Blog
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg px-4 py-2">
+                <i class="fas fa-paper-plane me-2"></i>
+                Let's Talk
+            </a>
+        </div>
+
+        <!-- Value Stats Section -->
+        <div class="value-proposition mt-5 pt-3 animate-fade-in">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-3 col-sm-6">
+                    <div class="value-stat">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="value-stat">
+                        <span class="stat-number">500GB+</span>
+                        <span class="stat-label">Daily Data Processed</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="value-stat">
+                        <span class="stat-number">40%</span>
+                        <span class="stat-label">Faster CI/CD</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="value-stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Daily Transactions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="tech-stack mt-4 animate-fade-in">
+            <div class="tech-pills d-flex flex-wrap justify-content-center gap-2">
+                <span class="tech-pill">🐍 Python</span>
+                <span class="tech-pill">🐳 Docker</span>
+                <span class="tech-pill">☁️ AWS/GCP</span>
+                <span class="tech-pill">🔥 FastAPI</span>
+                <span class="tech-pill">📊 BigQuery</span>
+                <span class="tech-pill">⚙️ Terraform</span>
+                <span class="tech-pill">🔄 Kubernetes</span>
+                <span class="tech-pill">📈 Airflow</span>
+            </div>
+        </div>
+
+        <!-- Trust Signals -->
+        <div class="trusted-section mt-4 animate-fade-in">
+            <p class="text-gray-300 small mb-2">Trusted by teams building</p>
+            <div class="trusted-tags d-flex flex-wrap justify-content-center gap-2">
+                <span class="trust-tag">Fintech</span>
+                <span class="trust-tag">Agri-Tech</span>
+                <span class="trust-tag">SaaS</span>
+                <span class="trust-tag">E-Commerce</span>
+                <span class="trust-tag">HealthTech</span>
+            </div>
         </div>
     </div>
 </section>
@@ -84,7 +149,8 @@
     .hero-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
-        padding: 0;
+        padding: 100px 0 2rem 0;
+        min-height: 100vh;
     }
 
     /* Animated Background */
@@ -101,7 +167,7 @@
         position: absolute;
         border-radius: 50%;
         background: linear-gradient(135deg, #3b82f6, #06b6d4);
-        opacity: 0.1;
+        opacity: 0.08;
         animation: float 6s ease-in-out infinite;
     }
 
@@ -163,12 +229,17 @@
         background-clip: text;
     }
 
-    /* Typing Animation */
+    /* Typing Animation - Reduced Size */
     .typing-container {
-        min-height: 3rem;
+        min-height: 2.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+        margin-bottom: 0.25rem !important;
     }
 
     .typed-cursor {
@@ -182,23 +253,25 @@
         50% { opacity: 0; }
     }
 
-    /* Profile Image */
+    /* Profile Image - Smaller */
     .profile-image-container {
         position: relative;
         display: inline-block;
     }
 
     .profile-image {
-        width: 200px;
-        height: 200px;
+        width: 138px;
+        height: 138px;
         object-fit: cover;
         border: 4px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     }
 
     .profile-image:hover {
         border-color: #3b82f6;
-        transform: scale(1.05);
+        transform: scale(1.05) rotate(-2deg);
+        box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);
     }
 
     /* Available for Hire Badge */
@@ -213,17 +286,17 @@
         align-items: center;
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 1rem;
         border-radius: 2rem;
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         font-weight: 600;
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         animation: pulse-badge 2s infinite;
+        letter-spacing: 0.5px;
     }
 
     .badge-available i {
-        font-size: 0.5rem;
-        animation: blink-badge 2s infinite;
+        font-size: 0.7rem;
     }
 
     @keyframes pulse-badge {
@@ -231,17 +304,12 @@
         50% { transform: scale(1.05); }
     }
 
-    @keyframes blink-badge {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-    }
-
     /* Clean Social Icons */
     .social-icons-clean {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1.5rem;
+        gap: 1.25rem;
         flex-wrap: wrap;
     }
 
@@ -249,20 +317,23 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         color: #e2e8f0;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         text-decoration: none;
         transition: all 0.2s ease;
+        border-radius: 50%;
+        border: 1px solid transparent;
     }
 
     .social-icon-clean:hover {
         color: #3b82f6;
         transform: translateY(-2px);
+        border-color: rgba(59, 130, 246, 0.2);
     }
 
-    /* Buttons */
+    /* Buttons - Slightly Smaller */
     .btn-primary {
         background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         border: none;
@@ -270,6 +341,8 @@
         font-weight: 600;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        font-size: 0.95rem;
+        padding: 0.6rem 1.5rem;
     }
 
     .btn-primary:hover {
@@ -278,10 +351,109 @@
         background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
     }
 
+    .btn-outline-light {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        font-size: 0.95rem;
+        padding: 0.6rem 1.5rem;
+    }
+
+    .btn-outline-light:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-outline-primary {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid #3b82f6;
+        color: #3b82f6;
+        font-size: 0.95rem;
+        padding: 0.6rem 1.5rem;
+    }
+
+    .btn-outline-primary:hover {
+        transform: translateY(-2px);
+        background: rgba(59, 130, 246, 0.1);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+        border-color: #60a5fa;
+    }
+
+    /* Value Stats - More Compact */
+    .value-stat {
+        text-align: center;
+        padding: 0.5rem 0.75rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .value-stat:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #3b82f6;
+        line-height: 1.2;
+    }
+
+    .stat-label {
+        display: block;
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-weight: 400;
+        margin-top: 0.15rem;
+    }
+
+    /* Tech Pills - More Compact */
+    .tech-pill {
+        background: rgba(59, 130, 246, 0.1);
+        color: #93c5fd;
+        padding: 0.25rem 0.6rem;
+        border-radius: 1rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .tech-pill:hover {
+        background: rgba(59, 130, 246, 0.2);
+        transform: translateY(-1px);
+        border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    /* Trust Tags - More Compact */
+    .trust-tag {
+        color: #94a3b8;
+        font-size: 0.65rem;
+        font-weight: 500;
+        padding: 0.15rem 0.6rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        letter-spacing: 0.3px;
+    }
+
     /* Animations */
     .animate-fade-in {
         animation: fadeInUp 1s ease-out;
     }
+
+    .animate-fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .animate-fade-in:nth-child(3) { animation-delay: 0.2s; }
+    .animate-fade-in:nth-child(4) { animation-delay: 0.3s; }
+    .animate-fade-in:nth-child(5) { animation-delay: 0.4s; }
 
     @keyframes fadeInUp {
         from { 
@@ -294,41 +466,29 @@
         }
     }
 
+    /* Utility Classes */
+    .text-gray-300 {
+        color: #d1d5db !important;
+    }
+
     /* Responsive Design */
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.5rem;
-        }
-        
-        .social-icons-clean {
-            gap: 1.25rem;
-        }
-        
-        .social-icon-clean {
-            width: 42px;
-            height: 42px;
-            font-size: 1.3rem;
-        }
-        
-        .profile-image {
-            width: 180px;
-            height: 180px;
-        }
-        
-        .hero-description {
-            font-size: 1.1rem;
-            padding: 0 1rem;
-        }
-        
-        .badge-available {
-            font-size: 0.8rem;
-            padding: 0.4rem 0.8rem;
+    @media (max-width: 992px) {
+        .hero-section {
+            padding: 90px 0 2rem 0;
         }
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 80px 0 1.5rem 0;
+        }
+
         .hero-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .typing-container {
+            min-height: 2rem;
         }
         
         .social-icons-clean {
@@ -336,23 +496,85 @@
         }
         
         .social-icon-clean {
-            width: 38px;
-            height: 38px;
-            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
         }
         
         .profile-image {
-            width: 160px;
-            height: 160px;
+            width: 136px;
+            height: 136px;
         }
         
         .hero-description {
-            font-size: 1rem;
+            font-size: 0.95rem;
+            padding: 0 1rem;
+        }
+        
+        .badge-available {
+            font-size: 0.7rem;
+            padding: 0.35rem 0.8rem;
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+        }
+
+        .value-stat {
+            padding: 0.4rem 0.6rem;
+        }
+
+        .btn-primary,
+        .btn-outline-light,
+        .btn-outline-primary {
+            font-size: 0.85rem;
+            padding: 0.5rem 1.25rem;
+        }
+
+        .value-proposition {
+            margin-top: 2rem !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-section {
+            padding: 70px 0 1.25rem 0;
+        }
+
+        .hero-title {
+            font-size: 1.5rem;
+        }
+
+        .typing-container {
+            min-height: 1.8rem;
+        }
+        
+        .social-icons-clean {
+            gap: 0.75rem;
+        }
+        
+        .social-icon-clean {
+            width: 32px;
+            height: 32px;
+            font-size: 0.95rem;
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .hero-description {
+            font-size: 0.9rem;
         }
         
         .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
         }
         
         .hero-cta {
@@ -361,12 +583,35 @@
         }
         
         .hero-cta .btn {
-            width: 200px;
+            width: 180px;
         }
         
         .badge-available {
-            font-size: 0.75rem;
-            padding: 0.35rem 0.7rem;
+            font-size: 0.65rem;
+            padding: 0.25rem 0.6rem;
+        }
+
+        .stat-number {
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+        }
+
+        .tech-pill {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .trust-tag {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.5rem;
+        }
+
+        .value-proposition {
+            margin-top: 1.5rem !important;
+            padding-top: 0.5rem !important;
         }
     }
 
@@ -374,60 +619,142 @@
     @media (max-height: 600px) and (orientation: landscape) {
         .hero-section {
             min-height: 100vh;
-            padding: 1rem 0;
+            padding: 70px 0 1rem 0;
         }
         
         .profile-section {
-            margin-bottom: 1rem;
+            margin-bottom: 0.25rem;
         }
         
         .profile-image {
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
         }
         
         .typing-section {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.15rem;
+        }
+        
+        .typing-container {
+            min-height: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 1.3rem;
         }
         
         .social-section {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.15rem;
         }
         
         .social-icons-clean {
-            gap: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .social-icon-clean {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
         }
         
         .badge-available {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .value-proposition {
+            margin-top: 0.5rem !important;
+            padding-top: 0.25rem !important;
+        }
+
+        .value-stat {
+            padding: 0.15rem 0.4rem;
+        }
+
+        .stat-number {
+            font-size: 0.9rem;
+        }
+
+        .stat-label {
+            font-size: 0.5rem;
+        }
+
+        .hero-description {
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero-cta .btn {
             font-size: 0.7rem;
-            padding: 0.3rem 0.6rem;
+            padding: 0.3rem 0.8rem;
+            width: 140px;
+        }
+
+        .tech-stack {
+            margin-top: 0.5rem !important;
+        }
+
+        .tech-pill {
+            font-size: 0.55rem;
+            padding: 0.15rem 0.4rem;
+        }
+
+        .trusted-section {
+            margin-top: 0.5rem !important;
+        }
+
+        .trust-tag {
+            font-size: 0.5rem;
+            padding: 0.1rem 0.4rem;
         }
     }
 
     /* Extra Small Devices */
     @media (max-width: 400px) {
+        .hero-section {
+            padding: 65px 0 1rem 0;
+        }
+
         .social-icons-clean {
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
         
         .social-icon-clean {
-            width: 35px;
-            height: 35px;
-            font-size: 1.1rem;
+            width: 28px;
+            height: 28px;
+            font-size: 0.85rem;
         }
         
         .hero-title {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
         }
         
         .profile-image {
-            width: 140px;
-            height: 140px;
+            width: 90px;
+            height: 90px;
         }
         
         .badge-available {
-            font-size: 0.7rem;
-            padding: 0.3rem 0.6rem;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1rem;
+        }
+
+        .stat-label {
+            font-size: 0.55rem;
+        }
+
+        .hero-cta .btn {
+            width: 160px;
+            font-size: 0.75rem;
+        }
+
+        .tech-pill {
+            font-size: 0.55rem;
+            padding: 0.15rem 0.4rem;
         }
     }
 </style>
@@ -435,16 +762,17 @@
 <!-- JavaScript for Typing Animation -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Typing Animation
+        // Typing Animation - Solution-focused statements
         const typedTextSpan = document.getElementById('typed');
         const textArray = [
-            'Backend Developer', 
-            'Data Engineer',
-            'Linux SysAdmin'
+            'I build systems that never sleep',
+            'I turn data into business decisions',
+            'I make infrastructure invisible',
+            'I automate what others do manually'
         ];
-        const typingDelay = 100;
-        const erasingDelay = 50;
-        const newTextDelay = 2000;
+        const typingDelay = 70;
+        const erasingDelay = 35;
+        const newTextDelay = 2200;
         let textArrayIndex = 0;
         let charIndex = 0;
 

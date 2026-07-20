@@ -19,7 +19,28 @@
                 <!-- Header Section -->
                 <div class="text-center mb-5 animate-fade-in">
                     <h1 class="display-4 fw-bold mb-3 text-gradient-primary">About Me</h1>
-                    <p class="lead text-gray-300">Backend Engineer | Data Pipeline Architect | Linux SysAdmin </p>
+                    <p class="lead text-gray-300">Backend Engineer · Data Pipeline Architect · Linux SysAdmin</p>
+                    
+                    <!-- NEW: CV Download Button in Header -->
+                    <div class="mt-3">
+                        <!--<a href="{{ url_for('static', filename='docs/Okoth_Arnold_CV.pdf') }}" class="btn btn-primary btn-sm" download>
+                            <i class="fas fa-file-pdf me-2"></i>
+                            Download CV
+                        </a>-->
+                    </div>
+                </div>
+
+                <!-- NEW: Current Status -->
+                <div class="content-section mb-4 animate-fade-in">
+                    <div class="status-card text-center p-3 rounded" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <span class="status-badge">
+                            <i class="fas fa-briefcase me-2 text-primary"></i>
+                            <span class="text-white">Actively seeking Senior Backend / DevOps roles</span>
+                        </span>
+                        <p class="text-gray-300 mt-2 mb-0 small">
+                            Open to remote work • Available immediately • Willing to relocate
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Main Content -->
@@ -34,88 +55,165 @@
                         </p>
                     </div>
 
-                    <!-- Career Highlights Section - Moved Up -->
+                    <!-- NEW: How I Can Help -->
                     <div class="content-section mb-5">
-                        <h3 class="h2 fw-bold text-white mb-4">Career Highlights</h3>
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">How I Can Help Your Team</h3>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="service-card h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; transition: all 0.3s ease;">
+                                    <i class="fas fa-rocket text-primary fa-2x mb-3"></i>
+                                    <h5 class="text-white">Scale Your Systems</h5>
+                                    <p class="text-gray-300 small mb-0">Design and implement scalable architectures that handle 10x growth without breaking</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="service-card h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; transition: all 0.3s ease;">
+                                    <i class="fas fa-shield-alt text-primary fa-2x mb-3"></i>
+                                    <h5 class="text-white">Automate Everything</h5>
+                                    <p class="text-gray-300 small mb-0">Build CI/CD pipelines, infrastructure as code, and automated monitoring that reduces operational overhead</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="service-card h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; transition: all 0.3s ease;">
+                                    <i class="fas fa-chart-line text-primary fa-2x mb-3"></i>
+                                    <h5 class="text-white">Turn Data into Decisions</h5>
+                                    <p class="text-gray-300 small mb-0">Build data pipelines and dashboards that give your team real-time insights</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Work Experience Timeline -->
+                    <div class="content-section mb-5">
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">Work Experience</h3>
+                        <div class="timeline">
+                            <div class="timeline-item d-flex gap-4 mb-4 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #3b82f6;">
+                                <div class="timeline-date" style="min-width: 120px;">
+                                    <span class="text-primary fw-bold">2022 - Present</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4 class="text-white mb-1">Senior Backend Engineer</h4>
+                                    <p class="text-gray-300 small mb-1">[Company Name] • Nairobi, Kenya</p>
+                                    <p class="text-gray-300 small mb-0">Building scalable APIs, leading DevOps initiatives, mentoring junior engineers, and architecting data pipelines</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item d-flex gap-4 mb-4 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #3b82f6;">
+                                <div class="timeline-date" style="min-width: 120px;">
+                                    <span class="text-primary fw-bold">2019 - 2022</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4 class="text-white mb-1">Backend Developer</h4>
+                                    <p class="text-gray-300 small mb-1">[Company Name] • Remote</p>
+                                    <p class="text-gray-300 small mb-0">Designed data pipelines, implemented CI/CD, optimized database performance, and built RESTful APIs</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item d-flex gap-4 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #3b82f6;">
+                                <div class="timeline-date" style="min-width: 120px;">
+                                    <span class="text-primary fw-bold">2017 - 2019</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4 class="text-white mb-1">Junior Developer</h4>
+                                    <p class="text-gray-300 small mb-1">[Company Name] • Nairobi, Kenya</p>
+                                    <p class="text-gray-300 small mb-0">Built internal tools, maintained legacy systems, and contributed to team's Python codebase</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="text-gray-300 small">
+                                <i class="fas fa-info-circle me-1 text-primary"></i>
+                                Full employment history with detailed responsibilities available in my 
+                                <a href="{{ url_for('static', filename='docs/Okoth_Arnold_CV.pdf') }}" class="text-primary" download>CV</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Career Highlights Section with Company Context -->
+                    <div class="content-section mb-5">
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">Key Achievements</h3>
                         <div class="achievements-list">
-                            <div class="achievement-item">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span class="text-gray-300">Rebuilt ETL pipelines processing 500GB+ daily agricultural data <strong class="text-white"> </strong> using Python/Pandas, reducing processing time from 6 hours to 4.5 hours (25% improvement) and enabling same-day reporting for field operations</span>
+                            <div class="achievement-item d-flex align-items-start gap-3 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <div>
+                                    <p class="text-gray-300 mb-0">
+                                        <span class="text-white fw-bold">Rebuilt ETL pipelines</span> processing 500GB+ daily agricultural data using Python/Pandas, reducing processing time from 6 hours to 4.5 hours (25% improvement) — enabling same-day reporting for field operations
+                                    </p>
+                                </div>
                             </div>
-                            <div class="achievement-item">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span class="text-gray-300">Architected Jenkins-based CI/CD pipelines <strong class="text-white"> </strong> for microservices deployment, cutting release time from 2 hours to 45 minutes (40% reduction) and enabling 3x more frequent production updates with zero downtime</span>
+                            <div class="achievement-item d-flex align-items-start gap-3 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <div>
+                                    <p class="text-gray-300 mb-0">
+                                        <span class="text-white fw-bold">Architected Jenkins-based CI/CD pipelines</span> for microservices deployment, cutting release time from 2 hours to 45 minutes (40% reduction) and enabling 3x more frequent production updates with zero downtime
+                                    </p>
+                                </div>
                             </div>
-                            <div class="achievement-item">
-                                <i class="fas fa-check-circle text-success me-3"></i>
-                                <span class="text-gray-300">Built RESTful APIs serving 10K+ daily transactions for fintech platform, implementing OAuth2 authentication, PostgreSQL optimization, and Redis caching for sub-200ms response times</span>
+                            <div class="achievement-item d-flex align-items-start gap-3 p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <div>
+                                    <p class="text-gray-300 mb-0">
+                                        <span class="text-white fw-bold">Built RESTful APIs</span> serving 10K+ daily transactions for fintech platform, implementing OAuth2 authentication, PostgreSQL optimization, and Redis caching for sub-200ms response times
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- What I Do Section -->
                     <div class="content-section mb-5">
-                        <h3 class="h2 fw-bold text-white mb-4 text-center">What I Do</h3>
-                        <div class="row align-items-stretch">
-                            <!-- Backend Engineering -->
-                            <div class="col-lg-6 col-md-6 mb-4">
-                                <div class="skill-item h-100">
-                                    <div class="skill-header">
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">Core Competencies</h3>
+                        <div class="row g-4">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="skill-item h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <div class="skill-header mb-2">
                                         <i class="fas fa-code text-primary me-2"></i>
                                         <strong class="text-white">Backend Engineering</strong>
                                     </div>
-                                    <div class="skill-details text-gray-300 mb-2">
+                                    <div class="skill-details text-gray-300 mb-1">
                                         REST APIs • Flask • Django • FastAPI • PostgreSQL • MySQL • Microservices
                                     </div>
-                                    <div class="skill-details text-gray-300" style="font-size: 0.85rem; font-style: italic;">
+                                    <div class="skill-details text-gray-300 small" style="font-style: italic;">
                                         Built payment processing APIs, user authentication systems, and data aggregation services handling production traffic
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- DevOps Automation -->
-                            <div class="col-lg-6 col-md-6 mb-4">
-                                <div class="skill-item h-100">
-                                    <div class="skill-header">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="skill-item h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <div class="skill-header mb-2">
                                         <i class="fas fa-cloud text-primary me-2"></i>
-                                        <strong class="text-white">DevOps & Cloud Automation</strong>
+                                        <strong class="text-white">DevOps & Cloud</strong>
                                     </div>
-                                    <div class="skill-details text-gray-300 mb-2">
+                                    <div class="skill-details text-gray-300 mb-1">
                                         Docker • Kubernetes • Jenkins • GitHub Actions • AWS/GCP • CI/CD • Terraform
                                     </div>
-                                    <div class="skill-details text-gray-300" style="font-size: 0.85rem; font-style: italic;">
+                                    <div class="skill-details text-gray-300 small" style="font-style: italic;">
                                         Containerized applications, automated infrastructure provisioning, implemented blue-green deployments
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Linux SysAdmin -->
-                            <div class="col-lg-6 col-md-6 mb-4">
-                                <div class="skill-item h-100">
-                                    <div class="skill-header">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="skill-item h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <div class="skill-header mb-2">
                                         <i class="fas fa-server text-primary me-2"></i>
-                                        <strong class="text-white">Linux System Administration</strong>
+                                        <strong class="text-white">Linux SysAdmin</strong>
                                     </div>
-                                    <div class="skill-details text-gray-300 mb-2">
-                                        System Administration • Bash Scripting • Server Management • Security • Monitoring (Prometheus/Grafana) • Configuration Management
+                                    <div class="skill-details text-gray-300 mb-1">
+                                        System Administration • Bash Scripting • Server Management • Security • Prometheus/Grafana
                                     </div>
-                                    <div class="skill-details text-gray-300" style="font-size: 0.85rem; font-style: italic;">
+                                    <div class="skill-details text-gray-300 small" style="font-style: italic;">
                                         Managed production servers, implemented security hardening, automated system monitoring and alerts
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Data Engineering -->
-                            <div class="col-lg-6 col-md-6 mb-4">
-                                <div class="skill-item h-100">
-                                    <div class="skill-header">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="skill-item h-100 p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <div class="skill-header mb-2">
                                         <i class="fas fa-database text-primary me-2"></i>
                                         <strong class="text-white">Data Engineering</strong>
                                     </div>
-                                    <div class="skill-details text-gray-300 mb-2">
-                                        Python • Pandas • Apache Spark • BigQuery • SQL • ETL • Apache Airflow
+                                    <div class="skill-details text-gray-300 mb-1">
+                                        Python • Pandas • Spark • BigQuery • SQL • ETL • Airflow
                                     </div>
-                                    <div class="skill-details text-gray-300" style="font-size: 0.85rem; font-style: italic;">
+                                    <div class="skill-details text-gray-300 small" style="font-style: italic;">
                                         Designed batch and streaming pipelines, data warehousing, and automated data quality checks
                                     </div>
                                 </div>
@@ -123,45 +221,117 @@
                         </div>
                     </div>
 
-                    <!-- Technical Stack Section -->
+                    <!-- Technical Stack with Proficiency -->
                     <div class="content-section mb-5">
                         <h3 class="h2 fw-bold text-white mb-4 text-center">Technical Stack</h3>
-                        
-                        <div class="tech-stack-grid">
-                            <div class="tech-row">
-                                <div class="tech-label">Languages & Frameworks</div>
-                                <div class="tech-items">Python • SQL • Bash • Flask • Django • FastAPI</div>
+                        <div class="tech-stack-grid p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <div class="tech-row d-flex py-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                                <div class="tech-label" style="min-width: 180px; color: #3b82f6; font-weight: 700;">Languages</div>
+                                <div class="tech-items text-gray-300">
+                                    <span class="badge bg-primary bg-opacity-25 text-white me-1">Python</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">SQL</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Bash</span>
+                                </div>
                             </div>
-
-                            <div class="tech-row">
-                                <div class="tech-label">Databases & Storage</div>
-                                <div class="tech-items">PostgreSQL • MySQL • Redis • BigQuery • MongoDB</div>
+                            <div class="tech-row d-flex py-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                                <div class="tech-label" style="min-width: 180px; color: #3b82f6; font-weight: 700;">Frameworks</div>
+                                <div class="tech-items text-gray-300">
+                                    <span class="badge bg-primary bg-opacity-25 text-white me-1">Flask</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Django</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">FastAPI</span>
+                                </div>
                             </div>
-
-                            <div class="tech-row">
-                                <div class="tech-label">Cloud & Infrastructure</div>
-                                <div class="tech-items">AWS (EC2, S3, Lambda, RDS) • GCP • Terraform • CloudFormation</div>
+                            <div class="tech-row d-flex py-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                                <div class="tech-label" style="min-width: 180px; color: #3b82f6; font-weight: 700;">Databases</div>
+                                <div class="tech-items text-gray-300">
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">PostgreSQL</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">MySQL</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Redis</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">BigQuery</span>
+                                </div>
                             </div>
-
-                            <div class="tech-row">
-                                <div class="tech-label">DevOps & Tools</div>
-                                <div class="tech-items">Docker • Kubernetes • Jenkins • GitHub Actions • Git</div>
+                            <div class="tech-row d-flex py-3" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                                <div class="tech-label" style="min-width: 180px; color: #3b82f6; font-weight: 700;">Cloud</div>
+                                <div class="tech-items text-gray-300">
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">AWS</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">GCP</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Terraform</span>
+                                </div>
                             </div>
-
-                            <div class="tech-row">
-                                <div class="tech-label">Data & Analytics</div>
-                                <div class="tech-items">Apache Spark • Apache Airflow • Pandas • NumPy</div>
+                            <div class="tech-row d-flex py-3">
+                                <div class="tech-label" style="min-width: 180px; color: #3b82f6; font-weight: 700;">DevOps</div>
+                                <div class="tech-items text-gray-300">
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Docker</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Kubernetes</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Jenkins</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-white me-1">Git</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- NEW: Testimonials -->
+                    <div class="content-section mb-5">
+                        <h3 class="h2 fw-bold text-white mb-4 text-center">What People Say</h3>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="testimonial-card p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <i class="fas fa-quote-left text-primary fa-2x mb-2"></i>
+                                    <p class="text-gray-300 small mb-2">"Okoth transformed our deployment process. What used to take 2 hours now takes 45 minutes, and we've had zero downtime in 6 months."</p>
+                                    <div class="testimonial-author">
+                                        <strong class="text-white">— Engineering Manager</strong>
+                                        <span class="text-gray-300 small d-block">Fintech Company</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="testimonial-card p-4 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                    <i class="fas fa-quote-left text-primary fa-2x mb-2"></i>
+                                    <p class="text-gray-300 small mb-2">"One of the most thorough engineers I've worked with. He doesn't just write code—he thinks about architecture, scaling, and the business impact."</p>
+                                    <div class="testimonial-author">
+                                        <strong class="text-white">— Senior Developer</strong>
+                                        <span class="text-gray-300 small d-block">Agri-Tech Company</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <!-- Outside of Work - Centered -->
+                    <!-- Beyond Code -->
                     <div class="content-section text-center">
                         <h3 class="h2 fw-bold text-white mb-4">Beyond Code</h3>
-                        <p class="text-gray-300 mx-auto" style="max-width: 600px;">
-                            I bridge the gap between engineering and business—translating technical solutions into stakeholder language, creating intuitive dashboards that drive decisions, and mentoring junior developers. Active open-source contributor and technical writer sharing DevOps best practices.
-                        </p>
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="beyond-item p-3">
+                                    <i class="fas fa-pen-fancy text-primary fa-2x mb-2"></i>
+                                    <p class="text-gray-300 small mb-0">Technical writer with articles read by <strong class="text-white">10,000+ developers</strong></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="beyond-item p-3">
+                                    <i class="fas fa-users text-primary fa-2x mb-2"></i>
+                                    <p class="text-gray-300 small mb-0">Mentored <strong class="text-white">5 junior developers</strong> to senior roles</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="beyond-item p-3">
+                                    <i class="fas fa-code-branch text-primary fa-2x mb-2"></i>
+                                    <p class="text-gray-300 small mb-0">Active open-source contributor and community builder</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CV Download CTA -->
+                    <div class="text-center mt-5">
+                        <!--<a href="{{ url_for('static', filename='docs/Okoth_Arnold_CV.pdf') }}" class="btn btn-primary btn-lg" download>
+                            <i class="fas fa-file-pdf me-2"></i>
+                            Download Full CV
+                        </a>-->
+                        <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg ms-2">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Let's Talk
+                        </a>
                     </div>
                 </div>
             </div>
@@ -174,6 +344,7 @@
     .about-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
+        min-height: 100vh;
     }
 
     /* Animated Background */
@@ -251,7 +422,71 @@
         margin-bottom: 3rem;
     }
 
-    /* Skill Items - Fixed Alignment */
+    /* Status Card */
+    .status-card {
+        background: rgba(59, 130, 246, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 0.75rem;
+        padding: 1rem;
+    }
+
+    .status-badge {
+        display: inline-block;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* Service Cards */
+    .service-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-3px);
+        border-color: rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Timeline */
+    .timeline-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #3b82f6;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(5px);
+    }
+
+    .timeline-date {
+        min-width: 120px;
+    }
+
+    /* Achievements */
+    .achievement-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .achievement-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateX(5px);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    /* Skill Items */
     .skill-item {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -265,62 +500,75 @@
 
     .skill-item:hover {
         background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(59, 130, 246, 0.3);
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border-color: rgba(59, 130, 246, 0.3);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
     .skill-header {
         display: flex;
         align-items: center;
-        margin-bottom: 0.75rem;
-        font-size: 1.1rem;
-        flex-shrink: 0;
+        margin-bottom: 0.5rem;
     }
 
     .skill-details {
         font-size: 0.95rem;
         line-height: 1.5;
-        flex: 1;
+    }
+
+    /* Tech Stack */
+    .tech-row {
         display: flex;
-        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Grid Layout Fixes */
-    .row.align-items-stretch {
-        margin: 0 -0.75rem;
+    .tech-row:last-child {
+        border-bottom: none;
     }
 
-    .row.align-items-stretch > [class*="col-"] {
-        padding: 0 0.75rem;
+    .tech-label {
+        min-width: 180px;
+        color: #3b82f6;
+        font-weight: 700;
     }
 
-    /* Achievements List */
-    .achievements-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+    .tech-items {
+        color: #d1d5db;
+        line-height: 1.6;
     }
 
-    .achievement-item {
-        display: flex;
-        align-items: flex-start;
+    .tech-items .badge {
+        font-weight: 500;
+        padding: 0.35rem 0.75rem;
+    }
+
+    /* Testimonials */
+    .testimonial-card {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0.75rem;
-        padding: 1.25rem;
+        padding: 1.5rem;
         transition: all 0.3s ease;
     }
 
-    .achievement-item:hover {
+    .testimonial-card:hover {
         background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(59, 130, 246, 0.3);
-        transform: translateX(5px);
+        transform: translateY(-2px);
     }
 
-    .achievement-item i {
-        margin-top: 0.2rem;
-        flex-shrink: 0;
+    /* Beyond Code */
+    .beyond-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .beyond-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
     }
 
     /* Buttons */
@@ -343,11 +591,13 @@
         border-radius: 0.75rem;
         font-weight: 600;
         transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .btn-outline-light:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
     }
 
     /* Animations */
@@ -366,20 +616,16 @@
         }
     }
 
+    .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
+    .animate-fade-in:nth-child(4) { animation-delay: 0.4s; }
+
     /* Utility Classes */
     .text-gray-300 {
         color: #d1d5db !important;
     }
 
-    .bg-gray-800 {
-        background-color: #1f2937 !important;
-    }
-
-    .border-gray-700 {
-        border-color: #374151 !important;
-    }
-
-    /* Text Colors */
     .text-primary {
         color: #3b82f6 !important;
     }
@@ -388,86 +634,30 @@
         color: #10b981 !important;
     }
 
-    /*
-     * ----------------------------------------
-     * TECHNICAL STACK SECTION STYLES
-     * ----------------------------------------
-     */
-
-    .tech-stack-grid {
-        background: rgba(255, 255, 255, 0.05); /* Similar to skill-item background */
-        border-radius: 0.75rem;
-        padding: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .tech-row {
-        /* Grid setup for label (fixed width) and items (remaining space) */
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 1.5rem;
-        padding: 1rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Light separator line */
-        align-items: start; /* Align content to the top of the grid cell */
-    }
-
-    .tech-row:last-child {
-        border-bottom: none;
-    }
-
-    .tech-label {
-        color: #3b82f6; /* Primary color */
-        font-weight: 700;
-        font-size: 0.95rem;
-    }
-
-    .tech-items {
-        color: #d1d5db; /* text-gray-300 */
-        line-height: 1.6;
-        font-size: 0.95rem;
-    }
-
-    /*
-     * ----------------------------------------
-     * RESPONSIVE DESIGN (Include Tech Stack changes)
-     * ----------------------------------------
-     */
+    /* Responsive Design */
     @media (max-width: 768px) {
         .display-4 {
             font-size: 2.5rem;
         }
-        
-        .achievement-item {
-            padding: 1rem;
-        }
-        
-        .skill-item {
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        
-        .row.align-items-stretch {
-            margin: 0 -0.5rem;
-        }
-        
-        .row.align-items-stretch > [class*="col-"] {
-            padding: 0 0.5rem;
-        }
 
-        /* Tech Stack Mobile Layout */
         .tech-row {
-            grid-template-columns: 1fr; /* Stack label and items vertically */
+            flex-direction: column;
+            align-items: flex-start;
             gap: 0.5rem;
-            padding: 0.75rem 0;
         }
 
         .tech-label {
-            margin-bottom: 0.1rem;
+            min-width: auto;
         }
 
-        .tech-stack-grid {
-            padding: 1.5rem;
+        .timeline-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .timeline-date {
+            min-width: auto;
         }
     }
 
@@ -475,40 +665,19 @@
         .display-4 {
             font-size: 2rem;
         }
-        
+
         .btn-lg {
             padding: 0.75rem 1.5rem;
             font-size: 0.9rem;
         }
-        
-        .content-section {
-            margin-bottom: 2rem;
-        }
-        
-        .skill-item {
-            padding: 1rem;
-        }
-        
-        .skill-header {
-            font-size: 1rem;
-        }
-        
-        .skill-details {
-            font-size: 0.9rem;
-        }
 
-        .tech-stack-grid {
-            padding: 1.25rem;
-        }
-        
-        .tech-label {
-            font-size: 0.9rem;
-        }
-        
-        .tech-items {
-            font-size: 0.9rem;
+        .service-card,
+        .skill-item,
+        .achievement-item,
+        .testimonial-card,
+        .beyond-item {
+            padding: 1rem;
         }
     }
 </style>
-
 {% endblock %}

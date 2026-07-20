@@ -14,35 +14,73 @@
     </div>
 
     <div class="container position-relative py-5" style="z-index: 2;">
-        <!-- Header Section - CENTERED -->
+        <!-- Header Section -->
         <div class="text-center mb-5 animate-fade-in">
             <h1 class="display-4 fw-bold mb-3 text-gradient-primary">My Blog</h1>
-            <p class="lead text-gray-300 mx-auto" style="max-width: 700px;">Sharing insights on backend development, cloud infrastructure, and data engineering</p>
+            <p class="lead text-gray-300 mx-auto" style="max-width: 700px;">Insights on backend development, cloud infrastructure, and data engineering</p>
         </div>
 
-        <!-- Blog Posts - CENTERED -->
+        <!-- NEW: Category Filter -->
+        <div class="category-filter mb-5 animate-fade-in">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                <button class="filter-btn active" data-filter="all">All Posts</button>
+                <button class="filter-btn" data-filter="backend">Backend</button>
+                <button class="filter-btn" data-filter="devops">DevOps</button>
+                <button class="filter-btn" data-filter="data">Data Engineering</button>
+                <button class="filter-btn" data-filter="cloud">Cloud</button>
+            </div>
+        </div>
+
+        <!-- Blog Posts -->
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-7">
                 {% for post in posts %}
-                <article class="blog-post mb-5 animate-fade-in" id="post-{{ post.id }}">
+                <article class="blog-post mb-5 animate-fade-in" id="post-{{ post.id }}" data-category="{{ post.category|lower if post.category else 'general' }}">
                     <!-- Post Header -->
-                    <div class="post-header mb-4 text-center">
+                    <div class="post-header mb-4">
+                        <!-- NEW: Featured/Recent Badge -->
+                        {% if loop.index == 1 %}
+                        <div class="post-badge mb-2">
+                            <span class="badge-featured">
+                                <i class="fas fa-star me-1"></i> Featured
+                            </span>
+                        </div>
+                        {% elif loop.index <= 3 %}
+                        <div class="post-badge mb-2">
+                            <span class="badge-recent">
+                                <i class="fas fa-clock me-1"></i> Recent
+                            </span>
+                        </div>
+                        {% endif %}
+
                         <h2 class="post-title fw-bold mb-3">
-                            <a href="{{ url_for('blog_post', slug=post.slug) }}" class="text-white text-decoration-none">{{ post.title }}</a>
+                            <a href="{{ url_for('blog_post', slug=post.slug if post.slug else 'post-' ~ post.id) }}" class="text-white text-decoration-none">
+                                {{ post.title }}
+                            </a>
                         </h2>
-                        <div class="post-meta d-flex align-items-center justify-content-center flex-wrap gap-3 text-gray-300">
+                        <div class="post-meta d-flex align-items-center flex-wrap gap-3 text-gray-300">
                             <span class="post-date">
                                 <i class="fas fa-calendar me-2"></i>
-                                {{ post.date_posted.strftime('%B %d, %Y') }}
+                                {% if post.date_posted %}
+                                    {% if post.date_posted is string %}
+                                        {{ post.date_posted }}
+                                    {% else %}
+                                        {{ post.date_posted.strftime('%B %d, %Y') }}
+                                    {% endif %}
+                                {% else %}
+                                    {{ 'January 1, 2024' }}
+                                {% endif %}
                             </span>
                             <span class="post-read-time">
                                 <i class="fas fa-clock me-2"></i>
-                                {{ post.read_time }}
+                                {{ post.read_time if post.read_time else '5 min read' }}
                             </span>
                             {% if post.category %}
                             <span class="post-category">
                                 <i class="fas fa-tag me-2"></i>
-                                {{ post.category }}
+                                <a href="#" class="text-gray-300 text-decoration-none category-link" data-category="{{ post.category|lower }}">
+                                    {{ post.category }}
+                                </a>
                             </span>
                             {% endif %}
                         </div>
@@ -50,7 +88,7 @@
 
                     <!-- Post Content -->
                     <div class="post-content mb-4">
-                        <div class="content-wrapper text-center">
+                        <div class="content-wrapper">
                             {% if post.excerpt %}
                                 {{ post.excerpt | safe }}
                             {% else %}
@@ -63,14 +101,15 @@
                     <div class="post-footer d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <div class="post-tags">
                             {% if post.tags %}
-                            <div class="tags-container justify-content-center justify-content-md-start">
+                            <div class="tags-container">
                                 {% for tag in post.tags.split(',') %}
                                 <span class="post-tag">{{ tag.strip() }}</span>
                                 {% endfor %}
                             </div>
                             {% endif %}
                         </div>
-                        <a href="{{ url_for('blog_post', slug=post.slug) }}" class="btn btn-outline-light btn-sm">
+                        <!-- FIXED: Read More with proper fallback -->
+                        <a href="{{ url_for('blog_post', slug=post.slug if post.slug else 'post-' ~ post.id) }}" class="btn btn-outline-light btn-sm read-more-btn">
                             Read More <i class="fas fa-arrow-right ms-1"></i>
                         </a>
                     </div>
@@ -79,7 +118,7 @@
                     <hr class="post-separator mt-4">
                 </article>
                 {% else %}
-                <!-- Empty State - CENTERED -->
+                <!-- Empty State -->
                 <div class="empty-state text-center animate-fade-in">
                     <div class="empty-icon mb-4">
                         <i class="fas fa-blog fa-4x text-gray-500"></i>
@@ -104,6 +143,18 @@
                 {% endfor %}
             </div>
         </div>
+
+        <!-- NEW: Newsletter/Subscribe CTA -->
+        <div class="newsletter-cta mt-5 animate-fade-in">
+            <div class="newsletter-card p-4 rounded text-center" style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2);">
+                <h4 class="text-white mb-2">📬 Stay in the Loop</h4>
+                <p class="text-gray-300 small mb-3">Get notified when I publish new articles on backend, DevOps, and data engineering.</p>
+                <a href="{{ url_for('contact') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-envelope me-2"></i>
+                    Subscribe for Updates
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -113,6 +164,8 @@
     .blog-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
+        min-height: 100vh;
+        padding-top: 80px;
     }
 
     /* Animated Background */
@@ -185,6 +238,31 @@
         background-clip: text;
     }
 
+    /* Category Filter */
+    .filter-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #d1d5db;
+        padding: 0.3rem 1rem;
+        border-radius: 1.5rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .filter-btn:hover {
+        background: rgba(59, 130, 246, 0.1);
+        border-color: rgba(59, 130, 246, 0.3);
+        color: #3b82f6;
+    }
+
+    .filter-btn.active {
+        background: rgba(59, 130, 246, 0.2);
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+
     /* Blog Post */
     .blog-post {
         background: rgba(255, 255, 255, 0.05);
@@ -202,10 +280,41 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
+    /* Post Badges */
+    .post-badge {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .badge-featured {
+        background: rgba(59, 130, 246, 0.2);
+        color: #3b82f6;
+        padding: 0.2rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-recent {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        padding: 0.2rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
     /* Post Header */
     .post-title {
         font-size: 1.5rem;
         line-height: 1.4;
+        text-align: left;
     }
 
     .post-title a {
@@ -218,6 +327,15 @@
 
     .post-meta {
         font-size: 0.85rem;
+        justify-content: flex-start;
+    }
+
+    .category-link {
+        transition: color 0.3s ease;
+    }
+
+    .category-link:hover {
+        color: #3b82f6 !important;
     }
 
     /* Post Content */
@@ -225,6 +343,7 @@
         color: #d1d5db;
         line-height: 1.7;
         font-size: 1rem;
+        text-align: left;
     }
 
     .content-wrapper p {
@@ -244,7 +363,7 @@
         color: white;
         margin-top: 1.5rem;
         margin-bottom: 1rem;
-        text-align: center;
+        text-align: left;
     }
 
     .content-wrapper h2 {
@@ -263,6 +382,20 @@
         font-size: 0.9em;
     }
 
+    .content-wrapper pre {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        text-align: left;
+    }
+
+    .content-wrapper pre code {
+        background: transparent;
+        color: #d1d5db;
+        padding: 0;
+    }
+
     /* Post Tags */
     .tags-container {
         display: flex;
@@ -273,9 +406,9 @@
     .post-tag {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        padding: 0.25rem 0.6rem;
+        padding: 0.2rem 0.6rem;
         border-radius: 1rem;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
         transition: all 0.3s ease;
@@ -302,6 +435,21 @@
         box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
         background: rgba(255, 255, 255, 0.1);
         border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
     }
 
     /* Separator */
@@ -342,10 +490,24 @@
         transform: translateY(-2px);
     }
 
+    /* Newsletter CTA */
+    .newsletter-card {
+        transition: all 0.3s ease;
+    }
+
+    .newsletter-card:hover {
+        background: rgba(59, 130, 246, 0.08) !important;
+        border-color: rgba(59, 130, 246, 0.3) !important;
+    }
+
     /* Animations */
     .animate-fade-in {
         animation: fadeInUp 0.8s ease-out;
     }
+
+    .animate-fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .animate-fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .animate-fade-in:nth-child(3) { animation-delay: 0.15s; }
 
     @keyframes fadeInUp {
         from { 
@@ -369,6 +531,10 @@
 
     /* Responsive Design */
     @media (max-width: 992px) {
+        .blog-section {
+            padding-top: 70px;
+        }
+
         .blog-post {
             padding: 1.75rem;
         }
@@ -379,6 +545,10 @@
     }
 
     @media (max-width: 768px) {
+        .blog-section {
+            padding-top: 60px;
+        }
+
         .blog-post {
             padding: 1.5rem;
         }
@@ -397,8 +567,8 @@
         
         .post-footer {
             flex-direction: column;
-            align-items: center !important;
-            text-align: center;
+            align-items: flex-start !important;
+            text-align: left;
             gap: 1rem;
         }
         
@@ -408,7 +578,7 @@
         }
         
         .tags-container {
-            justify-content: center;
+            justify-content: flex-start;
         }
         
         .col-lg-8 {
@@ -419,9 +589,26 @@
         .empty-state {
             padding: 2rem 1.5rem;
         }
+
+        .filter-btn {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+        }
+
+        .post-meta {
+            justify-content: flex-start;
+        }
+
+        .post-badge {
+            justify-content: flex-start;
+        }
     }
 
     @media (max-width: 576px) {
+        .blog-section {
+            padding-top: 50px;
+        }
+
         .display-4 {
             font-size: 1.8rem;
         }
@@ -436,7 +623,7 @@
         
         .post-meta {
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.5rem;
         }
         
@@ -456,6 +643,25 @@
         .topics-grid {
             gap: 0.5rem;
         }
+
+        .category-filter {
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .filter-btn {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            white-space: nowrap;
+        }
+
+        .newsletter-card {
+            padding: 1.25rem !important;
+        }
+
+        .newsletter-card h4 {
+            font-size: 1.1rem;
+        }
     }
 </style>
 
@@ -466,6 +672,45 @@
         
         blogPosts.forEach((post, index) => {
             post.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // --- Category Filter ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const posts = document.querySelectorAll('.blog-post');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+
+                posts.forEach(post => {
+                    if (filter === 'all') {
+                        post.style.display = 'block';
+                    } else {
+                        const category = post.dataset.category || 'general';
+                        if (category === filter) {
+                            post.style.display = 'block';
+                        } else {
+                            post.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // --- Category Link Click Handler ---
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.dataset.category;
+                const filterBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+                if (filterBtn) {
+                    filterBtn.click();
+                }
+            });
         });
     });
 </script>

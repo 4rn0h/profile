@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block title %}{{ post.title }} - Blog | Okoth Arnold{% endblock %}
 
 {% block content %}
 <!-- Enhanced Blog Post Section -->
@@ -14,41 +15,12 @@
 
     <div class="container position-relative py-5" style="z-index: 2;">
         <div class="row justify-content-center">
-            <!-- SIDEBAR - Left side on larger screens -->
-            <div class="col-lg-3 col-xl-3 d-none d-lg-block">
-                <div class="sticky-top" style="top: 20px;">
-                    <!-- Table of Contents -->
-                    <div class="sidebar-widget mb-4 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                        <h5 class="text-white mb-3">
-                            <i class="fas fa-list me-2"></i>Table of Contents
-                        </h5>
-                        <div id="toc" class="toc-content text-gray-300">
-                            <!-- Will be populated by JavaScript -->
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Posts -->
-                    <div class="sidebar-widget p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                        <h5 class="text-white mb-3">
-                            <i class="fas fa-history me-2"></i>Recent Posts
-                        </h5>
-                        <div class="recent-posts">
-                            <!-- Will be populated by JavaScript or server-side -->
-                            <div class="text-center">
-                                <i class="fas fa-spinner fa-spin text-gray-300"></i>
-                                <p class="text-gray-300 small mt-2">Loading recent posts...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- MAIN CONTENT - Center column -->
-            <div class="col-lg-7 col-xl-7">
+            <!-- MAIN CONTENT - Center column (wider on desktop) -->
+            <div class="col-lg-8 col-xl-7">
                 <!-- Blog Post Header -->
-                <div class="blog-post-header mb-5 animate-fade-in">
+                <div class="blog-post-header mb-4 animate-fade-in">
                     <!-- Breadcrumb -->
-                    <nav aria-label="breadcrumb" class="mb-4">
+                    <nav aria-label="breadcrumb" class="mb-3">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url_for('index') }}" class="text-gray-300">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{ url_for('blog') }}" class="text-gray-300">Blog</a></li>
@@ -57,10 +29,20 @@
                     </nav>
                     
                     <h1 class="display-5 fw-bold mb-3 text-gradient-primary">{{ post.title }}</h1>
-                    <div class="post-meta d-flex flex-wrap gap-3 text-gray-300 mb-4">
+                    
+                    <!-- Post Meta -->
+                    <div class="post-meta d-flex flex-wrap align-items-center gap-3 text-gray-300 mb-3">
                         <span class="post-date">
                             <i class="fas fa-calendar me-2"></i>
-                            {{ post.date_posted.strftime('%B %d, %Y') }}
+                            {% if post.date_posted %}
+                                {% if post.date_posted is string %}
+                                    {{ post.date_posted }}
+                                {% else %}
+                                    {{ post.date_posted.strftime('%B %d, %Y') }}
+                                {% endif %}
+                            {% else %}
+                                {{ 'January 1, 2024' }}
+                            {% endif %}
                         </span>
                         {% if post.read_time %}
                         <span class="post-read-time">
@@ -71,14 +53,16 @@
                         {% if post.category %}
                         <span class="post-category">
                             <i class="fas fa-tag me-2"></i>
-                            {{ post.category }}
+                            <a href="{{ url_for('blog') }}?category={{ post.category|lower }}" class="text-gray-300 text-decoration-none category-link">
+                                {{ post.category }}
+                            </a>
                         </span>
                         {% endif %}
                     </div>
                     
                     <!-- Tags -->
                     {% if post.tags %}
-                    <div class="post-tags mb-4">
+                    <div class="post-tags mb-3">
                         <div class="tags-container d-flex flex-wrap gap-2">
                             {% for tag in post.tags.split(',') %}
                             <span class="post-tag badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">
@@ -91,86 +75,128 @@
                 </div>
 
                 <!-- Blog Post Content -->
-                <article class="blog-post-content mb-5 animate-fade-in">
+                <article class="blog-post-content mb-4 animate-fade-in">
                     <div class="content-wrapper">
                         {{ post.content | safe }}
                     </div>
                 </article>
 
                 <!-- Post Actions -->
-                <div class="post-actions d-flex justify-content-between align-items-center mb-5">
-                    <a href="{{ url_for('blog') }}" class="btn btn-outline-light">
+                <div class="post-actions d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                    <a href="{{ url_for('blog') }}" class="btn btn-outline-light btn-sm">
                         <i class="fas fa-arrow-left me-2"></i>
                         Back to Blog
                     </a>
-                    <div class="social-share">
-                        <button class="btn btn-outline-light btn-sm me-2" onclick="shareOnTwitter()">
-                            <i class="fab fa-twitter me-1"></i> Twitter
+                    <div class="social-share d-flex gap-2">
+                        <span class="text-gray-300 small me-1 d-none d-sm-inline">Share:</span>
+                        <button class="btn btn-outline-light btn-sm" onclick="shareOnTwitter()" title="Share on Twitter">
+                            <i class="fab fa-twitter"></i>
                         </button>
-                        <button class="btn btn-outline-light btn-sm" onclick="shareOnLinkedIn()">
-                            <i class="fab fa-linkedin me-1"></i> LinkedIn
+                        <button class="btn btn-outline-light btn-sm" onclick="shareOnLinkedIn()" title="Share on LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" onclick="shareOnDevTo()" title="Share on Dev.to">
+                            <i class="fab fa-dev"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" onclick="shareOnEmail()" title="Share via Email">
+                            <i class="fas fa-envelope"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Comments Section -->
+                <!-- NEW: Back to Top -->
+                <div class="text-center mb-4">
+                    <a href="#top" class="btn btn-outline-light btn-sm back-to-top">
+                        <i class="fas fa-arrow-up me-2"></i>
+                        Back to Top
+                    </a>
+                </div>
+
+                <!-- Comments Section - Simplified for Static -->
                 <div class="comments-section animate-fade-in">
-                    <h3 class="h2 fw-bold text-white mb-4">
+                    <h3 class="h4 fw-bold text-white mb-3">
                         <i class="fas fa-comments me-2"></i>Comments
-                        {% if post.comments %}
-                        <span class="badge bg-primary ms-2">{{ post.comments|length }}</span>
-                        {% endif %}
                     </h3>
                     
-                    {% if post.comments %}
-                        {% for comment in post.comments %}
-                        <div class="comment-item mb-3 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                            <div class="comment-header d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-user-circle me-2 text-primary"></i>
-                                    <strong class="text-white">{{ comment.author }}</strong>
-                                </div>
-                                <small class="text-gray-300">{{ comment.date_posted.strftime('%b %d, %Y at %H:%M') }}</small>
-                            </div>
-                            <p class="text-gray-300 mb-0 ps-4">{{ comment.body }}</p>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="text-center p-4 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
-                            <i class="fas fa-comment-slash fa-2x text-gray-500 mb-3"></i>
-                            <p class="text-gray-300 mb-0">No comments yet. Be the first to share your thoughts!</p>
-                        </div>
-                    {% endif %}
+                    <div class="text-center p-4 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25 mb-3">
+                        <i class="fas fa-comment-slash fa-2x text-gray-500 mb-3"></i>
+                        <p class="text-gray-300 mb-0">
+                            <i class="fas fa-info-circle me-2 text-primary"></i>
+                            Have thoughts on this post? 
+                            <a href="{{ url_for('contact') }}" class="text-primary fw-bold">Contact me directly</a>
+                            and I'll respond personally.
+                        </p>
+                    </div>
+                </div>
 
-                    <!-- Comment Form -->
-                    <div class="comment-form mt-5">
-                        <h4 class="text-white mb-4">
-                            <i class="fas fa-edit me-2"></i>Leave a Comment
-                        </h4>
-                        <form method="POST" class="bg-dark bg-opacity-50 p-4 rounded border border-secondary border-opacity-25">
-                            {{ form.hidden_tag() }}
-                            <div class="row g-3 mb-4">
-                                <div class="col-md-6">
-                                    {{ form.author.label(class="form-label text-gray-300") }}
-                                    {{ form.author(class="form-control bg-dark text-white border-secondary", placeholder="Your Name") }}
-                                </div>
+                <!-- NEW: Related Posts -->
+                <div class="related-posts mt-5 animate-fade-in">
+                    <h4 class="text-white mb-3">
+                        <i class="fas fa-book-open me-2"></i>You Might Also Like
+                    </h4>
+                    <div class="related-posts-grid">
+                        {% if recent_posts and recent_posts|length > 0 %}
+                            {% for related in recent_posts[:3] %}
+                            <div class="related-post-item p-3 rounded" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                <a href="{{ url_for('blog_post', slug=related.slug) }}" class="text-white text-decoration-none">
+                                    <h5 class="fw-bold mb-1" style="font-size: 0.95rem;">{{ related.title }}</h5>
+                                </a>
+                                <p class="text-gray-300 small mb-0">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    {% if related.date_posted %}
+                                        {% if related.date_posted is string %}
+                                            {{ related.date_posted }}
+                                        {% else %}
+                                            {{ related.date_posted.strftime('%B %d, %Y') }}
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
                             </div>
-                            <div class="mb-4">
-                                {{ form.body.label(class="form-label text-gray-300") }}
-                                {{ form.body(class="form-control bg-dark text-white border-secondary", rows=4, placeholder="Share your thoughts...") }}
-                            </div>
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="fas fa-paper-plane me-2"></i>
-                                Post Comment
-                            </button>
-                        </form>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-gray-300 small">Check back for more articles on backend, DevOps, and data engineering.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            
-            <!-- Right side spacer for balance (optional) -->
-            <div class="col-lg-2 col-xl-2 d-none d-lg-block">
-                <!-- Empty spacer for visual balance -->
+
+            <!-- SIDEBAR - Right side on larger screens -->
+            <div class="col-lg-4 col-xl-3 d-none d-lg-block">
+                <div class="sticky-top" style="top: 20px;">
+                    <!-- Table of Contents -->
+                    <div class="sidebar-widget mb-3 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                        <h5 class="text-white mb-3" style="font-size: 0.95rem;">
+                            <i class="fas fa-list me-2"></i>Table of Contents
+                        </h5>
+                        <div id="toc" class="toc-content text-gray-300">
+                            <p class="text-gray-300 small"><i class="fas fa-spinner fa-spin me-2"></i>Loading...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Posts -->
+                    <div class="sidebar-widget p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                        <h5 class="text-white mb-3" style="font-size: 0.95rem;">
+                            <i class="fas fa-history me-2"></i>Recent Posts
+                        </h5>
+                        <div class="recent-posts" id="recent-posts">
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin text-gray-300"></i>
+                                <p class="text-gray-300 small mt-2">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Newsletter CTA in Sidebar -->
+                    <div class="sidebar-widget mt-3 p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                        <h5 class="text-white mb-2" style="font-size: 0.95rem;">
+                            <i class="fas fa-envelope me-2"></i>Get Updates
+                        </h5>
+                        <p class="text-gray-300 small mb-2">New posts delivered to your inbox.</p>
+                        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-sm w-100">
+                            Subscribe
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +208,8 @@
     .blog-post-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
+        min-height: 100vh;
+        padding-top: 80px;
     }
 
     /* Animated Background */
@@ -219,6 +247,28 @@
         animation-delay: 4s;
     }
 
+    .blog-bg-animation .bg-gradient-1,
+    .blog-bg-animation .bg-gradient-2 {
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0.03;
+    }
+
+    .blog-bg-animation .bg-gradient-1 {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        top: -30px;
+        right: -30px;
+    }
+
+    .blog-bg-animation .bg-gradient-2 {
+        background: linear-gradient(135deg, #06b6d4, #0d9488);
+        bottom: -30px;
+        left: -30px;
+    }
+
     @keyframes float {
         0%, 100% { transform: translateY(0px) scale(1); }
         50% { transform: translateY(-12px) scale(1.02); }
@@ -232,12 +282,47 @@
         background-clip: text;
     }
 
-    /* Blog Post Content - Better typography */
+    /* Breadcrumb */
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .breadcrumb-item a {
+        color: #94a3b8 !important;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #3b82f6 !important;
+    }
+
+    .breadcrumb-item.active {
+        color: #e2e8f0 !important;
+    }
+
+    /* Post Meta */
+    .post-meta {
+        font-size: 0.85rem;
+    }
+
+    .post-meta a {
+        transition: color 0.3s ease;
+    }
+
+    .post-meta a:hover {
+        color: #3b82f6 !important;
+    }
+
+    /* Blog Post Content */
     .blog-post-content .content-wrapper {
         color: #e5e7eb;
         line-height: 1.8;
         font-size: 1.05rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 100%;
     }
 
     .blog-post-content .content-wrapper h1 {
@@ -246,6 +331,7 @@
         margin-bottom: 1.5rem;
         padding-bottom: 0.5rem;
         border-bottom: 2px solid #3b82f6;
+        color: #ffffff;
     }
 
     .blog-post-content .content-wrapper h2 {
@@ -264,15 +350,17 @@
         scroll-margin-top: 80px;
     }
 
-    .blog-post-content .content-wrapper h4, 
-    .blog-post-content .content-wrapper h5, 
+    .blog-post-content .content-wrapper h4,
+    .blog-post-content .content-wrapper h5,
     .blog-post-content .content-wrapper h6 {
         scroll-margin-top: 80px;
+        color: #d1d5db;
     }
 
     .blog-post-content .content-wrapper p {
         margin-bottom: 1.25rem;
-        text-align: justify;
+        text-align: left;
+        color: #d1d5db;
     }
 
     .blog-post-content .content-wrapper a {
@@ -309,6 +397,7 @@
         background: none;
         color: #e2e8f0;
         padding: 0;
+        font-size: 0.9rem;
     }
 
     .blog-post-content .content-wrapper blockquote {
@@ -326,6 +415,7 @@
     .blog-post-content .content-wrapper ol {
         margin: 1.25rem 0;
         padding-left: 1.5rem;
+        color: #d1d5db;
     }
 
     .blog-post-content .content-wrapper li {
@@ -359,6 +449,7 @@
         border: 1px solid #374151;
         padding: 0.75rem;
         text-align: left;
+        color: #d1d5db;
     }
 
     .blog-post-content .content-wrapper th {
@@ -367,67 +458,17 @@
         font-weight: 600;
     }
 
-    /* Tags */
+    /* Post Tags */
     .post-tag {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
         border-radius: 0.375rem;
+        transition: all 0.3s ease;
     }
 
-    /* Breadcrumb */
-    .breadcrumb {
-        background: transparent;
-        padding: 0;
-        margin-bottom: 1rem;
-    }
-
-    .breadcrumb-item a {
-        color: #94a3b8 !important;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .breadcrumb-item a:hover {
-        color: #3b82f6 !important;
-    }
-
-    /* Table of Contents */
-    .toc-content {
-        font-size: 0.9rem;
-        max-height: calc(100vh - 200px);
-        overflow-y: auto;
-    }
-
-    .toc-content ul {
-        padding-left: 1rem;
-        margin: 0;
-        list-style: none;
-    }
-
-    .toc-content li {
-        margin-bottom: 0.5rem;
-        list-style: none;
-    }
-
-    .toc-content a {
-        color: #94a3b8;
-        text-decoration: none;
-        transition: color 0.2s ease;
-        display: block;
-        padding: 0.25rem 0;
-        font-size: 0.85rem;
-    }
-
-    .toc-content a:hover {
-        color: #3b82f6;
-        padding-left: 4px;
-    }
-
-    .toc-content a.active {
-        color: #3b82f6;
-        font-weight: 500;
-        border-left: 2px solid #3b82f6;
-        padding-left: 8px;
+    .post-tag:hover {
+        background: rgba(59, 130, 246, 0.2) !important;
+        transform: translateY(-1px);
     }
 
     /* Sidebar Widget */
@@ -440,15 +481,93 @@
         border-color: rgba(59, 130, 246, 0.3) !important;
     }
 
-    /* Recent Posts */
-    .recent-post-item a {
-        transition: all 0.2s ease;
+    /* Table of Contents */
+    .toc-content {
         font-size: 0.85rem;
+        max-height: calc(100vh - 300px);
+        overflow-y: auto;
+    }
+
+    .toc-content ul {
+        padding-left: 0.5rem;
+        margin: 0;
+        list-style: none;
+    }
+
+    .toc-content li {
+        margin-bottom: 0.25rem;
+        list-style: none;
+    }
+
+    .toc-content a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: block;
+        padding: 0.15rem 0;
+        font-size: 0.8rem;
+        border-left: 2px solid transparent;
+        padding-left: 0.5rem;
+    }
+
+    .toc-content a:hover {
+        color: #3b82f6;
+        padding-left: 0.75rem;
+        border-left-color: #3b82f6;
+    }
+
+    .toc-content a.active {
+        color: #3b82f6;
+        font-weight: 500;
+        border-left-color: #3b82f6;
+        padding-left: 0.75rem;
+    }
+
+    /* Recent Posts */
+    .recent-post-item {
+        transition: all 0.2s ease;
+    }
+
+    .recent-post-item a {
+        color: #d1d5db !important;
+        text-decoration: none;
+        display: block;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
     }
 
     .recent-post-item a:hover {
         background: rgba(59, 130, 246, 0.1);
-        padding-left: 12px;
+        color: #3b82f6 !important;
+        padding-left: 0.8rem;
+    }
+
+    .recent-post-item .recent-date {
+        font-size: 0.65rem;
+        color: #64748b;
+        display: block;
+        margin-top: 0.1rem;
+    }
+
+    /* Related Posts */
+    .related-post-item {
+        transition: all 0.3s ease;
+        margin-bottom: 0.75rem;
+    }
+
+    .related-post-item:hover {
+        background: rgba(59, 130, 246, 0.05) !important;
+        border-color: rgba(59, 130, 246, 0.3) !important;
+        transform: translateX(3px);
+    }
+
+    .related-post-item h5 {
+        transition: color 0.3s ease;
+    }
+
+    .related-post-item h5:hover {
         color: #3b82f6 !important;
     }
 
@@ -458,12 +577,15 @@
         font-weight: 500;
         transition: all 0.3s ease;
         border-color: rgba(255, 255, 255, 0.2);
+        font-size: 0.85rem;
+        padding: 0.35rem 0.8rem;
     }
 
     .btn-outline-light:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
         background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.4);
     }
 
     .btn-primary {
@@ -473,6 +595,8 @@
         font-weight: 500;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        font-size: 0.85rem;
+        padding: 0.35rem 0.8rem;
     }
 
     .btn-primary:hover {
@@ -480,24 +604,15 @@
         box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
 
-    /* Form Controls */
-    .form-control.bg-dark {
-        background: #1e293b !important;
-        border: 1px solid #374151 !important;
-        color: white !important;
-        border-radius: 0.5rem;
+    /* Back to Top */
+    .back-to-top {
+        opacity: 0.7;
         transition: all 0.3s ease;
     }
 
-    .form-control.bg-dark:focus {
-        background: #1e293b !important;
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
-        color: white !important;
-    }
-
-    .form-control::placeholder {
-        color: #64748b !important;
+    .back-to-top:hover {
+        opacity: 1;
+        transform: translateY(-2px);
     }
 
     /* Animations */
@@ -528,6 +643,10 @@
         color: #d1d5db !important;
     }
 
+    .text-gray-500 {
+        color: #6b7280 !important;
+    }
+
     .bg-opacity-50 {
         background-color: rgba(0, 0, 0, 0.5);
     }
@@ -538,6 +657,10 @@
 
     /* Responsive Design */
     @media (max-width: 992px) {
+        .blog-post-section {
+            padding-top: 70px;
+        }
+
         .blog-post-content .content-wrapper {
             font-size: 1rem;
         }
@@ -556,12 +679,17 @@
     }
 
     @media (max-width: 768px) {
+        .blog-post-section {
+            padding-top: 60px;
+        }
+
         .display-5 {
             font-size: 1.75rem;
         }
         
         .blog-post-content .content-wrapper {
             font-size: 0.95rem;
+            line-height: 1.7;
         }
         
         .blog-post-content .content-wrapper h1 {
@@ -579,33 +707,49 @@
         .post-actions {
             flex-direction: column;
             gap: 1rem;
-            align-items: flex-start;
+            align-items: stretch;
         }
         
         .social-share {
             width: 100%;
             display: flex;
             gap: 0.5rem;
+            justify-content: center;
         }
         
         .social-share .btn {
             flex: 1;
+            justify-content: center;
+        }
+
+        .post-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+
+        .related-posts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-widget {
+            display: none;
         }
     }
 
     @media (max-width: 576px) {
+        .blog-post-section {
+            padding-top: 50px;
+        }
+
         .display-5 {
             font-size: 1.5rem;
         }
         
-        .post-meta {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-        
         .breadcrumb {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .btn {
@@ -613,8 +757,27 @@
             justify-content: center;
         }
         
-        .sidebar-widget {
-            margin-bottom: 1rem;
+        .blog-post-content .content-wrapper {
+            font-size: 0.9rem;
+        }
+
+        .blog-post-content .content-wrapper pre {
+            padding: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .social-share {
+            flex-wrap: wrap;
+        }
+
+        .social-share .btn {
+            flex: 1;
+            min-width: 40px;
+            font-size: 0.8rem;
+        }
+
+        .social-share .btn span {
+            display: none;
         }
     }
 
@@ -625,7 +788,7 @@
         }
         
         .sidebar-widget {
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
     }
 </style>
@@ -638,95 +801,113 @@
         const tocContainer = document.getElementById('toc');
         
         if (contentWrapper && tocContainer) {
-            const headings = contentWrapper.querySelectorAll('h1, h2, h3');
+            // Only use H2 and H3 for TOC (skip H1)
+            const headings = contentWrapper.querySelectorAll('h2, h3');
+            
             if (headings.length > 0) {
                 let tocHTML = '<ul class="toc-list">';
+                let hasHeadings = false;
                 
                 headings.forEach((heading, index) => {
-                    // Add ID to heading if it doesn't have one
-                    if (!heading.id) {
-                        heading.id = 'section-' + index;
+                    // Only include headings with text content
+                    if (heading.textContent.trim()) {
+                        hasHeadings = true;
+                        // Add ID to heading if it doesn't have one
+                        if (!heading.id) {
+                            heading.id = 'section-' + index;
+                        }
+                        
+                        const level = parseInt(heading.tagName.charAt(1));
+                        const indent = (level - 2) * 12; // H2 = 0, H3 = 12
+                        const text = heading.textContent.trim();
+                        
+                        tocHTML += `
+                            <li style="margin-left: ${indent}px" data-section-id="${heading.id}">
+                                <a href="#${heading.id}" class="toc-link" onclick="scrollToSection(event, '${heading.id}')">
+                                    ${text}
+                                </a>
+                            </li>
+                        `;
                     }
-                    
-                    const level = parseInt(heading.tagName.charAt(1));
-                    const indent = (level - 1) * 12;
-                    const text = heading.textContent;
-                    
-                    tocHTML += `
-                        <li style="margin-left: ${indent}px" data-section-id="${heading.id}">
-                            <a href="#${heading.id}" class="toc-link" onclick="scrollToSection(event, '${heading.id}')">
-                                ${text}
-                            </a>
-                        </li>
-                    `;
                 });
                 
                 tocHTML += '</ul>';
-                tocContainer.innerHTML = tocHTML;
                 
-                // Add scroll spy to highlight active section
-                const tocLinks = document.querySelectorAll('.toc-link');
-                const sections = Array.from(headings);
-                
-                function updateActiveSection() {
-                    let currentSection = '';
-                    const scrollPosition = window.scrollY + 100;
+                if (hasHeadings) {
+                    tocContainer.innerHTML = tocHTML;
                     
-                    for (let i = 0; i < sections.length; i++) {
-                        const section = sections[i];
-                        const sectionTop = section.offsetTop;
-                        const sectionBottom = sectionTop + section.offsetHeight;
+                    // Add scroll spy to highlight active section
+                    const tocLinks = document.querySelectorAll('.toc-link');
+                    const sections = Array.from(headings).filter(h => h.textContent.trim());
+                    
+                    function updateActiveSection() {
+                        let currentSection = '';
+                        const scrollPosition = window.scrollY + 120;
                         
-                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                            currentSection = section.id;
-                            break;
+                        for (let i = 0; i < sections.length; i++) {
+                            const section = sections[i];
+                            const sectionTop = section.offsetTop;
+                            const sectionBottom = sectionTop + section.offsetHeight;
+                            
+                            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                                currentSection = section.id;
+                                break;
+                            }
                         }
+                        
+                        // Update active class
+                        tocLinks.forEach(link => {
+                            link.classList.remove('active');
+                            const href = link.getAttribute('href').substring(1);
+                            if (href === currentSection) {
+                                link.classList.add('active');
+                            }
+                        });
                     }
                     
-                    // Update active class
-                    tocLinks.forEach(link => {
-                        link.classList.remove('active');
-                        const href = link.getAttribute('href').substring(1);
-                        if (href === currentSection) {
-                            link.classList.add('active');
-                        }
-                    });
+                    window.addEventListener('scroll', updateActiveSection);
+                    // Initial call after a small delay
+                    setTimeout(updateActiveSection, 200);
+                } else {
+                    tocContainer.innerHTML = '<p class="text-gray-300 small">No headings in this post.</p>';
                 }
-                
-                window.addEventListener('scroll', updateActiveSection);
-                updateActiveSection();
             } else {
                 tocContainer.innerHTML = '<p class="text-gray-300 small">No headings found in this post.</p>';
             }
         }
 
-        // Load recent posts via AJAX
-        const recentPostsContainer = document.querySelector('.recent-posts');
+        // ---- Load recent posts from static data ----
+        const recentPostsContainer = document.getElementById('recent-posts');
         if (recentPostsContainer) {
-            fetch('/api/recent-posts?exclude={{ post.id }}&limit=5')
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        let postsHTML = '';
-                        data.forEach(post => {
-                            postsHTML += `
-                                <div class="recent-post-item mb-2">
-                                    <a href="/blog/${post.slug}" class="text-gray-300 d-block py-2 px-2 rounded text-decoration-none transition">
-                                        <i class="fas fa-angle-right me-2 text-primary"></i>
-                                        ${post.title}
-                                    </a>
-                                </div>
-                            `;
-                        });
-                        recentPostsContainer.innerHTML = postsHTML;
-                    } else {
-                        recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">No other posts yet.</p>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading recent posts:', error);
-                    recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">Could not load recent posts.</p>';
-                });
+            const recentPosts = {{ recent_posts | tojson | safe if recent_posts else '[]' }};
+            
+            if (recentPosts && recentPosts.length > 0) {
+                let postsHTML = '';
+                const currentSlug = '{{ post.slug }}';
+                const filteredPosts = recentPosts.filter(p => p.slug !== currentSlug).slice(0, 5);
+                
+                if (filteredPosts.length > 0) {
+                    filteredPosts.forEach(post => {
+                        const dateStr = post.date_posted ? 
+                            (post.date_posted.isoformat ? post.date_posted.split('T')[0] : post.date_posted) : 
+                            '';
+                        postsHTML += `
+                            <div class="recent-post-item">
+                                <a href="${post.url || '/blog/' + post.slug}" class="text-gray-300 d-block py-2 px-2 rounded text-decoration-none transition">
+                                    <i class="fas fa-angle-right me-2 text-primary"></i>
+                                    ${post.title}
+                                    ${dateStr ? `<span class="recent-date"><i class="far fa-calendar me-1"></i>${dateStr}</span>` : ''}
+                                </a>
+                            </div>
+                        `;
+                    });
+                    recentPostsContainer.innerHTML = postsHTML;
+                } else {
+                    recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">No other posts yet.</p>';
+                }
+            } else {
+                recentPostsContainer.innerHTML = '<p class="text-gray-300 small text-center">No other posts yet.</p>';
+            }
         }
     });
 
@@ -749,8 +930,8 @@
     // Share buttons
     function shareOnTwitter() {
         const url = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent("Check out this blog post: " + document.title);
-        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+        const title = encodeURIComponent(document.title);
+        window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
     }
 
     function shareOnLinkedIn() {
@@ -758,16 +939,16 @@
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
     }
 
-    // Form submission feedback
-    const commentForm = document.querySelector('form');
-    if (commentForm) {
-        commentForm.addEventListener('submit', function() {
-            const submitBtn = this.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Posting...';
-                submitBtn.disabled = true;
-            }
-        });
+    function shareOnDevTo() {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        window.open(`https://dev.to/new?title=${title}&url=${url}`, '_blank', 'width=600,height=400');
+    }
+
+    function shareOnEmail() {
+        const url = window.location.href;
+        const title = document.title;
+        window.location.href = `mailto:?subject=Check out: ${title}&body=I thought you might find this interesting: ${url}`;
     }
 </script>
 {% endblock %}

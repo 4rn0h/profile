@@ -17,81 +17,341 @@
         <!-- Header Section -->
         <div class="text-start mb-5 animate-fade-in">
             <h1 class="display-4 fw-bold mb-3 text-gradient-primary">My Projects</h1>
-            <p class="lead text-gray-300">Showcasing scalable backend systems, cloud infrastructure, and data engineering solutions</p>
+            <p class="lead text-gray-300">Scalable backend systems, cloud infrastructure, and data engineering solutions</p>
+        </div>
+
+        <!-- NEW: Featured Project -->
+        <div class="featured-project mb-5 animate-fade-in p-4 rounded" style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2);">
+            <div class="featured-badge mb-3">
+                <span class="badge bg-primary">
+                    <i class="fas fa-star me-1"></i> Featured Project
+                </span>
+            </div>
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <img src="{{ url_for('static', filename='img/data_etl.png') }}" 
+                         class="img-fluid rounded" 
+                         alt="ETL Pipeline Architecture"
+                         style="max-height: 300px; width: 100%; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-white mb-2">ETL Pipeline for Agri-Tech</h2>
+                    <p class="text-gray-300 mb-3">End-to-end data pipeline processing 500GB+ daily agricultural data with Python, Apache Airflow, and Google BigQuery.</p>
+                    <div class="project-stats d-flex flex-wrap gap-3 mb-3">
+                        <span class="stat-badge">📊 500GB+ Daily</span>
+                        <span class="stat-badge">⚡ 25% Faster</span>
+                        <span class="stat-badge">🏆 Production Ready</span>
+                        <span class="stat-badge status-live"><i class="fas fa-circle text-success"></i> Live</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="#" class="btn btn-primary">
+                            <i class="fas fa-file-alt me-2"></i>Case Study
+                        </a>
+                        <a href="https://github.com/okothouko/etl-bigquery" class="btn btn-outline-light" target="_blank">
+                            <i class="fab fa-github me-2"></i>View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Projects Grid -->
         <div class="row justify-content-start">
-            {% for project in projects %}
-            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in" id="project-{{ project.id }}">
+            <!-- Project 1: ETL Pipeline -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
                 <div class="project-card h-100">
-                    <!-- Project Image -->
                     <div class="project-image-container">
-                        <img src="{{ project.image_url or 'https://via.placeholder.com/400x250/1f2937/3b82f6?text=Project+Image' }}" 
+                        <img src="{{ url_for('static', filename='img/data_etl.png') }}" 
                              class="project-image" 
-                             alt="{{ project.title }}"
+                             alt="ETL Pipeline"
                              loading="lazy">
                         <div class="project-overlay">
                             <div class="project-links">
-                                {% if project.project_url %}
-                                <a href="{{ project.project_url }}" class="project-link" target="_blank" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
+                                <a href="#" class="project-link" title="Case Study">
+                                    <i class="fas fa-file-alt"></i>
                                 </a>
-                                {% endif %}
-                                
-                                {% if project.github_url %}
-                                <a href="{{ project.github_url }}" class="project-link" target="_blank" title="View Code">
+                                <a href="https://github.com/okothouko/etl-bigquery" class="project-link" target="_blank" title="View Code">
                                     <i class="fab fa-github"></i>
                                 </a>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
-
-                    <!-- Project Content -->
                     <div class="project-content">
-                        <h3 class="project-title fw-bold">{{ project.title }}</h3>
-                        <p class="project-description text-gray-300">{{ project.description }}</p>
-                        
-                        <!-- Project Technologies -->
-                        {% if project.technologies %}
-                        <div class="project-technologies">
-                            {% for tech in project.technologies.split(',') %}
-                            <span class="tech-tag">{{ tech.strip() }}</span>
-                            {% endfor %}
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">ETL Pipeline with BigQuery</h3>
+                            <span class="project-status status-live">
+                                <i class="fas fa-circle"></i> Live
+                            </span>
                         </div>
-                        {% endif %}
+                        <p class="project-description">Scalable ETL pipeline processing 500GB+ agricultural data daily with Python, Apache Airflow, and Google BigQuery. Reduced processing time from 6 hours to 4.5 hours.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">Python</span>
+                            <span class="tech-tag tech-primary">BigQuery</span>
+                            <span class="tech-tag">Airflow</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Pandas</span>
+                        </div>
 
-                        <!-- Project Actions -->
+                        <div class="project-impact mt-3">
+                            <div class="impact-item">
+                                <span class="impact-label">Impact</span>
+                                <span class="impact-text text-success">25% faster processing, same-day reporting</span>
+                            </div>
+                        </div>
+
                         <div class="project-actions mt-3">
-                            {% if project.project_url %}
-                            <a href="{{ project.project_url }}" class="btn btn-primary btn-sm me-2" target="_blank">
-                                <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                            <a href="#" class="btn btn-primary btn-sm">
+                                <i class="fas fa-file-alt me-1"></i> Case Study
                             </a>
-                            {% endif %}
-                            
-                            {% if project.github_url %}
-                            <a href="{{ project.github_url }}" class="btn btn-outline-light btn-sm" target="_blank">
+                            <a href="https://github.com/okothouko/etl-bigquery" class="btn btn-outline-light btn-sm" target="_blank">
                                 <i class="fab fa-github me-1"></i> View Code
                             </a>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            {% else %}
-            <!-- Empty State -->
-            <div class="col-12 text-center animate-fade-in">
-                <div class="empty-state">
-                    <i class="fas fa-code-branch fa-4x text-gray-500 mb-4"></i>
-                    <h3 class="text-white mb-3">No Projects Yet</h3>
-                    <p class="text-gray-300 lead mb-4">I'm currently working on some exciting projects. Check back soon to see my latest work!</p>
-                    <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-paper-plane me-2"></i>Get In Touch
-                    </a>
+
+            <!-- Project 2: CI/CD Pipeline -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
+                <div class="project-card h-100">
+                    <div class="project-image-container">
+                        <img src="{{ url_for('static', filename='img/devops_project.png') }}" 
+                             class="project-image" 
+                             alt="CI/CD Pipeline"
+                             loading="lazy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Case Study">
+                                    <i class="fas fa-file-alt"></i>
+                                </a>
+                                <a href="https://github.com/okothouko/cicd-optimization" class="project-link" target="_blank" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">CI/CD Pipeline Optimization</h3>
+                            <span class="project-status status-live">
+                                <i class="fas fa-circle"></i> Live
+                            </span>
+                        </div>
+                        <p class="project-description">Jenkins-based CI/CD pipeline for microservices deployment. Cut release time from 2 hours to 45 minutes with zero downtime deployments.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">Jenkins</span>
+                            <span class="tech-tag tech-primary">Docker</span>
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+
+                        <div class="project-impact mt-3">
+                            <div class="impact-item">
+                                <span class="impact-label">Impact</span>
+                                <span class="impact-text text-success">40% faster releases, 3x more frequent updates</span>
+                            </div>
+                        </div>
+
+                        <div class="project-actions mt-3">
+                            <a href="#" class="btn btn-primary btn-sm">
+                                <i class="fas fa-file-alt me-1"></i> Case Study
+                            </a>
+                            <a href="https://github.com/okothouko/cicd-optimization" class="btn btn-outline-light btn-sm" target="_blank">
+                                <i class="fab fa-github me-1"></i> View Code
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Project 3: REST API -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
+                <div class="project-card h-100">
+                    <div class="project-image-container">
+                        <img src="{{ url_for('static', filename='img/flask_api.png') }}" 
+                             class="project-image" 
+                             alt="REST API"
+                             loading="lazy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Live Demo">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="https://github.com/okothouko/inventory-flask-api" class="project-link" target="_blank" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">RESTful API for Fintech</h3>
+                            <span class="project-status status-live">
+                                <i class="fas fa-circle"></i> Live
+                            </span>
+                        </div>
+                        <p class="project-description">Production REST API serving 10K+ daily transactions with OAuth2 authentication, PostgreSQL optimization, and Redis caching for sub-200ms responses.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">FastAPI</span>
+                            <span class="tech-tag tech-primary">PostgreSQL</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">OAuth2</span>
+                        </div>
+
+                        <div class="project-impact mt-3">
+                            <div class="impact-item">
+                                <span class="impact-label">Impact</span>
+                                <span class="impact-text text-success">10K+ daily transactions, sub-200ms response</span>
+                            </div>
+                        </div>
+
+                        <div class="project-actions mt-3">
+                            <a href="#" class="btn btn-primary btn-sm" target="_blank">
+                                <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/okothouko/inventory-flask-api" class="btn btn-outline-light btn-sm" target="_blank">
+                                <i class="fab fa-github me-1"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Infrastructure as Code -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
+                <div class="project-card h-100">
+                    <div class="project-image-container">
+                        <img src="https://via.placeholder.com/400x250/1f2937/3b82f6?text=Terraform+Infrastructure" 
+                             class="project-image" 
+                             alt="Infrastructure as Code"
+                             loading="lazy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/okothouko/terraform-aws-infra" class="project-link" target="_blank" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">AWS Infrastructure as Code</h3>
+                            <span class="project-status status-archived">
+                                <i class="fas fa-circle"></i> Archived
+                            </span>
+                        </div>
+                        <p class="project-description">Terraform modules for AWS infrastructure including VPC, ECS, RDS, and S3 with environment-specific configurations.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">Terraform</span>
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                        </div>
+
+                        <div class="project-impact mt-3">
+                            <div class="impact-item">
+                                <span class="impact-label">Impact</span>
+                                <span class="impact-text text-success">Automated provisioning, consistent environments</span>
+                            </div>
+                        </div>
+
+                        <div class="project-actions mt-3">
+                            <a href="https://github.com/okothouko/terraform-aws-infra" class="btn btn-outline-light btn-sm" target="_blank">
+                                <i class="fab fa-github me-1"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5: Monitoring Stack -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
+                <div class="project-card h-100">
+                    <div class="project-image-container">
+                        <img src="https://via.placeholder.com/400x250/1f2937/3b82f6?text=Monitoring+Stack" 
+                             class="project-image" 
+                             alt="Monitoring Stack"
+                             loading="lazy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/okothouko/monitoring-stack" class="project-link" target="_blank" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">Prometheus & Grafana Stack</h3>
+                            <span class="project-status status-inprogress">
+                                <i class="fas fa-circle"></i> In Progress
+                            </span>
+                        </div>
+                        <p class="project-description">Complete monitoring stack with Prometheus, Grafana, and Alertmanager for system observability and alerting.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">Prometheus</span>
+                            <span class="tech-tag tech-primary">Grafana</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Kubernetes</span>
+                        </div>
+
+                        <div class="project-actions mt-3">
+                            <a href="https://github.com/okothouko/monitoring-stack" class="btn btn-outline-light btn-sm" target="_blank">
+                                <i class="fab fa-github me-1"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6: Data Pipeline with Airflow -->
+            <div class="col-xl-4 col-lg-6 col-md-8 mb-4 animate-fade-in">
+                <div class="project-card h-100">
+                    <div class="project-image-container">
+                        <img src="https://via.placeholder.com/400x250/1f2937/3b82f6?text=Airflow+Pipeline" 
+                             class="project-image" 
+                             alt="Airflow Pipeline"
+                             loading="lazy">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/okothouko/airflow-data-pipeline" class="project-link" target="_blank" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="project-title">Apache Airflow Data Pipeline</h3>
+                            <span class="project-status status-live">
+                                <i class="fas fa-circle"></i> Live
+                            </span>
+                        </div>
+                        <p class="project-description">Orchestrated data pipeline with Apache Airflow for ETL, data quality checks, and automated reporting.</p>
+                        
+                        <div class="project-technologies">
+                            <span class="tech-tag tech-primary">Airflow</span>
+                            <span class="tech-tag tech-primary">Python</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">BigQuery</span>
+                        </div>
+
+                        <div class="project-actions mt-3">
+                            <a href="https://github.com/okothouko/airflow-data-pipeline" class="btn btn-outline-light btn-sm" target="_blank">
+                                <i class="fab fa-github me-1"></i> View Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -102,6 +362,7 @@
     .projects-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         position: relative;
+        min-height: 100vh;
     }
 
     /* Animated Background */
@@ -174,6 +435,32 @@
         background-clip: text;
     }
 
+    /* Featured Project */
+    .featured-project {
+        background: rgba(59, 130, 246, 0.05);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .featured-project:hover {
+        background: rgba(59, 130, 246, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .stat-badge {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.3rem 0.8rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        color: #d1d5db;
+    }
+
+    .status-live .fa-circle { color: #10b981; }
+    .status-inprogress .fa-circle { color: #f59e0b; }
+    .status-archived .fa-circle { color: #6b7280; }
+
     /* Project Card */
     .project-card {
         background: rgba(255, 255, 255, 0.05);
@@ -182,6 +469,8 @@
         overflow: hidden;
         transition: all 0.3s ease;
         position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
     .project-card:hover {
@@ -191,11 +480,28 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
 
+    /* Project Status */
+    .project-status {
+        font-size: 0.65rem;
+        font-weight: 600;
+        padding: 0.2rem 0.6rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        white-space: nowrap;
+    }
+
+    .project-status .fa-circle {
+        font-size: 0.4rem;
+        margin-right: 0.3rem;
+    }
+
     /* Project Image */
     .project-image-container {
         position: relative;
         overflow: hidden;
         height: 200px;
+        flex-shrink: 0;
     }
 
     .project-image {
@@ -255,11 +561,14 @@
     /* Project Content */
     .project-content {
         padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .project-title {
-        font-size: 1.25rem;
-        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
         color: white;
         line-height: 1.3;
     }
@@ -268,10 +577,8 @@
         font-size: 0.9rem;
         line-height: 1.5;
         margin-bottom: 1rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        color: #d1d5db;
+        flex: 1;
     }
 
     /* Technology Tags */
@@ -285,11 +592,52 @@
     .tech-tag {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        padding: 0.25rem 0.6rem;
+        padding: 0.2rem 0.6rem;
         border-radius: 1rem;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 500;
         border: 1px solid rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .tech-tag:hover {
+        background: rgba(59, 130, 246, 0.2);
+        transform: translateY(-1px);
+    }
+
+    .tech-primary {
+        background: rgba(59, 130, 246, 0.2);
+        border-color: rgba(59, 130, 246, 0.5);
+        font-weight: 600;
+    }
+
+    /* Project Impact */
+    .project-impact {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .impact-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+    }
+
+    .impact-label {
+        color: #94a3b8;
+        font-weight: 500;
+    }
+
+    .impact-text {
+        color: #d1d5db;
+        font-weight: 500;
+    }
+
+    .impact-text.text-success {
+        color: #10b981 !important;
     }
 
     /* Project Actions */
@@ -297,6 +645,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+        margin-top: auto;
     }
 
     /* Buttons */
@@ -329,19 +678,15 @@
         border-color: rgba(255, 255, 255, 0.5);
     }
 
-    /* Empty State */
-    .empty-state {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 1rem;
-        padding: 3rem 2rem;
-        text-align: center;
-    }
-
     /* Animations */
     .animate-fade-in {
         animation: fadeInUp 0.8s ease-out;
     }
+
+    .animate-fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .animate-fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .animate-fade-in:nth-child(3) { animation-delay: 0.3s; }
+    .animate-fade-in:nth-child(4) { animation-delay: 0.4s; }
 
     @keyframes fadeInUp {
         from { 
@@ -374,7 +719,7 @@
         }
         
         .project-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .display-4 {
@@ -389,6 +734,19 @@
             width: 100%;
             justify-content: center;
         }
+
+        .featured-project {
+            padding: 1.5rem;
+        }
+
+        .project-stats {
+            gap: 0.5rem;
+        }
+
+        .stat-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+        }
     }
 
     @media (max-width: 576px) {
@@ -400,8 +758,18 @@
             height: 160px;
         }
         
-        .empty-state {
-            padding: 2rem 1rem;
+        .project-content {
+            padding: 1rem;
+        }
+
+        .featured-project {
+            padding: 1rem;
+        }
+
+        .impact-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.2rem;
         }
     }
 </style>

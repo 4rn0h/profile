@@ -1,4 +1,4 @@
-# app.py - UPDATED (remove imports from content_loader and add functions directly)
+# app.py - COMPLETE VERSION (ALL FIXES APPLIED)
 from dotenv import load_dotenv
 from flask import Flask, render_template, flash, redirect, url_for, jsonify, request, abort
 from flask_login import LoginManager, login_required, current_user
@@ -8,6 +8,9 @@ from forms import ContactForm, CommentForm, LoginForm, BlogPostForm, SettingsFor
 import markdown
 from datetime import datetime
 import os
+import sys
+import re
+import html as _html
 
 load_dotenv()
 
@@ -17,6 +20,13 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    
+    # ---- FREEZE MODE DETECTION ----
+    IS_FREEZING = 'freeze' in sys.argv[0] or 'flask_frozen' in sys.modules
+    if IS_FREEZING:
+        print("🔧 Running in freeze mode - using static content only")
+        app.config['FREEZING'] = True
+    # ---- END ----
     
     # Initialize db
     db.init_app(app)
@@ -32,7 +42,7 @@ def create_app():
         return User.query.get(int(user_id))
 
     # ----------------------
-    # Content Loader Functions (moved here)
+    # Content Loader Functions
     # ----------------------
     
     def get_blog_markdown_html(slug):
@@ -50,15 +60,10 @@ def create_app():
     
     def html_to_excerpt(html_text, words=30):
         """Convert HTML to text excerpt"""
-        import re
-        import html as _html
-        
         if not html_text:
             return ''
         
-        # remove HTML tags
         text = re.sub(r'<[^>]+>', '', html_text)
-        # unescape HTML entities
         text = _html.unescape(text).strip()
         if not text:
             return ''
@@ -71,8 +76,55 @@ def create_app():
         
         return f"<p>{excerpt_text}</p>"
     
+    def calculate_read_time(content, words_per_minute=200):
+        """Calculate estimated reading time from content."""
+        text = re.sub(r'<[^>]+>', '', content)
+        words = len(text.split())
+        minutes = max(1, round(words / words_per_minute))
+        
+        if minutes < 2:
+            return f"{minutes} min read"
+        elif minutes < 60:
+            return f"{minutes} min read"
+        else:
+            hours = minutes // 60
+            remaining_minutes = minutes % 60
+            if remaining_minutes == 0:
+                return f"{hours} hour read"
+            return f"{hours} hour {remaining_minutes} min read"
+    
+    # ---- HELPER FUNCTION FOR STATIC GENERATION ----
+    def get_blog_posts_from_markdown():
+        """Load blog posts from markdown files for static generation"""
+        posts = []
+        blog_dir = os.path.join('static', 'blog')
+        if os.path.exists(blog_dir):
+            for filename in os.listdir(blog_dir):
+                if filename.endswith('.md'):
+                    slug = filename.replace('.md', '')
+                    md_html = get_blog_markdown_html(slug)
+                    if md_html:
+                        posts.append({
+                            'id': len(posts) + 1,
+                            'slug': slug,
+                            'title': ' '.join(word.capitalize() for word in slug.replace('_', ' ').split()),
+                            'content': md_html,
+                            'excerpt': html_to_excerpt(md_html, words=30),
+                            'date_posted': datetime.now(),
+                            'is_published': True,
+                            'read_time': calculate_read_time(md_html),
+                            'category': None,
+                            'tags': None
+                        })
+        posts.sort(key=lambda x: x['date_posted'], reverse=True)
+        return posts
+    # ---- END ----
+    
     def get_featured_projects():
         """Get featured projects for homepage"""
+        if IS_FREEZING:
+            return []
+        
         try:
             return Project.query.order_by(Project.id.desc()).limit(3).all()
         except Exception as e:
@@ -81,6 +133,9 @@ def create_app():
     
     def get_all_projects():
         """Get all projects"""
+        if IS_FREEZING:
+            return []
+        
         try:
             return Project.query.order_by(Project.id.desc()).all()
         except Exception as e:
@@ -88,24 +143,18 @@ def create_app():
             return []
     
     def get_recent_blog_posts():
-        """Get recent blog posts for homepage - SAFE VERSION"""
+        """Get recent blog posts for homepage"""
+        if IS_FREEZING:
+            return get_blog_posts_from_markdown()[:3]
+        
         try:
-            # First try the normal query
             posts = BlogPost.query.order_by(BlogPost.date_posted.desc()).limit(3).all()
-            
-            # If is_published column exists, filter out unpublished posts
-            # Check if the column exists by trying to access it
-            if posts:
-                first_post = posts[0]
-                if hasattr(first_post, 'is_published'):
-                    posts = [p for p in posts if getattr(p, 'is_published', True)]
-            
+            if posts and hasattr(posts[0], 'is_published'):
+                posts = [p for p in posts if getattr(p, 'is_published', True)]
             return posts
         except Exception as e:
             print(f"Error loading recent blog posts: {e}")
-            # If there's an error, try a simpler query without new columns
             try:
-                # Use raw SQL to get basic columns only
                 result = db.session.execute(
                     "SELECT id, title, content, slug, date_posted FROM blog_post ORDER BY date_posted DESC LIMIT 3"
                 )
@@ -125,23 +174,18 @@ def create_app():
                 return []
     
     def get_all_blog_posts():
-        """Get all blog posts - SAFE VERSION"""
+        """Get all blog posts"""
+        if IS_FREEZING:
+            return get_blog_posts_from_markdown()
+        
         try:
-            # First try the normal query
             posts = BlogPost.query.order_by(BlogPost.date_posted.desc()).all()
-            
-            # If is_published column exists, filter out unpublished posts
-            if posts:
-                first_post = posts[0]
-                if hasattr(first_post, 'is_published'):
-                    posts = [p for p in posts if getattr(p, 'is_published', True)]
-            
+            if posts and hasattr(posts[0], 'is_published'):
+                posts = [p for p in posts if getattr(p, 'is_published', True)]
             return posts
         except Exception as e:
             print(f"Error loading all blog posts: {e}")
-            # If there's an error, try a simpler query without new columns
             try:
-                # Use raw SQL to get basic columns only
                 result = db.session.execute(
                     "SELECT id, title, content, slug, date_posted, category, tags FROM blog_post ORDER BY date_posted DESC"
                 )
@@ -154,7 +198,6 @@ def create_app():
                         slug=row[3],
                         date_posted=row[4]
                     )
-                    # Add optional fields if they exist
                     if len(row) > 5:
                         post.category = row[5] if row[5] else None
                     if len(row) > 6:
@@ -179,7 +222,7 @@ def create_app():
                 is_active=True,
                 is_admin=True
             )
-            admin.set_password('admin123')  # Change this in production!
+            admin.set_password('admin123')
             db.session.add(admin)
             db.session.commit()
             print("✅ Default admin user created")
@@ -201,16 +244,17 @@ def create_app():
     # Create tables and admin user
     with app.app_context():
         try:
-            db.create_all()
-            print("Database tables created successfully")
-            
-            # Create admin user if it doesn't exist
-            create_default_admin()
+            if not IS_FREEZING:
+                db.create_all()
+                print("Database tables created successfully")
+                create_default_admin()
+            else:
+                print("🔧 Skipping database creation in freeze mode")
         except Exception as e:
             print(f"Error creating tables: {e}")
 
     # ----------------------
-    # Routes
+    # ROUTES
     # ----------------------
 
     @app.route('/')
@@ -232,12 +276,13 @@ def create_app():
     @app.route('/blog')
     def blog():
         try:
-            # Only show published posts to public
+            if IS_FREEZING:
+                posts = get_blog_posts_from_markdown()
+                return render_template('blog.html', posts=posts)
+            
             posts = BlogPost.query.filter_by(is_published=True).order_by(BlogPost.date_posted.desc()).all()
             
-            # For each post, prefer content from markdown file if available.
             for post in posts:
-                # Ensure model attributes exist / provide defaults
                 if not getattr(post, 'read_time', None):
                     try:
                         _ = post.read_time
@@ -250,26 +295,19 @@ def create_app():
                 if not hasattr(post, 'tags'):
                     post.tags = None
 
-                # Load markdown file content if present and convert to HTML
                 md_html = get_blog_markdown_html(post.slug)
                 if md_html:
-                    # Use the HTML from the markdown file for preview/content
                     post.content_html = md_html
-                    # Generate a short excerpt for index view (30 words)
                     post.excerpt = html_to_excerpt(md_html, words=30)
                 else:
-                    # Fallback: use excerpt from model or generate from content
                     if hasattr(post, 'excerpt') and post.excerpt:
-                        # Use custom excerpt if available
                         pass
                     else:
-                        # Generate excerpt from content
                         try:
                             post.excerpt = html_to_excerpt(post.content, words=30)
                         except Exception:
                             post.excerpt = None
 
-                # Ensure post.content remains the DB content for safety
                 if not hasattr(post, 'content_html'):
                     post.content_html = None
                     
@@ -281,10 +319,25 @@ def create_app():
     @app.route('/blog/<slug>', methods=['GET', 'POST'])
     def blog_post(slug):
         try:
-            # Find post by slug
+            if IS_FREEZING:
+                # Load from markdown directly
+                md_html = get_blog_markdown_html(slug)
+                if md_html:
+                    post = {
+                        'slug': slug,
+                        'title': ' '.join(word.capitalize() for word in slug.replace('_', ' ').split()),
+                        'content': md_html,
+                        'date_posted': datetime.now(),
+                        'read_time': calculate_read_time(md_html),
+                        'category': None,
+                        'tags': None
+                    }
+                    recent_posts = get_blog_posts_from_markdown()[:5]
+                    return render_template('blog_post.html', post=post, form=None, recent_posts=recent_posts)
+                abort(404)
+            
             post = BlogPost.query.filter_by(slug=slug).first()
             
-            # Fallback: try by ID if slug starts with 'post-'
             if not post and slug.startswith('post-'):
                 try:
                     post_id = int(slug.split('-')[1])
@@ -295,16 +348,13 @@ def create_app():
             if not post:
                 abort(404)
             
-            # Check if post is published (unless user is admin)
             if not post.is_published and not (current_user.is_authenticated and current_user.is_admin):
                 abort(404)
 
-            # If markdown file exists for this slug, prefer file content (rendered HTML)
             md_html = get_blog_markdown_html(post.slug if post.slug else (f"post-{post.id}"))
             if md_html:
                 post.content = md_html
             elif getattr(post, 'content_html', None):
-                # If we previously stored content_html on the object, use it
                 post.content = post.content_html
 
             form = CommentForm()
@@ -319,7 +369,17 @@ def create_app():
                 flash('Your comment has been posted!', 'success')
                 return redirect(url_for('blog_post', slug=slug))
 
-            return render_template('blog_post.html', post=post, form=form)
+            # Convert database posts to dict format for the template
+            recent_posts_data = []
+            db_recent_posts = get_recent_blog_posts()[:5]
+            for p in db_recent_posts:
+                recent_posts_data.append({
+                    'slug': p.slug if hasattr(p, 'slug') and p.slug else f"post-{p.id}",
+                    'title': p.title,
+                    'date_posted': p.date_posted.strftime('%B %d, %Y') if p.date_posted else None
+                })
+            
+            return render_template('blog_post.html', post=post, form=form, recent_posts=recent_posts_data)
         except Exception as e:
             print(f"Error loading blog post: {e}")
             abort(500)
@@ -337,7 +397,6 @@ def create_app():
     @login_required
     def edit_blog(slug):
         """Legacy edit route - will be replaced by admin interface"""
-        # Check if user is admin
         if not current_user.is_admin:
             abort(403)
         
@@ -349,7 +408,6 @@ def create_app():
             post.updated_at = datetime.utcnow()
             db.session.commit()
             
-            # Log activity
             log_activity('edit_blog', f'Edited blog post: {post.title}')
             
             flash('Blog post updated.', 'success')
@@ -359,7 +417,13 @@ def create_app():
 
     @app.route('/contact', methods=['GET', 'POST'])
     def contact():
+        # Always create a form instance, even in freeze mode
         form = ContactForm()
+        
+        if IS_FREEZING:
+            # In freeze mode, just render the template with an empty form
+            return render_template('contact.html', form=form)
+        
         if form.validate_on_submit():
             message = ContactMessage(
                 name=form.name.data,
@@ -380,7 +444,6 @@ def create_app():
             abort(403)
             
         try:
-            # ⚠️ This works only with SQLite. Replace for Postgres if needed.
             result = db.session.execute("PRAGMA table_info(blog_post)").fetchall()
             existing_columns = [row[1] for row in result]
             
@@ -404,11 +467,9 @@ def create_app():
                     added_columns.append(column)
                     print(f"Added column: {column}")
             
-            # Also create user table if it doesn't exist
             try:
                 db.session.execute("SELECT 1 FROM user LIMIT 1")
             except:
-                # Create user table
                 db.session.execute('''
                     CREATE TABLE user (
                         id INTEGER PRIMARY KEY,
@@ -425,7 +486,6 @@ def create_app():
             
             db.session.commit()
             
-            # Log activity
             log_activity('migrate_db', f'Added columns: {", ".join(added_columns)}')
             
             flash(f'Database migration completed successfully! Added columns: {", ".join(added_columns)}', 'success')
@@ -465,11 +525,16 @@ def create_app():
     def internal_server_error(e):
         return render_template('500.html'), 500
 
+    # ----------------------
+    # Context Processor for Footer Year
+    # ----------------------
+    
+    @app.context_processor
+    def inject_now():
+        return {'now': datetime.utcnow()}
+
     return app
 
-
-# Import admin blueprint (circular import handled at bottom)
-from admin import admin_bp
 
 # Expose globally for Gunicorn
 app = create_app()
